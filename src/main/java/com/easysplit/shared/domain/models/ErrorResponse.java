@@ -1,5 +1,8 @@
 package com.easysplit.shared.domain.models;
 
+/**
+ * Object to be serialized and used as response when any exception is thrown
+ */
 public class ErrorResponse  {
     private String errorTitle;
     private String errorMessage;

@@ -4,8 +4,23 @@ import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.infrastructure.exceptions.InternalServerErrorException;
 import com.easysplit.shared.infrastructure.exceptions.NotFoundException;
 
+/**
+ * Class that handle the business logic for the user resource
+ */
 public interface UserService {
-    public User createUser(User user) throws InternalServerErrorException;
+    /**
+     * Creates a user, perform the validation for the data provided in the payload
+     *
+     * @param user user to be created
+     * @return created user
+     */
+    public User createUser(User user);
 
-    public User getUser(String userGuid) throws NotFoundException, InternalServerErrorException;
+    /**
+     * Gets a user by its guid
+     *
+     * @param userGuid user id
+     * @return user
+     */
+    public User getUser(String userGuid);
 }

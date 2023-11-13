@@ -1,5 +1,8 @@
 package com.easysplit.shared.infrastructure.exceptions;
 
+/**
+ * Custom exception to handle internal server errors
+ */
 public class InternalServerErrorException extends RuntimeException {
     private String errorTitle;
     private String errorMessage;
