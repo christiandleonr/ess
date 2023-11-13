@@ -5,6 +5,8 @@ import com.easysplit.ess.user.domain.contracts.UserService;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
+import com.easysplit.shared.infrastructure.exceptions.InternalServerErrorException;
+import com.easysplit.shared.infrastructure.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +31,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        UserEntity createdUser = userRepository.createUser(userMapper.toUserEntity(user));
+        UserEntity createUser = userMapper.toUserEntity(user);
+        createUser.validate();
 
+        UserEntity createdUser = userRepository.createUser(createUser);
         return userMapper.toUser(createdUser);
     }
 }
