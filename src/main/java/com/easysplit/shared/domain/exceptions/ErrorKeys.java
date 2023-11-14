@@ -29,12 +29,14 @@ public final class ErrorKeys {
     public static final String CREATE_USER_USERNAMETOOLONG_MESSAGE = "create.user.illegalArgument.usernameTooLong.message";
     public static final String CREATE_USER_EMPTYUSERNAME_MESSAGE = "create.user.illegalArgument.emptyUsername.message";
 
+    public static final String CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE = "create.user.illegalArgument.invalidUsername.message";
+
     /**
      * Get user
      */
 
-    public static final String GET_USER_NOT_FOUND_TITLE = "get.user.notfound.title";
-    public static final String GET_USER_NOT_FOUND_MESSAGE = "get.user.notfound.message";
+    public static final String GET_USER_NOT_FOUND_TITLE = "get.user.notFound.title";
+    public static final String GET_USER_NOT_FOUND_MESSAGE = "get.user.notFound.message";
 
     public static final String GET_USER_ERROR_TITLE = "get.user.error.title";
     public static final String GET_USER_ERROR_MESSAGE = "get.user.error.message";

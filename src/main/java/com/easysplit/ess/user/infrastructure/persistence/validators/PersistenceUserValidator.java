@@ -1,6 +1,8 @@
 package com.easysplit.ess.user.infrastructure.persistence.validators;
 
 import com.easysplit.ess.user.domain.contracts.UserRepository;
+import com.easysplit.shared.domain.exceptions.ErrorKeys;
+import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,15 +10,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersistenceUserValidator {
     private final UserRepository userRepository;
+    private final InfrastructureHelper infrastructureHelper
 
     @Autowired
-    public PersistenceUserValidator(UserRepository userRepository) {
+    public PersistenceUserValidator(UserRepository userRepository,
+                                    InfrastructureHelper infrastructureHelper) {
         this.userRepository = userRepository;
+        this.infrastructureHelper = infrastructureHelper;
     }
 
     public void validateUsernameUniqueness(String username) {
         if (!userRepository.validateUsernameNotExist(username)) {
-
+            infrastructureHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE,
+                    new Object[]{ username }
+            );
         }
     }
 }

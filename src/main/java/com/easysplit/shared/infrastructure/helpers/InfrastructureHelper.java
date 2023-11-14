@@ -1,10 +1,12 @@
 package com.easysplit.shared.infrastructure.helpers;
 
+import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.Locale;
 
 /**
  * Helper class that contains utility methods to be used for the infrastructure layer
@@ -42,5 +44,36 @@ public class InfrastructureHelper {
         String errorMessage = messageSource.getMessage(errorMessageKey, args, null);
 
         throw new InternalServerErrorException(errorTitle, errorMessage, t);
+    }
+
+    /**
+     * Throws an IllegalArgumentException with the provided error title and error messages
+     *
+     * @param errorTitleKey error title key
+     * @param errorMessageKey error message key
+     * @param args arguments
+     * @param locale locale
+     */
+    public void throwIllegalArgumentException(String errorTitleKey,
+                                              String errorMessageKey,
+                                              Object[] args,
+                                              Locale locale) {
+        String errorTitle = messageSource.getMessage(errorTitleKey, null, locale);
+        String errorMessage = messageSource.getMessage(errorMessageKey, args, locale);
+
+        throw new IllegalArgumentException(errorTitle, errorMessage);
+    }
+
+    /**
+     * Throws an IllegalArgumentException with the provided error title and error messages
+     *
+     * @param errorTitleKey error title key
+     * @param errorMessageKey error message key
+     * @param args arguments
+     */
+    public void throwIllegalArgumentException(String errorTitleKey,
+                                              String errorMessageKey,
+                                              Object[] args) {
+        throwIllegalArgumentException(errorTitleKey, errorMessageKey, args, null);
     }
 }
