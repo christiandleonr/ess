@@ -1,8 +1,6 @@
 package com.easysplit.shared.domain.exceptions;
 
 import com.easysplit.shared.domain.models.ErrorResponse;
-import com.easysplit.shared.infrastructure.exceptions.InternalServerErrorException;
-import com.easysplit.shared.infrastructure.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -96,4 +96,8 @@ public class UserValidator {
             );
         }
     }
+
+    public void throwIllegalArgumentException() {
+
+    }
 }

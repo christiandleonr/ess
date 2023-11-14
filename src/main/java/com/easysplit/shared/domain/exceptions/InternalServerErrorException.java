@@ -1,21 +1,28 @@
-package com.easysplit.shared.infrastructure.exceptions;
+package com.easysplit.shared.domain.exceptions;
 
 /**
- * Custom exception to handle not founds
+ * Custom exception to handle internal server errors
  */
-public class NotFoundException extends RuntimeException {
+public class InternalServerErrorException extends RuntimeException {
     private String errorTitle;
     private String errorMessage;
 
-    public NotFoundException() {
+    public InternalServerErrorException() {
 
     }
 
-    public NotFoundException(String errorTitle, String errorMessage) {
+    public InternalServerErrorException(String errorTitle, String errorMessage) {
         super(errorMessage);
         this.errorTitle = errorTitle;
         this.errorMessage = errorMessage;
     }
+
+    public InternalServerErrorException(String errorTitle, String errorMessage, Throwable cause) {
+        super(errorMessage, cause);
+        this.errorTitle = errorTitle;
+        this.errorMessage = errorMessage;
+    }
+
 
     public String getErrorTitle() {
         return errorTitle;

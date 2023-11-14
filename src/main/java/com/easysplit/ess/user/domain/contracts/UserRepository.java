@@ -1,8 +1,6 @@
 package com.easysplit.ess.user.domain.contracts;
 
 import com.easysplit.ess.user.domain.models.UserEntity;
-import com.easysplit.shared.infrastructure.exceptions.InternalServerErrorException;
-import com.easysplit.shared.infrastructure.exceptions.NotFoundException;
 
 /**
  * Class that handle the database operations for the user resource
@@ -10,12 +8,12 @@ import com.easysplit.shared.infrastructure.exceptions.NotFoundException;
 
 public interface UserRepository {
     /**
-     * Creates a new user, perform validations against db data
+     * Creates a new user
      *
      * @param user user data
      * @return created user
      */
-    public UserEntity createUser(UserEntity user);
+    UserEntity createUser(UserEntity user);
 
     /**
      * Gets a user by its guid
@@ -23,5 +21,13 @@ public interface UserRepository {
      * @param userGuid user id
      * @return user
      */
-    public UserEntity getUser(String userGuid);
+    UserEntity getUser(String userGuid);
+
+    /**
+     * Validates that the username do not exist in DB.
+     * Throws an exception if the username exist
+     *
+     * @param username username to be validated
+     */
+    boolean validateUsernameNotExist(String username);
 }

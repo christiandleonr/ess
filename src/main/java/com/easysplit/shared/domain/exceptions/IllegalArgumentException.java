@@ -1,7 +1,7 @@
 package com.easysplit.shared.domain.exceptions;
 
 /**
- * Custom exception to handle illegal arguments
+ * Custom domain exception to handle illegal arguments
  */
 public class IllegalArgumentException extends RuntimeException {
     private String errorTitle;

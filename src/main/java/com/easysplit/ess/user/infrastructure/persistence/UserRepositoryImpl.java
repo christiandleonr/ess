@@ -4,8 +4,8 @@ import com.easysplit.ess.user.application.UserServiceImpl;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.sql.UserQueries;
-import com.easysplit.shared.infrastructure.exceptions.ErrorKeys;
-import com.easysplit.shared.infrastructure.exceptions.InternalServerErrorException;
+import com.easysplit.shared.domain.exceptions.ErrorKeys;
+import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,16 +75,28 @@ public class UserRepositoryImpl implements UserRepository {
             );
         }
 
+        return userEntity;
+    }
 
-        if (userEntity == null) {
-            infrastructureHelper.throwNotFoundException(
-                    ErrorKeys.GET_USER_ERROR_TITLE,
-                    ErrorKeys.GET_USER_ERROR_MESSAGE,
-                    new Object[] {userGuid}
+    @Override
+    public boolean validateUsernameNotExist(String username) {
+        UserEntity userEntity = null;
+
+        try {
+            userEntity = jdbc.query(UserQueries.GET_USER_BY_USERNAME,
+                    this::toUserEntity,
+                    username);
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with username: " + username, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.CREATE_USER_ERROR_TITLE,
+                    ErrorKeys.CREATE_USER_ERROR_MESSAGE,
+                    new Object[] {username},
+                    e
             );
         }
 
-       return userEntity;
+        return userEntity == null;
     }
 
     private UserEntity toUserEntity(ResultSet rs) throws SQLException {

@@ -1,8 +1,6 @@
 package com.easysplit.ess.user.domain.contracts;
 
 import com.easysplit.ess.user.domain.models.User;
-import com.easysplit.shared.infrastructure.exceptions.InternalServerErrorException;
-import com.easysplit.shared.infrastructure.exceptions.NotFoundException;
 
 /**
  * Class that handle the business logic for the user resource

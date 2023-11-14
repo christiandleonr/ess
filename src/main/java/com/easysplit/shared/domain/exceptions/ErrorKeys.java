@@ -23,6 +23,19 @@ public final class ErrorKeys {
     public static final String CREATE_USER_LASTNAMETOOLONG_MESSAGE = "create.user.illegalArgument.lastnameTooLong.message";
     public static final String CREATE_USER_EMPTYLASTNAME_MESSAGE = "create.user.illegalArgument.emptyLastname.message";
 
+    public static final String CREATE_USER_ERROR_TITLE = "create.user.error.title";
+    public static final String CREATE_USER_ERROR_MESSAGE = "create.user.error.message";
+
     public static final String CREATE_USER_USERNAMETOOLONG_MESSAGE = "create.user.illegalArgument.usernameTooLong.message";
     public static final String CREATE_USER_EMPTYUSERNAME_MESSAGE = "create.user.illegalArgument.emptyUsername.message";
+
+    /**
+     * Get user
+     */
+
+    public static final String GET_USER_NOT_FOUND_TITLE = "get.user.notfound.title";
+    public static final String GET_USER_NOT_FOUND_MESSAGE = "get.user.notfound.message";
+
+    public static final String GET_USER_ERROR_TITLE = "get.user.error.title";
+    public static final String GET_USER_ERROR_MESSAGE = "get.user.error.message";
 }

@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan(basePackages = {"com.easysplit.shared.infrastructure"})
+@ComponentScan(basePackages = {"com.easysplit.shared.domain"})
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.easysplit.controllers"})
 public class EssApplication {

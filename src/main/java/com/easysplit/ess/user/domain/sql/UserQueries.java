@@ -42,4 +42,13 @@ public final class UserQueries {
             + LASTNAME_COLUMN + ", "
             + USERNAME_COLUMN + ", "
             + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + USERGUID_COLUMN + " = ?";
+
+    /**
+     * Gets user by username
+     */
+    public static final String GET_USER_BY_USERNAME = "SELECT " + USERGUID_COLUMN + ", "
+            + NAME_COLUMN + ", "
+            + LASTNAME_COLUMN + ", "
+            + USERNAME_COLUMN + ", "
+            + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + USERNAME_COLUMN + " = ?";
 }
