@@ -1,7 +1,7 @@
 package com.easysplit.ess.user.domain.sql;
 
 /**
- * Class that holds strings variables with the queries for the <i>users table</i>
+ * Class that holds string variables with the queries for the <i>users</i> table
  */
 public final class UserQueries {
 

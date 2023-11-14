@@ -3,7 +3,7 @@ package com.easysplit.ess.user.domain.models;
 import java.sql.Timestamp;
 
 /**
- * User object to be serialized and delivered as response
+ * User object to be serialized and pure data validation
  */
 public class User {
     private String userGuid;
