@@ -12,7 +12,7 @@ public interface UserService {
      * @param user user to be created
      * @return created user
      */
-    public User createUser(User user);
+    User createUser(User user);
 
     /**
      * Gets a user by its guid
@@ -20,5 +20,11 @@ public interface UserService {
      * @param userGuid user id
      * @return user
      */
-    public User getUser(String userGuid);
+    User getUser(String userGuid);
+
+    /**
+     * Deletes user by its guid
+     * @param userGuid user id
+     */
+    void deleteUser(String userGuid);
 }

@@ -40,4 +40,10 @@ public final class ErrorKeys {
 
     public static final String GET_USER_ERROR_TITLE = "get.user.error.title";
     public static final String GET_USER_ERROR_MESSAGE = "get.user.error.message";
+
+    /**
+     * Delete user
+     */
+    public static final String DELETE_USER_ERROR_TITLE = "delete.user.error.title";
+    public static final String DELETE_USER_ERROR_MESSAGE= "delete.user.error.message";
 }

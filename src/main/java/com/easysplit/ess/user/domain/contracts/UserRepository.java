@@ -29,5 +29,12 @@ public interface UserRepository {
      *
      * @param username username to be validated
      */
-    boolean validateUsernameNotExist(String username);
+    UserEntity getUserByUsername(String username);
+
+    /**
+     * Deletes user by its guid
+     *
+     * @param userGuid user id
+     */
+    void deleteUserById(String userGuid);
 }

@@ -7,7 +7,6 @@ import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
 import com.easysplit.ess.user.domain.validators.UserValidator;
 import com.easysplit.ess.user.infrastructure.persistence.validators.PersistenceUserValidator;
-import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.helpers.DomainHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,14 +37,6 @@ public class UserServiceImpl implements UserService {
     public User getUser(String userGuid) {
         UserEntity user = userRepository.getUser(userGuid);
 
-        if (user == null) {
-            domainHelper.throwNotFoundException(
-                    ErrorKeys.GET_USER_NOT_FOUND_TITLE,
-                    ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
-                    new Object[]{ userGuid }
-            );
-        }
-
         return userMapper.toUser(user);
     }
 
@@ -58,5 +49,10 @@ public class UserServiceImpl implements UserService {
 
         UserEntity createdUser = userRepository.createUser(createUser);
         return userMapper.toUser(createdUser);
+    }
+
+    @Override
+    public void deleteUser(String userGuid) {
+        userRepository.deleteUserById(userGuid);
     }
 }

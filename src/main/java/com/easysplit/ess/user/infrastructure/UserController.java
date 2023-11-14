@@ -26,13 +26,13 @@ public class UserController {
             User user = userService.getUser(userGuid);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (NotFoundException e) {
-            // TODO Add logs
+            //TODO Add logs
             throw e;
         } catch (InternalServerErrorException e) {
-            // TODO Add logs
+            //TODO Add logs
             throw e;
         } catch (Exception e) {
-            // TODO Add logs
+            //TODO Add logs
             throw new InternalServerErrorException(); // TODO Add error title, error message and cause
         }
     }
@@ -43,13 +43,30 @@ public class UserController {
             User createdUser = userService.createUser(user);
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            // TODO Add logs
+            //TODO Add logs
             throw e;
         } catch (InternalServerErrorException e) {
-            // TODO Add logs
+            //TODO Add logs
             throw e;
         } catch (Exception e) {
-            // TODO Add logs
+            //TODO Add logs
+            throw new InternalServerErrorException(); // TODO Add error title, error message and cause
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser(@RequestParam(name = "id") String userGuid) {
+        try {
+            userService.deleteUser(userGuid);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (NotFoundException e) {
+            //TODO Add logs
+            throw e;
+        } catch (InternalServerErrorException e) {
+            //TODO Add logs
+            throw e;
+        } catch (Exception e) {
+            //TODO Add logs
             throw new InternalServerErrorException(); // TODO Add error title, error message and cause
         }
     }

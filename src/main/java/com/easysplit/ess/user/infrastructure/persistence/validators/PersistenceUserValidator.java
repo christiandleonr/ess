@@ -1,6 +1,7 @@
 package com.easysplit.ess.user.infrastructure.persistence.validators;
 
 import com.easysplit.ess.user.domain.contracts.UserRepository;
+import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ public class PersistenceUserValidator {
     }
 
     public void validateUsernameUniqueness(String username) {
-        if (!userRepository.validateUsernameNotExist(username)) {
+        UserEntity userEntity = userRepository.getUserByUsername(username);
+        if (username != null) {
             infrastructureHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE,

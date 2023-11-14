@@ -51,4 +51,6 @@ public final class UserQueries {
             + LASTNAME_COLUMN + ", "
             + USERNAME_COLUMN + ", "
             + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + USERNAME_COLUMN + " = ?";
+
+    public static final String DELETE_USER_BY_ID = "DELETE FROM " + TABLE_NAME + " WHERE " + USERGUID_COLUMN + " = ?";
 }

@@ -50,21 +50,4 @@ public class DomainHelper {
                                               Object[] args) {
         throwIllegalArgumentException(errorTitleKey, errorMessageKey, args, null);
     }
-
-
-    /**
-     * Throws a NotFoundException with the provided error title and error message
-     *
-     * @param errorTitleKey error title key
-     * @param errorMessageKey error message key
-     * @param args arguments
-     */
-    public void throwNotFoundException(String errorTitleKey,
-                                       String errorMessageKey,
-                                       Object[] args) {
-        String errorTitle = messageSource.getMessage(errorTitleKey, null, null);
-        String errorMessage = messageSource.getMessage(errorMessageKey, args, null);
-
-        throw new NotFoundException(errorTitle, errorMessage);
-    }
 }

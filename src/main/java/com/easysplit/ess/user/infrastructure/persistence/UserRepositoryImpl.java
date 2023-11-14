@@ -75,11 +75,19 @@ public class UserRepositoryImpl implements UserRepository {
             );
         }
 
+        if (userEntity == null) {
+            infrastructureHelper.throwNotFoundException(
+                    ErrorKeys.GET_USER_NOT_FOUND_TITLE,
+                    ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
+                    new Object[]{ userGuid }
+            );
+        }
+
         return userEntity;
     }
 
     @Override
-    public boolean validateUsernameNotExist(String username) {
+    public UserEntity getUserByUsername(String username) {
         UserEntity userEntity = null;
 
         try {
@@ -96,7 +104,27 @@ public class UserRepositoryImpl implements UserRepository {
             );
         }
 
-        return userEntity == null;
+        return userEntity;
+    }
+
+    @Override
+    public void deleteUserById(String userGuid) {
+        // Throws a NotFoundException if user does not exist
+        UserEntity userEntity = getUser(userGuid);
+
+        int rowsDeleted = 0;
+        try {
+            rowsDeleted = jdbc.update(UserQueries.DELETE_USER_BY_ID, userGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_USER_ERROR_TITLE,
+                    ErrorKeys.DELETE_USER_ERROR_MESSAGE,
+                    new Object[] {userGuid},
+                    e
+            );
+        }
+
+        logger.error(CLASS_NAME + ".deleteUserById() - Users deleted: " + rowsDeleted);
     }
 
     private UserEntity toUserEntity(ResultSet rs) throws SQLException {
