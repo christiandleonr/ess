@@ -2,17 +2,11 @@ package com.easysplit.ess.friendships.infrastructure;
 
 import com.easysplit.ess.friendships.domain.contracts.FriendshipsService;
 import com.easysplit.ess.friendships.domain.models.Friendship;
-import com.easysplit.ess.friendships.domain.models.FriendshipEntity;
-import com.easysplit.ess.user.domain.models.User;
-import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.domain.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/friendships")
@@ -38,5 +32,10 @@ public class FriendshipsController {
             //TODO Add logs
             throw new InternalServerErrorException(); // TODO Add error title, error message and cause
         }
+    }
+
+    @GetMapping
+    public String getFriends() {
+        return "All friends";
     }
 }
