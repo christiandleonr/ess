@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersistenceUserValidator {
     private final UserRepository userRepository;
-    private final InfrastructureHelper infrastructureHelper
+    private final InfrastructureHelper infrastructureHelper;
 
     @Autowired
     public PersistenceUserValidator(UserRepository userRepository,
@@ -22,7 +22,7 @@ public class PersistenceUserValidator {
 
     public void validateUsernameUniqueness(String username) {
         UserEntity userEntity = userRepository.getUserByUsername(username);
-        if (username != null) {
+        if (userEntity != null) {
             infrastructureHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE,
