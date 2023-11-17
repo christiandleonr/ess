@@ -1,7 +1,5 @@
 package com.easysplit.ess.user.domain.models;
 
-import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
-
 import java.sql.Timestamp;
 
 /**

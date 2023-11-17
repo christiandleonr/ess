@@ -46,4 +46,11 @@ public final class ErrorKeys {
      */
     public static final String DELETE_USER_ERROR_TITLE = "delete.user.error.title";
     public static final String DELETE_USER_ERROR_MESSAGE= "delete.user.error.message";
+
+    /**
+     * Create friendship
+     */
+
+    public static final String CREATE_FRIENDSHIP_ERROR_TITLE = "create.friendship.error.title";
+    public static final String CREATE_FRIENDSHIP_ERROR_MESSAGE = "create.friendship.error.message";
 }
