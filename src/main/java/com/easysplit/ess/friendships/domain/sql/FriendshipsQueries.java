@@ -12,13 +12,14 @@ public final class FriendshipsQueries {
 
     }
 
+    public static final String ESS_SCHEMA = "ESS_SCHEMA.";
+
     /**
      * Friendships table columns
      */
-    public static final String TABLE_NAME = "FRIENDSHIPS";
+    public static final String TABLE_NAME = ESS_SCHEMA + "FRIENDSHIPS";
     public static final String FRIENDSHIPGUID_COLUMN = "FRIENDSHIPGUID";
-    public static final String USER1_COLUMN = "USER1";
-    public static final String USER2_COLUMN = "USER2";
+    public static final String FRIEND_COLUMN = "FRIEND";
     public static final String STATUS_COLUMN = "STATUS";
     public static final String CREATED_DATE_COLUMN = "CREATED_DATE";
     public static final String CREATED_BY_COLUMN = "CREATED_BY";
@@ -28,9 +29,8 @@ public final class FriendshipsQueries {
      */
     public static final String CREATE_FRIENDSHIP = "INSERT INTO " + TABLE_NAME + " ( "
             + FRIENDSHIPGUID_COLUMN + ", "
-            + USER1_COLUMN + ", "
-            + USER2_COLUMN + ", "
+            + FRIEND_COLUMN + ", "
             + STATUS_COLUMN + ", "
             + CREATED_DATE_COLUMN + ", "
-            + CREATED_BY_COLUMN + " ) VALUES (?, ?, ?, ?, ?, ?)";
+            + CREATED_BY_COLUMN + " ) VALUES (?, ?, ?, ?, ?)";
 }

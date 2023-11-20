@@ -8,8 +8,7 @@ import org.mapstruct.Mappings;
 public interface FriendshipsMapper {
     @Mappings({
             @Mapping(source="friendshipGuid", target="friendshipGuid"),
-            @Mapping(source="user1", target="user1"),
-            @Mapping(source="user2", target="user2"),
+            @Mapping(source="friend", target="friend"),
             @Mapping(source="status", target="status"),
             @Mapping(source="createdDate", target="createdDate"),
             @Mapping(source="createdBy", target="createdBy"),
@@ -18,8 +17,7 @@ public interface FriendshipsMapper {
 
     @Mappings({
             @Mapping(source="friendshipGuid", target="friendshipGuid"),
-            @Mapping(source="user1", target="user1"),
-            @Mapping(source="user2", target="user2"),
+            @Mapping(source="friend", target="friend"),
             @Mapping(source="status", target="status"),
             @Mapping(source="createdDate", target="createdDate"),
             @Mapping(source="createdBy", target="createdBy"),
