@@ -52,14 +52,14 @@ public class FriendshipsRepositoryImpl implements FriendshipsRepository {
                     userEntity2.getUserGuid(),
                     FriendshipStatus.PENDING.getValue(),
                     createdDate,
-                    friendship.getCreatedBy()
+                    friendship.getCreatedBy() // TODO change this to get the created by from authentication
             );
         } catch (Exception e) {
             logger.error(CLASS_NAME + ".createFriendship() - Something went wrong while creating the friendship: " + friendship, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_MESSAGE,
-                    new Object[]{friendship},
+                    new Object[]{ friendship },
                     e
             );
         }

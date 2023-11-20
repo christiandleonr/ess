@@ -24,7 +24,7 @@ public class FriendshipsController {
     }
 
     @PostMapping
-    public ResponseEntity<Friendship> createUser(@RequestBody Friendship friendship) {
+    public ResponseEntity<Friendship> createFriendship(@RequestBody Friendship friendship) {
         try {
             Friendship createdFriendship = friendshipsService.createFriendship(friendship);
             return new ResponseEntity<>(createdFriendship, HttpStatus.CREATED);
