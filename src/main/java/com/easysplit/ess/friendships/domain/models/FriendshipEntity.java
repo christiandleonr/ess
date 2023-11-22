@@ -10,7 +10,7 @@ public class FriendshipEntity {
     private String friend;
     private FriendshipStatus status;
     private Timestamp createdDate;
-    private String createdBy;
+    private String addedBy;
 
     public FriendshipEntity() {
 
@@ -48,11 +48,11 @@ public class FriendshipEntity {
         this.createdDate = createdDate;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getAddedBy() {
+        return addedBy;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
     }
 }

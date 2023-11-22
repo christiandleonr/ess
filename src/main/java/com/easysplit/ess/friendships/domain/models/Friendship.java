@@ -6,22 +6,22 @@ import java.sql.Timestamp;
  * Friendship object to be serialized and pure data validation
  */
 public class Friendship {
-    private String friendshipGuid;
+    private String id;
     private String friend;
     private FriendshipStatus status;
     private Timestamp createdDate;
-    private String createdBy;
+    private String addedBy;
 
     public Friendship() {
 
     }
 
-    public String getFriendshipGuid() {
-        return friendshipGuid;
+    public String getId() {
+        return id;
     }
 
-    public void setFriendshipGuid(String friendshipGuid) {
-        this.friendshipGuid = friendshipGuid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFriend() {
@@ -48,11 +48,11 @@ public class Friendship {
         this.createdDate = createdDate;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getAddedBy() {
+        return addedBy;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
     }
 }

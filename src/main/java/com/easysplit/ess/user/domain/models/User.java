@@ -6,26 +6,26 @@ import java.sql.Timestamp;
  * User object to be serialized and pure data validation
  */
 public class User {
-    private String userGuid;
+    private String id;
     private String name;
     private String lastname;
     private String username;
     private Timestamp createdDate;
 
-    public User(String userGuid, String name, String lastname, String username, Timestamp createdDate) {
-        this.userGuid = userGuid;
+    public User(String id, String name, String lastname, String username, Timestamp createdDate) {
+        this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.username = username;
         this.createdDate = createdDate;
     }
 
-    public String getUserGuid() {
-        return userGuid;
+    public String getId() {
+        return id;
     }
 
-    public void setUserGuid(String userGuid) {
-        this.userGuid = userGuid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

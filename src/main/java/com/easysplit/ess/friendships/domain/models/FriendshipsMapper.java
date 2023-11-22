@@ -7,7 +7,7 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface FriendshipsMapper {
     @Mappings({
-            @Mapping(source="friendshipGuid", target="friendshipGuid"),
+            @Mapping(source="friendshipGuid", target="id"),
             @Mapping(source="friend", target="friend"),
             @Mapping(source="status", target="status"),
             @Mapping(source="createdDate", target="createdDate"),
@@ -16,7 +16,7 @@ public interface FriendshipsMapper {
     Friendship toFriendship(FriendshipEntity friendshipEntity);
 
     @Mappings({
-            @Mapping(source="friendshipGuid", target="friendshipGuid"),
+            @Mapping(source="id", target="friendshipGuid"),
             @Mapping(source="friend", target="friend"),
             @Mapping(source="status", target="status"),
             @Mapping(source="createdDate", target="createdDate"),
