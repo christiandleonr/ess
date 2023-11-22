@@ -20,10 +20,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<User> getUser(@RequestParam(name = "id") String userGuid) {
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable(name = "id") String id) {
         try {
-            User user = userService.getUser(userGuid);
+            User user = userService.getUser(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (NotFoundException e) {
             //TODO Add logs

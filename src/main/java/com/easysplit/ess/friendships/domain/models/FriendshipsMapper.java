@@ -11,7 +11,7 @@ public interface FriendshipsMapper {
             @Mapping(source="friend", target="friend"),
             @Mapping(source="status", target="status"),
             @Mapping(source="createdDate", target="createdDate"),
-            @Mapping(source="createdBy", target="createdBy"),
+            @Mapping(source="addedBy", target="addedBy"),
     })
     Friendship toFriendship(FriendshipEntity friendshipEntity);
 
@@ -20,7 +20,7 @@ public interface FriendshipsMapper {
             @Mapping(source="friend", target="friend"),
             @Mapping(source="status", target="status"),
             @Mapping(source="createdDate", target="createdDate"),
-            @Mapping(source="createdBy", target="createdBy"),
+            @Mapping(source="addedBy", target="addedBy"),
     })
     FriendshipEntity toFriendshipEntity(Friendship friendship);
 }
