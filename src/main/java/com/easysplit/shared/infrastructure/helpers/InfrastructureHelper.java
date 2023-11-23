@@ -3,10 +3,17 @@ package com.easysplit.shared.infrastructure.helpers;
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.domain.exceptions.NotFoundException;
+import com.easysplit.shared.domain.models.Link;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -14,6 +21,9 @@ import java.util.Locale;
  */
 @Component
 public class InfrastructureHelper {
+    private final String HOST_KEY = "Host";
+    private final String SELF = "self";
+    private final String HTTP_GET = "GET";
     private final MessageSource messageSource;
 
     public InfrastructureHelper(MessageSource messageSource) {
@@ -92,5 +102,61 @@ public class InfrastructureHelper {
         String errorMessage = messageSource.getMessage(errorMessageKey, args, null);
 
         throw new NotFoundException(errorTitle, errorMessage);
+    }
+
+    /**
+     * TODO Add comments
+     * @param resource
+     * @param resourceId
+     * @return
+     */
+    public List<Link> buildLinks(String resource, String resourceId) {
+        return buildLinks(resource, resourceId, HTTP_GET);
+    }
+
+    /**
+     * TODO Add comments
+     * @param resource
+     * @param resourceId
+     * @param method
+     * @return
+     */
+    public List<Link> buildLinks(String resource, String resourceId, String method) {
+        return Arrays.asList(
+                buildSelfLink(resource, resourceId, method)
+        );
+    }
+
+    /**
+     * TODO Add comments
+     *
+     * @param resource
+     * @param resourceId
+     * @param method
+     * @return
+     */
+    public Link buildSelfLink(String resource, String resourceId, String method) {
+        Link link = new Link();
+
+        link.setHref(buildHref(resource, resourceId));
+        link.setMethod(method);
+        link.setType(SELF);
+
+        return link;
+    }
+
+    /**
+     * TODO Add comments
+     *
+     * @param resource
+     * @param resourceId
+     * @return
+     */
+    public String buildHref(String resource, String resourceId) {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        String host = request.getHeader(HOST_KEY);
+
+        return "http://" + host + "/api" + resource + "/" + resourceId;
     }
 }

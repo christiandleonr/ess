@@ -42,29 +42,29 @@ public class FriendshipsRepositoryImpl implements FriendshipsRepository {
         Timestamp createdDate = infrastructureHelper.getCurrentDate();
 
         // Throws NotFoundException if any of both users is not found
-        UserEntity userEntity1 = userRepository.getUser(friendship.getUser1());
-        UserEntity userEntity2 = userRepository.getUser(friendship.getUser2());
+        UserEntity friend = userRepository.getUser(friendship.getFriend());
+        UserEntity addedBy = userRepository.getUser(friendship.getAddedBy());
 
         try {
             jdbc.update(FriendshipsQueries.CREATE_FRIENDSHIP,
                     friendshipGuid,
-                    userEntity1.getUserGuid(),
-                    userEntity2.getUserGuid(),
+                    friend.getUserGuid(),
                     FriendshipStatus.PENDING.getValue(),
                     createdDate,
-                    friendship.getCreatedBy()
+                    addedBy.getUserGuid() // TODO change this to get the created by from authentication
             );
         } catch (Exception e) {
             logger.error(CLASS_NAME + ".createFriendship() - Something went wrong while creating the friendship: " + friendship, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_MESSAGE,
-                    new Object[]{friendship},
+                    new Object[]{ friendship },
                     e
             );
         }
 
         friendship.setFriendshipGuid(friendshipGuid);
+        friendship.setStatus(FriendshipStatus.PENDING);
         friendship.setCreatedDate(createdDate);
 
         return friendship;

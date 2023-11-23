@@ -5,6 +5,7 @@ import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.domain.exceptions.NotFoundException;
+import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +14,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+    private final String USERS_RESOURCE = "/users";
     private final UserService userService;
+    private final InfrastructureHelper infrastructureHelper;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, InfrastructureHelper infrastructureHelper) {
         this.userService = userService;
+        this.infrastructureHelper = infrastructureHelper;
     }
 
-    @GetMapping
-    public ResponseEntity<User> getUser(@RequestParam(name = "id") String userGuid) {
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable(name = "id") String id) {
         try {
-            User user = userService.getUser(userGuid);
+            User user = userService.getUser(id);
+
+            user.setLinks(infrastructureHelper.buildLinks(USERS_RESOURCE, id));
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (NotFoundException e) {
             //TODO Add logs
@@ -41,6 +47,8 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
             User createdUser = userService.createUser(user);
+
+            createdUser.setLinks(infrastructureHelper.buildLinks(USERS_RESOURCE, createdUser.getId()));
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             //TODO Add logs

@@ -1,51 +1,45 @@
 package com.easysplit.ess.friendships.domain.models;
 
+import com.easysplit.shared.domain.models.Link;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Friendship object to be serialized and pure data validation
  */
 public class Friendship {
-    private String friendshipGuid;
-    private String user1;
-    private String user2;
-    private String status;
+    private String id;
+    private String friend;
+    private FriendshipStatus status;
     private Timestamp createdDate;
-    private String createdBy;
+    private String addedBy;
+    private List<Link> links;
 
     public Friendship() {
 
     }
 
-    public String getFriendshipGuid() {
-        return friendshipGuid;
+    public String getId() {
+        return id;
     }
 
-    public void setFriendshipGuid(String friendshipGuid) {
-        this.friendshipGuid = friendshipGuid;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getUser1() {
-        return user1;
+    public String getFriend() {
+        return friend;
     }
 
-    public void setUser1(String user1) {
-        this.user1 = user1;
+    public void setFriend(String friend) {
+        this.friend = friend;
     }
 
-    public String getUser2() {
-        return user2;
-    }
-
-    public void setUser2(String user2) {
-        this.user2 = user2;
-    }
-
-    public String getStatus() {
+    public FriendshipStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(FriendshipStatus status) {
         this.status = status;
     }
 
@@ -57,11 +51,19 @@ public class Friendship {
         this.createdDate = createdDate;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getAddedBy() {
+        return addedBy;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }

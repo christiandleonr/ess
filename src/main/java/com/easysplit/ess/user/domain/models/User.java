@@ -1,21 +1,25 @@
 package com.easysplit.ess.user.domain.models;
 
+import com.easysplit.shared.domain.models.Link;
+
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * User object to be serialized and pure data validation
  */
 public class User {
-    private String userGuid;
+    private String id;
     private String name;
     private String lastname;
     private String username;
     private String email;
     private String phone;
     private Timestamp createdDate;
+    private List<Link> links;
 
-    public User(String userGuid, String name, String lastname, String username, String email,String phone, Timestamp createdDate) {
-        this.userGuid = userGuid;
+    public User(String id, String name, String lastname, String username,String email,String phone, Timestamp createdDate) {
+        this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.username = username;
@@ -24,12 +28,12 @@ public class User {
         this.createdDate = createdDate;
     }
 
-    public String getUserGuid() {
-        return userGuid;
+    public String getId() {
+        return id;
     }
 
-    public void setUserGuid(String userGuid) {
-        this.userGuid = userGuid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -77,5 +81,13 @@ public class User {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }

@@ -7,22 +7,20 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface FriendshipsMapper {
     @Mappings({
-            @Mapping(source="friendshipGuid", target="friendshipGuid"),
-            @Mapping(source="user1", target="user1"),
-            @Mapping(source="user2", target="user2"),
+            @Mapping(source="friendshipGuid", target="id"),
+            @Mapping(source="friend", target="friend"),
             @Mapping(source="status", target="status"),
             @Mapping(source="createdDate", target="createdDate"),
-            @Mapping(source="createdBy", target="createdBy"),
+            @Mapping(source="addedBy", target="addedBy"),
     })
     Friendship toFriendship(FriendshipEntity friendshipEntity);
 
     @Mappings({
-            @Mapping(source="friendshipGuid", target="friendshipGuid"),
-            @Mapping(source="user1", target="user1"),
-            @Mapping(source="user2", target="user2"),
+            @Mapping(source="id", target="friendshipGuid"),
+            @Mapping(source="friend", target="friend"),
             @Mapping(source="status", target="status"),
             @Mapping(source="createdDate", target="createdDate"),
-            @Mapping(source="createdBy", target="createdBy"),
+            @Mapping(source="addedBy", target="addedBy"),
     })
     FriendshipEntity toFriendshipEntity(Friendship friendship);
 }

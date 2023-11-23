@@ -7,7 +7,7 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     @Mappings({
-            @Mapping(source="userGuid", target="userGuid"),
+            @Mapping(source="userGuid", target="id"),
             @Mapping(source="name", target="name"),
             @Mapping(source="lastname", target="lastname"),
             @Mapping(source="username", target="username"),
@@ -18,7 +18,7 @@ public interface UserMapper {
     User toUser(UserEntity userEntity);
 
     @Mappings({
-            @Mapping(source="userGuid", target="userGuid"),
+            @Mapping(source="id", target="userGuid"),
             @Mapping(source="name", target="name"),
             @Mapping(source="lastname", target="lastname"),
             @Mapping(source="username", target="username"),
