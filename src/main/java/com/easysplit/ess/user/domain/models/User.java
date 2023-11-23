@@ -10,13 +10,17 @@ public class User {
     private String name;
     private String lastname;
     private String username;
+    private String email;
+    private String phone;
     private Timestamp createdDate;
 
-    public User(String userGuid, String name, String lastname, String username, Timestamp createdDate) {
+    public User(String userGuid, String name, String lastname, String username, String email,String phone, Timestamp createdDate) {
         this.userGuid = userGuid;
         this.name = name;
         this.lastname = lastname;
         this.username = username;
+        this.email=email;
+        this.phone=phone;
         this.createdDate = createdDate;
     }
 
@@ -52,6 +56,21 @@ public class User {
         this.username = username;
     }
 
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email=email;
+    }
+
+    public String getPhone(){
+        return phone;
+    }
+
+    public void setPhone(String phone){
+        this.phone=phone;
+    }
     public Timestamp getCreatedDate() {
         return createdDate;
     }

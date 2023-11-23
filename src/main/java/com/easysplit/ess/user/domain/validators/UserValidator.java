@@ -5,6 +5,8 @@ import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.helpers.DomainHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.regex.*;
+
 
 /**
  * Class that contains utility methods to be used for pure data validation
@@ -14,6 +16,8 @@ public class UserValidator {
     private static final int USER_NAME_LENGTH = 100;
     private static final int USER_LASTNAME_LENGTH = 100;
     private static final int USER_USERNAME_LENGTH = 50;
+    private static final int USER_EMAIL_LENGTH = 100;
+    private static final int USER_PHONE_LENGTH = 10;
 
     private final DomainHelper domainHelper;
 
@@ -32,7 +36,7 @@ public class UserValidator {
     }
 
     /**
-     * Validates the user name, name cannot be empty and
+     * Validates the username, name cannot be empty and
      * the number of characters cannot exceed 100.
      */
     private void validateUserName(String name) {
@@ -95,6 +99,87 @@ public class UserValidator {
                     new Object[] {USER_USERNAME_LENGTH}
             );
         }
+    }
+
+    /**
+     * Validates the user email, email cannot be empty
+     * the number of characters cannot exceed 100,
+     * and the Format has to be valid.
+     */
+    private void validateEmail(String email){
+        if (email.isEmpty()){
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_EMPTYEMAIL_MESSAGE,
+                    new Object[] {email}
+            );
+        }
+
+        if (email.length() > USER_EMAIL_LENGTH) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_EMAILTOOLONG_MESSAGE,
+                    new Object[] {USER_EMAIL_LENGTH}
+            );
+        }
+
+        if (!validateEmailFormat(email)) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_INVALIDEMAILFORMAT_MESSAGE,
+                    new Object[]{email}
+            );
+        }
+    }
+
+    private boolean validateEmailFormat(String email){
+
+
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
+    }
+
+    private void validatePhone(String phone){
+        if (phone.isEmpty()) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_EMPTYPHONE_MESSAGE,
+                    new Object[] {phone}
+            );
+        }
+
+        if(phone.length()!=USER_PHONE_LENGTH){
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_WRONGPHONESIZE_MESSAGE,
+                    new Object[] {USER_PHONE_LENGTH}
+            );
+
+        }
+
+
+
+        if(!validatePhoneFormat(phone)){
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_INVALIDPHONECHAR_MESSAGE,
+                    new Object[]{phone}
+            );
+
+        }
+
+
+    }
+
+    private boolean validatePhoneFormat(String phone){
+        String regex = "^\\d$" ;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phone);
+
+        return matcher.matches();
     }
 
     public void throwIllegalArgumentException() {
