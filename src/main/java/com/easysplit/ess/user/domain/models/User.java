@@ -1,6 +1,9 @@
 package com.easysplit.ess.user.domain.models;
 
+import com.easysplit.shared.domain.models.Link;
+
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * User object to be serialized and pure data validation
@@ -11,6 +14,7 @@ public class User {
     private String lastname;
     private String username;
     private Timestamp createdDate;
+    private List<Link> links;
 
     public User(String id, String name, String lastname, String username, Timestamp createdDate) {
         this.id = id;
@@ -58,5 +62,13 @@ public class User {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }
