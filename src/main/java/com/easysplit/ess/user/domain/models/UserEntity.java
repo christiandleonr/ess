@@ -18,7 +18,7 @@ public class UserEntity {
 
     }
 
-    public UserEntity(String userGuid, String name, String lastname, String username, String email,String phone, Timestamp createdDate) {
+    public UserEntity(String userGuid, String name, String lastname, String username, String email, String phone, Timestamp createdDate) {
         this.userGuid = userGuid;
         this.name = name;
         this.lastname = lastname;

@@ -30,10 +30,10 @@ public final class ErrorKeys {
     public static final String CREATE_USER_EMPTYUSERNAME_MESSAGE = "create.user.illegalArgument.emptyUsername.message";
     public static final String CREATE_USER_EMAILTOOLONG_MESSAGE = "create.user.illegalArgument.emailTooLong.message";
     public static final String CREATE_USER_EMPTYEMAIL_MESSAGE = "create.user.illegalArgument.emptyEmail.message";
-    public static final String CREATE_USER_INVALIDEMAILFORMAT_MESSAGE="create.userillegalArgument.invalidEmailFormat.message";
+    public static final String CREATE_USER_INVALIDEMAILFORMAT_MESSAGE="create.user.illegalArgument.invalidEmailFormat.message";
     public static final String CREATE_USER_EMPTYPHONE_MESSAGE = "create.user.illegalArgument.emptyPhone.message";
-    public static final String CREATE_USER_WRONGPHONESIZE_MESSAGE = "create.user.illegalArgument.PHONEWRONGSIZE.message";
-    public static final String CREATE_USER_INVALIDPHONECHAR_MESSAGE = "create.user.illegalArgument.PHONEOINVALIDCHAR.message";
+    public static final String CREATE_USER_WRONGPHONESIZE_MESSAGE = "create.user.illegalArgument.phoneWrongSize.message";
+    public static final String CREATE_USER_INVALIDPHONECHAR_MESSAGE = "create.user.illegalArgument.phoneInvalidChar.message";
     public static final String CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE = "create.user.illegalArgument.invalidUsername.message";
 
     /**

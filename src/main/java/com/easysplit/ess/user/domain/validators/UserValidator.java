@@ -5,8 +5,9 @@ import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.helpers.DomainHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.regex.*;
-
+import org.apache.commons.validator.routines.EmailValidator;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Class that contains utility methods to be used for pure data validation
@@ -33,6 +34,8 @@ public class UserValidator {
         validateUserName(user.getName());
         validateLastname(user.getLastname());
         validateUsername(user.getUsername());
+        validateEmail(user.getEmail());
+        validatePhone(user.getPhone());
     }
 
     /**
@@ -123,23 +126,13 @@ public class UserValidator {
             );
         }
 
-        if (!validateEmailFormat(email)) {
+        if (!EmailValidator.getInstance().isValid(email)) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_INVALIDEMAILFORMAT_MESSAGE,
                     new Object[]{email}
             );
         }
-    }
-
-    private boolean validateEmailFormat(String email){
-
-
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-
-        return matcher.matches();
     }
 
     private void validatePhone(String phone){
@@ -160,8 +153,6 @@ public class UserValidator {
 
         }
 
-
-
         if(!validatePhoneFormat(phone)){
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
@@ -171,11 +162,10 @@ public class UserValidator {
 
         }
 
-
     }
 
     private boolean validatePhoneFormat(String phone){
-        String regex = "^\\d$" ;
+        String regex = "^\\+?\\d+$" ;
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(phone);
 

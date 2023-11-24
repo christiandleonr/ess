@@ -18,7 +18,7 @@ public class User {
     private Timestamp createdDate;
     private List<Link> links;
 
-    public User(String id, String name, String lastname, String username,String email,String phone, Timestamp createdDate) {
+    public User(String id, String name, String lastname, String username, String email, String phone, Timestamp createdDate) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -75,6 +75,7 @@ public class User {
     public void setPhone(String phone){
         this.phone=phone;
     }
+
     public Timestamp getCreatedDate() {
         return createdDate;
     }
