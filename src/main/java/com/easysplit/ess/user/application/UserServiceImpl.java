@@ -17,20 +17,17 @@ public class UserServiceImpl implements UserService {
     private final UserValidator userValidator;
     private final PersistenceUserValidator persistenceUserValidator;
     private final UserMapper userMapper;
-    private final DomainHelper domainHelper;
 
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserMapper userMapper,
                            UserValidator userValidator,
-                           PersistenceUserValidator persistenceUserValidator,
-                           DomainHelper domainHelper) {
+                           PersistenceUserValidator persistenceUserValidator) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.userValidator = userValidator;
         this.persistenceUserValidator = persistenceUserValidator;
-        this.domainHelper = domainHelper;
     }
 
     @Override

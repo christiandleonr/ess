@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserValidator {
-    private static final int USER_NAME_LENGTH = 100;
-    private static final int USER_LASTNAME_LENGTH = 100;
-    private static final int USER_USERNAME_LENGTH = 50;
+    private static final int USER_NAME_LENGTH_LIMIT = 100;
+    private static final int USER_LASTNAME_LENGTH_LIMIT = 100;
+    private static final int USER_USERNAME_LENGTH_LIMIT = 50;
 
     private final DomainHelper domainHelper;
 
@@ -26,6 +26,14 @@ public class UserValidator {
      * Validates user attributes
      */
     public void validate(User user) {
+        if (user == null) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_EMPTYUSER_MESSAGE,
+                    null
+            );
+        }
+
         validateUserName(user.getName());
         validateLastname(user.getLastname());
         validateUsername(user.getUsername());
@@ -44,11 +52,11 @@ public class UserValidator {
             );
         }
 
-        if (name.length() > USER_NAME_LENGTH) {
+        if (name.length() > USER_NAME_LENGTH_LIMIT) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_NAMETOOLONG_MESSAGE,
-                    new Object[] {USER_NAME_LENGTH}
+                    new Object[] {USER_NAME_LENGTH_LIMIT}
             );
         }
     }
@@ -66,11 +74,11 @@ public class UserValidator {
             );
         }
 
-        if (lastname.length() > USER_LASTNAME_LENGTH) {
+        if (lastname.length() > USER_LASTNAME_LENGTH_LIMIT) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_LASTNAMETOOLONG_MESSAGE,
-                    new Object[] {USER_LASTNAME_LENGTH}
+                    new Object[] {USER_LASTNAME_LENGTH_LIMIT}
             );
         }
     }
@@ -88,16 +96,12 @@ public class UserValidator {
             );
         }
 
-        if (username.length() > USER_USERNAME_LENGTH) {
+        if (username.length() > USER_USERNAME_LENGTH_LIMIT) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_USERNAMETOOLONG_MESSAGE,
-                    new Object[] {USER_USERNAME_LENGTH}
+                    new Object[] {USER_USERNAME_LENGTH_LIMIT}
             );
         }
-    }
-
-    public void throwIllegalArgumentException() {
-
     }
 }

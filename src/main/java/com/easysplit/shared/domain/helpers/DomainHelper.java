@@ -31,7 +31,7 @@ public class DomainHelper {
     public void throwIllegalArgumentException(String errorTitleKey,
                                               String errorMessageKey,
                                               Object[] args,
-                                              Locale locale) {
+                                              Locale locale) throws IllegalArgumentException {
         String errorTitle = messageSource.getMessage(errorTitleKey, null, locale);
         String errorMessage = messageSource.getMessage(errorMessageKey, args, locale);
 
@@ -47,7 +47,7 @@ public class DomainHelper {
      */
     public void throwIllegalArgumentException(String errorTitleKey,
                                               String errorMessageKey,
-                                              Object[] args) {
+                                              Object[] args) throws IllegalArgumentException {
         throwIllegalArgumentException(errorTitleKey, errorMessageKey, args, null);
     }
 }

@@ -4,6 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     @Mappings({
@@ -14,6 +16,8 @@ public interface UserMapper {
             @Mapping(source="createdDate", target="createdDate"),
     })
     User toUser(UserEntity userEntity);
+
+    List<User> toListOfUsers(List<UserEntity> userEntities);
 
     @Mappings({
             @Mapping(source="id", target="userGuid"),

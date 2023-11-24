@@ -2,9 +2,6 @@ package com.easysplit.ess.friendships.infrastructure;
 
 import com.easysplit.ess.friendships.domain.contracts.FriendshipsService;
 import com.easysplit.ess.friendships.domain.models.Friendship;
-import com.easysplit.ess.friendships.domain.models.FriendshipEntity;
-import com.easysplit.ess.user.domain.models.User;
-import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.domain.exceptions.NotFoundException;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;

@@ -16,6 +16,7 @@ public final class ErrorKeys {
      * Create user
      */
     public static final String CREATE_USER_ILLEGALARGUMENT_TITLE = "create.user.illegalArgument.title";
+    public static final String CREATE_USER_EMPTYUSER_MESSAGE = "create.user.illegalArgument.emptyUser.message";
 
     public static final String CREATE_USER_NAMETOOLONG_MESSAGE = "create.user.illegalArgument.nameTooLong.message";
     public static final String CREATE_USER_EMPTYNAME_MESSAGE = "create.user.illegalArgument.emptyName.message";
@@ -53,4 +54,14 @@ public final class ErrorKeys {
 
     public static final String CREATE_FRIENDSHIP_ERROR_TITLE = "create.friendship.error.title";
     public static final String CREATE_FRIENDSHIP_ERROR_MESSAGE = "create.friendship.error.message";
+
+    /**
+     * Create group
+     */
+
+    public static final String CREATE_GROUP_ILLEGALARGUMENT_TITLE = "create.group.illegalArgument.title";
+    public static final String CREATE_GROUP_EMPTYGROUP_MESSAGE = "create.group.illegalArgument.emptyGroup.message";
+    public static final String CREATE_GROUP_NAMETOOLONG_MESSAGE = "create.group.illegalArgument.nameTooLong.message";
+    public static final String CREATE_GROUP_EMPTYNAME_MESSAGE = "create.group.illegalArgument.emptyName.message";
+    public static final String CREATE_GROUP_DESCRIPTIONTOOLONG_MESSAGE = "create.group.illegalArgument.descriptionTooLong.message";
 }
