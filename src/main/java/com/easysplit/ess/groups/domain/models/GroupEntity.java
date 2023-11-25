@@ -2,6 +2,7 @@ package com.easysplit.ess.groups.domain.models;
 
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
+import com.easysplit.ess.user.domain.models.UserMapper;
 import com.easysplit.shared.utils.EssUtils;
 
 import java.sql.Timestamp;
@@ -9,15 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO Add comments
+ * Class that represents the table <i>groups</i>
  */
 public class GroupEntity {
     private String groupGuid;
     private String name;
     private String description;
-    private User createdBy;
+    private List<UserEntity> members;
+    private UserEntity createdBy;
     private Timestamp createdDate;
-    private User updatedBy;
+    private UserEntity updatedBy;
     private Timestamp updatedDate;
 
     public GroupEntity() {
@@ -48,11 +50,11 @@ public class GroupEntity {
         this.description = description;
     }
 
-    public User getCreatedBy() {
+    public UserEntity getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(UserEntity createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -64,11 +66,11 @@ public class GroupEntity {
         this.createdDate = createdDate;
     }
 
-    public User getUpdatedBy() {
+    public UserEntity getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(User updatedBy) {
+    public void setUpdatedBy(UserEntity updatedBy) {
         this.updatedBy = updatedBy;
     }
 
@@ -80,41 +82,41 @@ public class GroupEntity {
         this.updatedDate = updatedDate;
     }
 
-    /**
-     * TODO Add comments
-     * @param members
-     * @return
-     */
-    public List<GroupMemberEntity> buildGroupMemberEntities(List<User> members) {
-        List<GroupMemberEntity> groupMembers = new ArrayList<>();
+    public List<UserEntity> getMembers() {
+        return members;
+    }
 
-        if (EssUtils.isNullOrEmpty(members)) {
-            return groupMembers;
-        }
-
-        for (User user: members) {
-            GroupMemberEntity groupMember = new GroupMemberEntity();
-            groupMember.setGroupGuid(groupGuid);
-            groupMember.setMemberGuid(user.getId());
-
-            groupMembers.add(groupMember);
-        }
-
-        return groupMembers;
+    public void setMembers(List<UserEntity> members) {
+        this.members = members;
     }
 
     /**
+     * Generates a list of members including the createdBy user
      *
-     * @param groupMapper
-     * @return
+     * @return list of members
      */
-    public Group toGroup(GroupMapper groupMapper, List<User> members) {
-        if (groupMapper == null) {
-            return null;
+    public List<UserEntity> getAllMembers() {
+        List<UserEntity> members = new ArrayList<>(this.members);
+
+        if (createdBy != null) {
+            members.add(createdBy);
         }
 
-        Group group = groupMapper.toGroup(this);
+        return members;
+    }
+
+    /**
+     * Generates a group object from this entity class
+     *
+     * @return group entity
+     */
+    public Group toGroup() {
+        Group group = GroupMapper.INSTANCE.toGroup(this);
+        List<User> members = UserMapper.INSTANCE.toListOfUsers(this.getMembers());
+
         group.setMembers(members);
+        group.setCreatedBy(UserMapper.INSTANCE.toUser(this.createdBy));
+        group.setUpdatedBy(UserMapper.INSTANCE.toUser(this.updatedBy));
 
         return group;
     }

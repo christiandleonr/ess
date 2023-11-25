@@ -1,7 +1,7 @@
 package com.easysplit.ess.groups.domain.models;
 
 /**
- * TODO Add comments
+ * Class that represents the table <i>group_members</i>
  */
 public class GroupMemberEntity {
     private String groupGuid;
@@ -9,6 +9,11 @@ public class GroupMemberEntity {
 
     public GroupMemberEntity() {
 
+    }
+
+    public GroupMemberEntity(String groupGuid, String memberGuid) {
+        this.groupGuid = groupGuid;
+        this.memberGuid = memberGuid;
     }
 
     public String getGroupGuid() {

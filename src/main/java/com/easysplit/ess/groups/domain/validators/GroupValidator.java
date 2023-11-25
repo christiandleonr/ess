@@ -23,8 +23,9 @@ public class GroupValidator {
     }
 
     /**
+     * Validate group information provided in the payload
      *
-     * @param group
+     * @param group group to be validated
      */
     public void validate(Group group) {
         if (group == null) {

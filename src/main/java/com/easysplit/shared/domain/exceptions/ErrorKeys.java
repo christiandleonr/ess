@@ -58,6 +58,8 @@ public final class ErrorKeys {
     /**
      * Create group
      */
+    public static final String CREATE_GROUP_ERROR_TITLE = "create.group.error.title";
+    public static final String CREATE_GROUP_ERROR_MESSAGE = "create.group.error.message";
 
     public static final String CREATE_GROUP_ILLEGALARGUMENT_TITLE = "create.group.illegalArgument.title";
     public static final String CREATE_GROUP_EMPTYGROUP_MESSAGE = "create.group.illegalArgument.emptyGroup.message";

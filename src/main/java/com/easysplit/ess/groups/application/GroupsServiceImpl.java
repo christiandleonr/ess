@@ -6,6 +6,7 @@ import com.easysplit.ess.groups.domain.models.Group;
 import com.easysplit.ess.groups.domain.models.GroupEntity;
 import com.easysplit.ess.groups.domain.models.GroupMapper;
 import com.easysplit.ess.groups.domain.models.GroupMemberEntity;
+import com.easysplit.ess.groups.domain.validators.GroupValidator;
 import com.easysplit.ess.user.application.UserServiceImpl;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
@@ -21,31 +22,27 @@ import java.util.List;
 public class GroupsServiceImpl implements GroupsService {
     private final GroupsRepository groupsRepository;
     private final GroupMapper groupMapper;
-    private final UserMapper userMapper;
+    private final GroupValidator groupValidator;
     private static final Logger logger = LoggerFactory.getLogger(GroupsServiceImpl.class);
 
     @Autowired
-    public GroupsServiceImpl(GroupsRepository groupsRepository, GroupMapper groupMapper, UserMapper userMapper) {
+    public GroupsServiceImpl(GroupsRepository groupsRepository,
+                             GroupMapper groupMapper,
+                             GroupValidator groupValidator) {
         this.groupsRepository = groupsRepository;
         this.groupMapper = groupMapper;
-        this.userMapper = userMapper;
+        this.groupValidator = groupValidator;
     }
 
     @Override
-    public Group createGroup(Group group) {
-        if (group == null) {
-
-        }
+    public Group createGroup(Group group, String createdBy) {
+        groupValidator.validate(group);
 
         GroupEntity createdGroupEntity = groupsRepository.createGroup(
-                groupMapper.toGroupEntity(group)
+                createdBy,
+                group.toGroupEntity()
         );
 
-        List<GroupMemberEntity> addMembers = createdGroupEntity.buildGroupMemberEntities(group.getMembers());
-        List<User> members = userMapper.toListOfUsers(
-                groupsRepository.addGroupMembers(addMembers)
-        );
-
-        return createdGroupEntity.toGroup(groupMapper, members);
+        return createdGroupEntity.toGroup();
     }
 }

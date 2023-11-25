@@ -1,13 +1,17 @@
 package com.easysplit.ess.user.domain.models;
 
+import com.easysplit.ess.groups.domain.models.GroupMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+
     @Mappings({
             @Mapping(source="userGuid", target="id"),
             @Mapping(source="name", target="name"),
@@ -27,4 +31,6 @@ public interface UserMapper {
             @Mapping(source="createdDate", target="createdDate"),
     })
     UserEntity toUserEntity(User user);
+
+    List<UserEntity> toListOfUserEntities(List<User> users);
 }

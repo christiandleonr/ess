@@ -13,7 +13,7 @@ public interface GroupsRepository {
      * @param group group to be created
      * @return created group
      */
-    GroupEntity createGroup(GroupEntity group);
+    GroupEntity createGroup(String createdBy, GroupEntity group);
 
     /**
      * Adds a new group member
@@ -21,12 +21,12 @@ public interface GroupsRepository {
      * @param groupMember class with the user and group information to be added
      * @return group member entity
      */
-    UserEntity addGroupMember(GroupMemberEntity groupMember);
+    UserEntity addGroupMember(String groupGuid, UserEntity groupMember);
 
     /**
      * Adds users to a group
      *
      * @param groupMembers
      */
-    List<UserEntity> addGroupMembers(List<GroupMemberEntity> groupMembers);
+    List<UserEntity> addGroupMembers(String groupGuid, List<UserEntity> groupMembers);
 }
