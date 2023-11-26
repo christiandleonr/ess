@@ -1,9 +1,9 @@
 package com.easysplit.ess.friendships.infrastructure.persistence;
 
 import com.easysplit.ess.friendships.domain.contracts.FriendshipsRepository;
-import com.easysplit.ess.friendships.domain.models.FriendshipEntity;
-import com.easysplit.ess.friendships.domain.models.FriendshipStatus;
-import com.easysplit.ess.friendships.domain.sql.FriendshipsQueries;
+import com.easysplit.ess.user.domain.models.FriendshipEntity;
+import com.easysplit.ess.user.domain.models.FriendshipStatus;
+import com.easysplit.ess.user.domain.sql.FriendshipsQueries;
 import com.easysplit.ess.user.application.UserServiceImpl;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.models.UserEntity;

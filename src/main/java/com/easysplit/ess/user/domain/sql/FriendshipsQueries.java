@@ -1,4 +1,4 @@
-package com.easysplit.ess.friendships.domain.sql;
+package com.easysplit.ess.user.domain.sql;
 
 /**
  * Class that holds string variables with the queries for the <i>friendships</i> table

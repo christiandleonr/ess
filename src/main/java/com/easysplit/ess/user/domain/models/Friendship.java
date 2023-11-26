@@ -1,4 +1,4 @@
-package com.easysplit.ess.friendships.domain.models;
+package com.easysplit.ess.user.domain.models;
 
 import com.easysplit.shared.domain.models.Link;
 import java.sql.Timestamp;

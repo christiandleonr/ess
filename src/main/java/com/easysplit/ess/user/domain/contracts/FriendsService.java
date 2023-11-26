@@ -1,11 +1,11 @@
-package com.easysplit.ess.friendships.domain.contracts;
+package com.easysplit.ess.user.domain.contracts;
 
-import com.easysplit.ess.friendships.domain.models.Friendship;
+import com.easysplit.ess.user.domain.models.Friendship;
 
 /**
  * Class that handle the business logic for the user resource
  */
-public interface FriendshipsService {
+public interface FriendsService {
     /**
      * Creates friendship between two users, perform the validation for
      * the data provided in the payload
@@ -13,5 +13,5 @@ public interface FriendshipsService {
      * @param friendship user to be created
      * @return created user
      */
-    Friendship createFriendship(Friendship friendship);
+    Friendship addFriend(Friendship friendship);
 }

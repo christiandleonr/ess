@@ -1,5 +1,7 @@
 package com.easysplit.ess.user.infrastructure;
 
+import com.easysplit.ess.user.domain.models.Friendship;
+import com.easysplit.ess.user.domain.contracts.FriendsService;
 import com.easysplit.ess.user.domain.contracts.UserService;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
@@ -20,13 +22,17 @@ public class UserController {
     private static final String CLASS_NAME = UserController.class.getName();
     private final String USERS_RESOURCE = "/users";
     private final UserService userService;
+    private final FriendsService friendsService;
     private final InfrastructureHelper infrastructureHelper;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService, InfrastructureHelper infrastructureHelper) {
+    public UserController(UserService userService,
+                          FriendsService friendsService,
+                          InfrastructureHelper infrastructureHelper) {
         this.userService = userService;
         this.infrastructureHelper = infrastructureHelper;
+        this.friendsService = friendsService;
     }
 
     @GetMapping("/{id}")
@@ -104,5 +110,33 @@ public class UserController {
         }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{id}/friends")
+    public ResponseEntity<Friendship> addFriend(@RequestBody Friendship friendship) {
+        Friendship createdFriendship = null;
+        try {
+            createdFriendship = friendsService.addFriend(friendship);
+
+            createdFriendship.setLinks(
+                    infrastructureHelper.buildLinks(USERS_RESOURCE, createdFriendship.getId())
+            );
+        } catch (NotFoundException e) {
+            logger.debug(CLASS_NAME + ".createFriendship() - A user from the friendship: " + friendship + " was not found");
+            throw e;
+        } catch (InternalServerErrorException e) {
+            logger.error(CLASS_NAME + ".createFriendship() - Something went wrong while creating the friendship: " + friendship, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".createFriendship() - Something went wrong while creating the friendship: " + friendship, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.CREATE_FRIENDSHIP_ERROR_TITLE,
+                    ErrorKeys.CREATE_FRIENDSHIP_ERROR_MESSAGE,
+                    new Object[]{ friendship },
+                    e
+            );
+        }
+
+        return new ResponseEntity<>(createdFriendship, HttpStatus.CREATED);
     }
 }

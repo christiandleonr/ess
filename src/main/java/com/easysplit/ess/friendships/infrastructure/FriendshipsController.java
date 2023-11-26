@@ -1,7 +1,7 @@
 package com.easysplit.ess.friendships.infrastructure;
 
-import com.easysplit.ess.friendships.domain.contracts.FriendshipsService;
-import com.easysplit.ess.friendships.domain.models.Friendship;
+import com.easysplit.ess.user.domain.contracts.FriendsService;
+import com.easysplit.ess.user.domain.models.Friendship;
 import com.easysplit.ess.user.infrastructure.UserController;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
@@ -21,12 +21,12 @@ public class FriendshipsController {
     private final String FRIENDSHIPS_RESOURCE = "/friendships";
 
     private final InfrastructureHelper infrastructureHelper;
-    private final FriendshipsService friendshipsService;
+    private final FriendsService friendsService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    public FriendshipsController(FriendshipsService friendshipsService, InfrastructureHelper infrastructureHelper) {
-        this.friendshipsService = friendshipsService;
+    public FriendshipsController(FriendsService friendsService, InfrastructureHelper infrastructureHelper) {
+        this.friendsService = friendsService;
         this.infrastructureHelper = infrastructureHelper;
     }
 
@@ -34,7 +34,7 @@ public class FriendshipsController {
     public ResponseEntity<Friendship> createFriendship(@RequestBody Friendship friendship) {
         Friendship createdFriendship = null;
         try {
-            createdFriendship = friendshipsService.createFriendship(friendship);
+            createdFriendship = friendsService.createFriendship(friendship);
 
             createdFriendship.setLinks(
                     infrastructureHelper.buildLinks(FRIENDSHIPS_RESOURCE, createdFriendship.getId())
