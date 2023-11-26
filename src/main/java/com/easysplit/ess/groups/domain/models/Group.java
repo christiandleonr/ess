@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO Add comments
+ * Group object to be serialized
  */
 public class Group {
     private String id;
@@ -101,7 +101,7 @@ public class Group {
     }
 
     /**
-     * Generates a group entity class from this class
+     * Generates a group entity class
      *
      * @return group entity
      */

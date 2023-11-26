@@ -79,7 +79,7 @@ public class UserRepositoryImpl implements UserRepository {
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.GET_USER_NOT_FOUND_TITLE,
                     ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
-                    new Object[]{ userGuid }
+                    new Object[]{userGuid}
             );
         }
 
@@ -110,7 +110,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void deleteUserById(String userGuid) {
         // Throws a NotFoundException if user does not exist
-        UserEntity userEntity = getUser(userGuid);
+        getUser(userGuid);
 
         int rowsDeleted = 0;
         try {
@@ -124,7 +124,7 @@ public class UserRepositoryImpl implements UserRepository {
             );
         }
 
-        logger.error(CLASS_NAME + ".deleteUserById() - Users deleted: " + rowsDeleted);
+        logger.info(CLASS_NAME + ".deleteUserById() - Users deleted: " + rowsDeleted);
     }
 
     private UserEntity toUserEntity(ResultSet rs) throws SQLException {
