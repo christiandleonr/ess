@@ -4,10 +4,8 @@ import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
 import com.easysplit.shared.domain.models.Link;
-import com.easysplit.shared.utils.EssUtils;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -112,5 +110,17 @@ public class Group {
         groupEntity.setMembers(members);
 
         return groupEntity;
+    }
+
+    @Override
+    public String toString() {
+        return "id : " + this.id + " | "
+                + "name : " + this.name + " | "
+                + "description : " + this.description + " | "
+                + "members : " + this.members + " | "
+                + "createdBy : " + this.createdBy + " | "
+                + "createdDate : " + this.createdDate + " | "
+                + "updatedBy : " + this.updatedBy + " | "
+                + "updatedDate : " + this.updatedDate;
     }
 }

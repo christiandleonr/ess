@@ -3,7 +3,6 @@ package com.easysplit.ess.groups.domain.models;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
-import com.easysplit.shared.utils.EssUtils;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -119,5 +118,17 @@ public class GroupEntity {
         group.setUpdatedBy(UserMapper.INSTANCE.toUser(this.updatedBy));
 
         return group;
+    }
+
+    @Override
+    public String toString() {
+        return "id : " + this.groupGuid + " | "
+                + "name : " + this.name + " | "
+                + "description : " + this.description + " | "
+                + "members : " + this.members + " | "
+                + "createdBy : " + this.createdBy + " | "
+                + "createdDate : " + this.createdDate + " | "
+                + "updatedBy : " + this.updatedBy + " | "
+                + "updatedDate : " + this.updatedDate;
     }
 }

@@ -122,13 +122,13 @@ public class UserController {
                     infrastructureHelper.buildLinks(USERS_RESOURCE, createdFriendship.getId())
             );
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".createFriendship() - A user from the friendship: " + friendship + " was not found");
+            logger.debug(CLASS_NAME + ".addFriend() - A user from the friendship: " + friendship + " was not found");
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".createFriendship() - Something went wrong while creating the friendship: " + friendship, e);
+            logger.error(CLASS_NAME + ".addFriend() - Something went wrong while creating the friendship: " + friendship, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createFriendship() - Something went wrong while creating the friendship: " + friendship, e);
+            logger.error(CLASS_NAME + ".addFriend() - Something went wrong while creating the friendship: " + friendship, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_MESSAGE,

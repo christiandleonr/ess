@@ -71,4 +71,13 @@ public class User {
     public void setLinks(List<Link> links) {
         this.links = links;
     }
+
+    @Override
+    public String toString() {
+        return "id : " + this.id + " | "
+                + "name : " + this.name + " | "
+                + "lastname : " + this.lastname + " | "
+                + "username : " + this.username + " | "
+                + "createdDate : " + this.createdDate;
+    }
 }

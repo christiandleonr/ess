@@ -5,18 +5,11 @@ import com.easysplit.ess.groups.domain.contracts.GroupsService;
 import com.easysplit.ess.groups.domain.models.Group;
 import com.easysplit.ess.groups.domain.models.GroupEntity;
 import com.easysplit.ess.groups.domain.models.GroupMapper;
-import com.easysplit.ess.groups.domain.models.GroupMemberEntity;
 import com.easysplit.ess.groups.domain.validators.GroupValidator;
-import com.easysplit.ess.user.application.UserServiceImpl;
-import com.easysplit.ess.user.domain.models.User;
-import com.easysplit.ess.user.domain.models.UserEntity;
-import com.easysplit.ess.user.domain.models.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class GroupsServiceImpl implements GroupsService {

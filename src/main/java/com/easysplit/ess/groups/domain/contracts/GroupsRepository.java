@@ -1,7 +1,6 @@
 package com.easysplit.ess.groups.domain.contracts;
 
 import com.easysplit.ess.groups.domain.models.GroupEntity;
-import com.easysplit.ess.groups.domain.models.GroupMemberEntity;
 import com.easysplit.ess.user.domain.models.UserEntity;
 
 import java.util.List;

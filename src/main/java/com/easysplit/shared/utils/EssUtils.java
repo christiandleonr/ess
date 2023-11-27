@@ -1,7 +1,5 @@
 package com.easysplit.shared.utils;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Collection;
 
 /**

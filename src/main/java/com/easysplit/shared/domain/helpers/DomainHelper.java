@@ -1,7 +1,6 @@
 package com.easysplit.shared.domain.helpers;
 
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
-import com.easysplit.shared.domain.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;

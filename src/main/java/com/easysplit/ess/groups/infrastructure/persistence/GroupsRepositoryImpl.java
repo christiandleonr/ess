@@ -2,7 +2,6 @@ package com.easysplit.ess.groups.infrastructure.persistence;
 
 import com.easysplit.ess.groups.domain.contracts.GroupsRepository;
 import com.easysplit.ess.groups.domain.models.GroupEntity;
-import com.easysplit.ess.groups.domain.models.GroupMemberEntity;
 import com.easysplit.ess.groups.domain.sql.GroupsQueries;
 import com.easysplit.ess.user.application.UserServiceImpl;
 import com.easysplit.ess.user.domain.contracts.UserRepository;

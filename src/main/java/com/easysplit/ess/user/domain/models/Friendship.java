@@ -66,4 +66,13 @@ public class Friendship {
     public void setLinks(List<Link> links) {
         this.links = links;
     }
+
+    @Override
+    public String toString() {
+        return "id : " + this.id + " | "
+                + "friend : " + this.friend + " | "
+                + "status : " + this.status + " | "
+                + "createdDate : " + this.createdDate + " | "
+                + "addedBy : " + this.addedBy;
+    }
 }
