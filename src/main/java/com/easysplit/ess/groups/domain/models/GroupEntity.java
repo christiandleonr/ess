@@ -107,7 +107,7 @@ public class GroupEntity {
     /**
      * Generates a group object from this entity class
      *
-     * @return group entity
+     * @return group
      */
     public Group toGroup() {
         Group group = GroupMapper.INSTANCE.toGroup(this);

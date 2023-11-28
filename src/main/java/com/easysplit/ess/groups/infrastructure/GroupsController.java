@@ -13,12 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users/{userId}/groups")
+@RequestMapping("/api/groups")
 public class GroupsController {
     private static final String CLASS_NAME = GroupsController.class.getName();
     private final GroupsService groupsService;
     private final InfrastructureHelper infrastructureHelper;
-    private final String GROUPS_RESOURCE = "/users/<userId>/groups";
+    private final String GROUPS_RESOURCE = "/groups";
     private static final Logger logger = LoggerFactory.getLogger(GroupsController.class);
 
     public GroupsController(GroupsService groupsService, InfrastructureHelper infrastructureHelper) {
@@ -27,11 +27,10 @@ public class GroupsController {
     }
 
     @PostMapping
-    public ResponseEntity<Group> createGroup(@PathVariable(name = "userId") String userId,
-                                           @RequestBody Group group) {
+    public ResponseEntity<Group> createGroup(@RequestBody Group group) {
         Group createdGroup = null;
         try {
-            createdGroup = groupsService.createGroup(group, userId);
+            createdGroup = groupsService.createGroup(group, group.getCreatedBy().getId());
 
             createdGroup.setLinks(infrastructureHelper.buildLinks(GROUPS_RESOURCE, createdGroup.getId()));
         } catch (IllegalArgumentException e) {
