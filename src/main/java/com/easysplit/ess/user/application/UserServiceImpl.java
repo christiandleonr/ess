@@ -21,17 +21,14 @@ public class UserServiceImpl implements UserService, FriendsService {
     private final FriendsRepository friendsRepository;
     private final UserValidator userValidator;
     private final PersistenceUserValidator persistenceUserValidator;
-    private final UserMapper userMapper;
 
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            FriendsRepository friendsRepository,
-                           UserMapper userMapper,
                            UserValidator userValidator,
                            PersistenceUserValidator persistenceUserValidator) {
         this.userRepository = userRepository;
-        this.userMapper = userMapper;
         this.userValidator = userValidator;
         this.persistenceUserValidator = persistenceUserValidator;
         this.friendsRepository = friendsRepository;
@@ -41,18 +38,18 @@ public class UserServiceImpl implements UserService, FriendsService {
     public User getUser(String userGuid) {
         UserEntity user = userRepository.getUser(userGuid);
 
-        return userMapper.toUser(user);
+        return UserMapper.INSTANCE.toUser(user);
     }
 
     @Override
     public User createUser(User user) {
         userValidator.validate(user);
 
-        UserEntity createUser = userMapper.toUserEntity(user);
+        UserEntity createUser = UserMapper.INSTANCE.toUserEntity(user);
         persistenceUserValidator.validateUsernameUniqueness(createUser.getUsername());
 
         UserEntity createdUser = userRepository.createUser(createUser);
-        return userMapper.toUser(createdUser);
+        return UserMapper.INSTANCE.toUser(createdUser);
     }
 
     @Override
