@@ -1,4 +1,4 @@
-package com.easysplit.ess.friendships.domain.models;
+package com.easysplit.ess.user.domain.models;
 
 public enum FriendshipStatus {
     PENDING("Pending"),

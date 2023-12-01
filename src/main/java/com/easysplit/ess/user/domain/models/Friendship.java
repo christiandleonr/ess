@@ -1,4 +1,4 @@
-package com.easysplit.ess.friendships.domain.models;
+package com.easysplit.ess.user.domain.models;
 
 import com.easysplit.shared.domain.models.Link;
 import java.sql.Timestamp;
@@ -65,5 +65,14 @@ public class Friendship {
 
     public void setLinks(List<Link> links) {
         this.links = links;
+    }
+
+    @Override
+    public String toString() {
+        return "id : " + this.id + " | "
+                + "friend : " + this.friend + " | "
+                + "status : " + this.status + " | "
+                + "createdDate : " + this.createdDate + " | "
+                + "addedBy : " + this.addedBy;
     }
 }

@@ -1,4 +1,4 @@
-package com.easysplit.ess.friendships.domain.models;
+package com.easysplit.ess.user.domain.models;
 
 import java.sql.Timestamp;
 
@@ -54,5 +54,14 @@ public class FriendshipEntity {
 
     public void setAddedBy(String addedBy) {
         this.addedBy = addedBy;
+    }
+
+    @Override
+    public String toString() {
+        return "id : " + this.friendshipGuid + " | "
+                + "friend : " + this.friend + " | "
+                + "status : " + this.status + " | "
+                + "createdDate : " + this.createdDate + " | "
+                + "addedBy : " + this.addedBy;
     }
 }

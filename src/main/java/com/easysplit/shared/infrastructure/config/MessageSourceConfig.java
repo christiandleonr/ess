@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-// TODO Add comments
+// Configuration class for message source
 @Configuration
 public class MessageSourceConfig {
 

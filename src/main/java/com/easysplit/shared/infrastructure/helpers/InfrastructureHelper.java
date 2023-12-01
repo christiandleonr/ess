@@ -11,7 +11,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -105,21 +104,23 @@ public class InfrastructureHelper {
     }
 
     /**
-     * TODO Add comments
-     * @param resource
-     * @param resourceId
-     * @return
+     * Builds a list of reference links
+     *
+     * @param resource resource path
+     * @param resourceId resource id
+     * @return list of links
      */
     public List<Link> buildLinks(String resource, String resourceId) {
         return buildLinks(resource, resourceId, HTTP_GET);
     }
 
     /**
-     * TODO Add comments
-     * @param resource
-     * @param resourceId
-     * @param method
-     * @return
+     * Builds a list of reference links
+     *
+     * @param resource resource path
+     * @param resourceId resource id
+     * @param method http method
+     * @return list of links
      */
     public List<Link> buildLinks(String resource, String resourceId, String method) {
         return Arrays.asList(
@@ -128,12 +129,12 @@ public class InfrastructureHelper {
     }
 
     /**
-     * TODO Add comments
+     * Builds a self reference link
      *
-     * @param resource
-     * @param resourceId
-     * @param method
-     * @return
+     * @param resource resource path
+     * @param resourceId resource id
+     * @param method http method
+     * @return self reference link
      */
     public Link buildSelfLink(String resource, String resourceId, String method) {
         Link link = new Link();
@@ -146,11 +147,11 @@ public class InfrastructureHelper {
     }
 
     /**
-     * TODO Add comments
+     * Builds a href link for the resource provided
      *
-     * @param resource
-     * @param resourceId
-     * @return
+     * @param resource resource path
+     * @param resourceId resource id
+     * @return href
      */
     public String buildHref(String resource, String resourceId) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();

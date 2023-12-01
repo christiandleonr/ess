@@ -1,7 +1,6 @@
 package com.easysplit.shared.domain.helpers;
 
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
-import com.easysplit.shared.domain.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -31,7 +30,7 @@ public class DomainHelper {
     public void throwIllegalArgumentException(String errorTitleKey,
                                               String errorMessageKey,
                                               Object[] args,
-                                              Locale locale) {
+                                              Locale locale) throws IllegalArgumentException {
         String errorTitle = messageSource.getMessage(errorTitleKey, null, locale);
         String errorMessage = messageSource.getMessage(errorMessageKey, args, locale);
 
@@ -47,7 +46,7 @@ public class DomainHelper {
      */
     public void throwIllegalArgumentException(String errorTitleKey,
                                               String errorMessageKey,
-                                              Object[] args) {
+                                              Object[] args) throws IllegalArgumentException {
         throwIllegalArgumentException(errorTitleKey, errorMessageKey, args, null);
     }
 }

@@ -82,4 +82,13 @@ public class UserEntity {
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
     }
+
+    @Override
+    public String toString() {
+        return "id : " + this.userGuid + " | "
+                + "name : " + this.name + " | "
+                + "lastname : " + this.lastname + " | "
+                + "username : " + this.username + " | "
+                + "createdDate : " + this.createdDate;
+    }
 }
