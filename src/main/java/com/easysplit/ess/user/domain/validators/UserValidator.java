@@ -39,7 +39,7 @@ public class UserValidator {
     }
 
     /**
-     * Validates the username, name cannot be empty and
+     * Validates the user name, name cannot be empty and
      * the number of characters cannot exceed 100.
      */
     private void validateUserName(String name) {
@@ -134,7 +134,11 @@ public class UserValidator {
             );
         }
     }
-
+    /**
+     *Validates the user phone number, number cannot be empty
+     * the number of characters cannot exceed 10,
+     * and has to only include digits
+     */
     private void validatePhone(String phone){
         if (phone.isEmpty()) {
             domainHelper.throwIllegalArgumentException(

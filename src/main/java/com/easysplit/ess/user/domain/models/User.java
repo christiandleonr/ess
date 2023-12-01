@@ -23,8 +23,8 @@ public class User {
         this.name = name;
         this.lastname = lastname;
         this.username = username;
-        this.email=email;
-        this.phone=phone;
+        this.email = email;
+        this.phone = phone;
         this.createdDate = createdDate;
     }
 
@@ -65,7 +65,7 @@ public class User {
     }
 
     public void setEmail(String email){
-        this.email=email;
+        this.email= email;
     }
 
     public String getPhone(){
@@ -73,7 +73,7 @@ public class User {
     }
 
     public void setPhone(String phone){
-        this.phone=phone;
+        this.phone = phone;
     }
 
     public Timestamp getCreatedDate() {
