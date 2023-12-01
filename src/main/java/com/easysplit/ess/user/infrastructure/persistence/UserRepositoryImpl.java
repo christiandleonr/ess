@@ -47,7 +47,7 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
 
         try {
             jdbc.update(UserQueries.INSERT_USER,
-                    userGuid, user.getName(), user.getLastname(), user.getUsername(), createdDate);
+                    userGuid, user.getName(), user.getLastname(), user.getUsername(), user.getEmail(), user.getPhone(), createdDate);
         } catch (Exception e) {
             logger.error(CLASS_NAME + ".createUser() - Something went wrong while creating the user: " + user, e);
             infrastructureHelper.throwInternalServerErrorException(

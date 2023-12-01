@@ -5,6 +5,9 @@ import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.helpers.DomainHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.apache.commons.validator.routines.EmailValidator;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Class that contains utility methods to be used for pure data validation
@@ -14,6 +17,8 @@ public class UserValidator {
     private static final int USER_NAME_LENGTH_LIMIT = 100;
     private static final int USER_LASTNAME_LENGTH_LIMIT = 100;
     private static final int USER_USERNAME_LENGTH_LIMIT = 50;
+    private static final int USER_EMAIL_LENGTH_LIMIT = 100;
+    private static final int USER_PHONE_LENGTH_LIMIT = 10;
 
     private final DomainHelper domainHelper;
 
@@ -37,6 +42,8 @@ public class UserValidator {
         validateUserName(user.getName());
         validateLastname(user.getLastname());
         validateUsername(user.getUsername());
+        validateEmail(user.getEmail());
+        validatePhone(user.getPhone());
     }
 
     /**
@@ -103,5 +110,81 @@ public class UserValidator {
                     new Object[] {USER_USERNAME_LENGTH_LIMIT}
             );
         }
+    }
+
+    /**
+     * Validates the user email, email cannot be empty
+     * the number of characters cannot exceed 100,
+     * and the Format has to be valid.
+     */
+    private void validateEmail(String email){
+        if (email.isEmpty()){
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_EMPTYEMAIL_MESSAGE,
+                    new Object[] {email}
+            );
+        }
+
+        if (email.length() > USER_EMAIL_LENGTH_LIMIT) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_EMAILTOOLONG_MESSAGE,
+                    new Object[] {USER_EMAIL_LENGTH_LIMIT}
+            );
+        }
+
+        if (!EmailValidator.getInstance().isValid(email)) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_INVALIDEMAILFORMAT_MESSAGE,
+                    new Object[]{email}
+            );
+        }
+    }
+    /**
+     *Validates the user phone number, number cannot be empty
+     * the number of characters cannot exceed 10,
+     * and has to only include digits
+     */
+    private void validatePhone(String phone){
+        if (phone.isEmpty()) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_EMPTYPHONE_MESSAGE,
+                    new Object[] {phone}
+            );
+        }
+
+        if(phone.length()!=USER_PHONE_LENGTH_LIMIT){
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_WRONGPHONESIZE_MESSAGE,
+                    new Object[] {USER_PHONE_LENGTH_LIMIT}
+            );
+
+        }
+
+        if(!validatePhoneFormat(phone)){
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_INVALIDPHONECHAR_MESSAGE,
+                    new Object[]{phone}
+            );
+
+        }
+
+    }
+
+    private boolean validatePhoneFormat(String phone){
+        String regex = "^\\+?\\d+$" ;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phone);
+
+        return matcher.matches();
+    }
+
+    public void throwIllegalArgumentException() {
+
     }
 }
