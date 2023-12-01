@@ -11,6 +11,7 @@ import com.easysplit.ess.user.domain.sql.UserQueries;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
+import com.easysplit.shared.utils.EssUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -166,20 +169,113 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         return friendship;
     }
 
-    private UserEntity toUserEntity(ResultSet rs) throws SQLException {
+    @Override
+    public List<UserEntity> loadFriends(String userGuid, int limit, int offset) {
+        List<UserEntity> friends = new ArrayList<>();
 
+        if (EssUtils.isNullOrEmpty(userGuid)) {
+            return friends;
+        }
+
+        try {
+            List<String> friendsIds = jdbc.query(FriendshipsQueries.GET_FRIENDS,
+                    (rs, rowNum) -> rs.getString(UserQueries.USERGUID_COLUMN),
+                    userGuid, userGuid, userGuid, limit, offset);
+
+            for (String friendId: friendsIds) {
+                friends.add(getUser(friendId));
+            }
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".loadFriends() - Something went wrong while reading the user's friends for user with id: " + userGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
+                    ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,
+                    new Object[] {userGuid},
+                    e
+            );
+        }
+
+        return friends;
+    }
+
+    @Override
+    public int countFriends(String userGuid) {
+        int totalCount = 0;
+        if (EssUtils.isNullOrEmpty(userGuid)) {
+            return totalCount;
+        }
+
+        try {
+            totalCount = jdbc.query(FriendshipsQueries.COUNT_FRIENDS,
+                    (preparedStatement) -> {
+                        preparedStatement.setString(1, userGuid);
+                    }, (rs) -> {
+                        if (!rs.next()) {
+                            return 0;
+                        }
+                        return rs.getInt(1);
+                    });
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".countFriends() - Something went wrong while the user's friends for user with id: " + userGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
+                    ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,
+                    new Object[] {userGuid},
+                    e
+            );
+        }
+
+        return totalCount;
+    }
+
+    /**
+     * Generates a list of user from a result set. Executes the method next() in loop to
+     * go through all the rows
+     *
+     * @param rs result set
+     * @return list of users
+     */
+    private List<UserEntity> toUserEntities(ResultSet rs) throws SQLException {
+        List<UserEntity> users = new ArrayList<>();
+
+        while(rs.next()) {
+            users.add(buildEntity(rs));
+        }
+
+        return users;
+    }
+
+    /**
+     * Generates a user from a result set, executes the method next()
+     * to jump to the first row
+     *
+     * @param rs result set
+     * @return user
+     */
+    private UserEntity toUserEntity(ResultSet rs) throws SQLException {
         UserEntity userEntity = null;
 
         if (rs.next()) {
-            userEntity = new UserEntity();
-
-            userEntity.setUserGuid(rs.getString(UserQueries.USERGUID_COLUMN.toLowerCase()));
-            userEntity.setName(rs.getString(UserQueries.NAME_COLUMN.toLowerCase()));
-            userEntity.setLastname(rs.getString(UserQueries.LASTNAME_COLUMN.toLowerCase()));
-            userEntity.setUsername(rs.getString(UserQueries.USERNAME_COLUMN.toLowerCase()));
-            userEntity.setCreatedDate(rs.getTimestamp(UserQueries.CREATE_DATE_COLUMN.toLowerCase()));
+            userEntity = buildEntity(rs);
         }
 
+        return userEntity;
+    }
+
+    /**
+     * Builds a user entity from a result set.
+     * @param rs result set
+     * @return
+     */
+    private UserEntity buildEntity(ResultSet rs) throws SQLException {
+
+        UserEntity userEntity = new UserEntity();
+
+        userEntity.setUserGuid(rs.getString(UserQueries.USERGUID_COLUMN.toLowerCase()));
+        userEntity.setName(rs.getString(UserQueries.NAME_COLUMN.toLowerCase()));
+        userEntity.setLastname(rs.getString(UserQueries.LASTNAME_COLUMN.toLowerCase()));
+        userEntity.setUsername(rs.getString(UserQueries.USERNAME_COLUMN.toLowerCase()));
+        userEntity.setCreatedDate(rs.getTimestamp(UserQueries.CREATE_DATE_COLUMN.toLowerCase()));
 
         return userEntity;
     }

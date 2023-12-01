@@ -1,5 +1,5 @@
 HELP.md
-ess.log
+ess.log*
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

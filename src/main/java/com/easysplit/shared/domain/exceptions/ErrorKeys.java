@@ -56,6 +56,13 @@ public final class ErrorKeys {
     public static final String CREATE_FRIENDSHIP_ERROR_MESSAGE = "create.friendship.error.message";
 
     /**
+     * List friends
+     */
+
+    public static final String LIST_FRIENDS_ERROR_TITLE = "list.friends.error.title";
+    public static final String LIST_FRIENDS_ERROR_MESSAGE = "list.friends.error.message";
+
+    /**
      * Create group
      */
     public static final String CREATE_GROUP_ERROR_TITLE = "create.group.error.title";

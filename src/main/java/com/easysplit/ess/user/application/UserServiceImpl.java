@@ -12,8 +12,11 @@ import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
 import com.easysplit.ess.user.domain.validators.UserValidator;
 import com.easysplit.ess.user.infrastructure.persistence.validators.PersistenceUserValidator;
+import com.easysplit.shared.domain.models.ResourceList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService, FriendsService {
@@ -64,5 +67,27 @@ public class UserServiceImpl implements UserService, FriendsService {
         );
 
         return FriendshipsMapper.INSTANCE.toFriendship(createdFriendship);
+    }
+
+    @Override
+    public ResourceList<User> listFriends(String userGuid, int limit, int offset, boolean countFriends) {
+        ResourceList<User> friendsList = new ResourceList<>();
+
+        int totalCount = 0;
+        if (countFriends) {
+            totalCount = friendsRepository.countFriends(userGuid);
+        }
+
+        List<UserEntity> friends = friendsRepository.loadFriends(userGuid, limit, offset);
+        int count = friends.size();
+
+        friendsList.setLimit(limit);
+        friendsList.setOffset(offset);
+        friendsList.setCount(count);
+        friendsList.setTotalCount(totalCount);
+        friendsList.setHasMore(count > limit);
+        friendsList.setData(UserMapper.INSTANCE.toListOfUsers(friends));
+
+        return friendsList;
     }
 }
