@@ -3,6 +3,7 @@ package com.easysplit.ess.user.domain.validators;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.helpers.DomainHelper;
+import com.easysplit.shared.utils.EssUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -51,7 +52,7 @@ public class UserValidator {
      * the number of characters cannot exceed 100.
      */
     private void validateUserName(String name) {
-        if (name.isEmpty()) {
+        if (EssUtils.isNullOrEmpty(name)) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_EMPTYNAME_MESSAGE,
@@ -73,7 +74,7 @@ public class UserValidator {
      * the number of characters cannot exceed 100.
      */
     private void validateLastname(String lastname) {
-        if (lastname.isEmpty()) {
+        if (EssUtils.isNullOrEmpty(lastname)) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_EMPTYLASTNAME_MESSAGE,
@@ -95,7 +96,7 @@ public class UserValidator {
      * the number of characters cannot exceed 50.
      */
     private void validateUsername(String username) {
-        if (username.isEmpty()) {
+        if (EssUtils.isNullOrEmpty(username)) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_EMPTYUSERNAME_MESSAGE,
@@ -118,7 +119,7 @@ public class UserValidator {
      * and the Format has to be valid.
      */
     private void validateEmail(String email){
-        if (email.isEmpty()){
+        if (EssUtils.isNullOrEmpty(email)){
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_EMPTYEMAIL_MESSAGE,
@@ -148,7 +149,7 @@ public class UserValidator {
      * and has to only include digits
      */
     private void validatePhone(String phone){
-        if (phone.isEmpty()) {
+        if (EssUtils.isNullOrEmpty(phone)) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_EMPTYPHONE_MESSAGE,
