@@ -90,8 +90,8 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteUser(@RequestParam(name = "id") String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") String id) {
         try {
             userService.deleteUser(id);
         } catch (NotFoundException e) {

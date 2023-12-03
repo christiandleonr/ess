@@ -78,4 +78,10 @@ public final class ErrorKeys {
     public static final String CREATE_GROUP_NAMETOOLONG_MESSAGE = "create.group.illegalArgument.nameTooLong.message";
     public static final String CREATE_GROUP_EMPTYNAME_MESSAGE = "create.group.illegalArgument.emptyName.message";
     public static final String CREATE_GROUP_DESCRIPTIONTOOLONG_MESSAGE = "create.group.illegalArgument.descriptionTooLong.message";
+
+    /**
+     * Delete group
+     */
+    public static final String DELETE_GROUP_MEMBER_ERROR_TITLE = "delete.group.member.error.title";
+    public static final String DELETE_GROUP_MEMBER_ERROR_MESSAGE = "delete.group.member.error.message";
 }

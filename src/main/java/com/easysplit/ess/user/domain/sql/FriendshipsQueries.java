@@ -55,4 +55,10 @@ public final class FriendshipsQueries {
             + " WHERE ? IN (" + FRIEND_COLUMN + ", " + ADDED_BY_COLUMN + ")"
             + " AND " + STATUS_COLUMN +  " NOT IN ('"+ FriendshipStatus.PENDING.getValue() +"', '" + FriendshipStatus.REJECTED.getValue() + "')";
 
+    /**
+     * Delete user friendships
+     */
+    public static final String DELETE_USER_FRIENDSHIPS = "DELETE FROM " + TABLE_NAME
+            + " WHERE = ? IN ( " + FRIEND_COLUMN + ", " + ADDED_BY_COLUMN + " )";
+
 }

@@ -6,6 +6,7 @@ import com.easysplit.ess.groups.domain.sql.GroupsQueries;
 import com.easysplit.ess.user.application.UserServiceImpl;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.models.UserEntity;
+import com.easysplit.ess.user.domain.sql.UserQueries;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import com.easysplit.shared.utils.EssUtils;
@@ -97,6 +98,26 @@ public class GroupsRepositoryImpl implements GroupsRepository {
         }
 
         return members;
+    }
+
+    @Override
+    @Transactional
+    public void deleteGroupMember(String userGuid) {
+        // Throws a NotFoundException if user does not exist
+        userRepository.getUser(userGuid);
+
+        int rowsDeleted = 0;
+        try {
+            rowsDeleted = jdbc.update(GroupsQueries.DELETE_GROUP_MEMBER, userGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_GROUP_MEMBER_ERROR_TITLE,
+                    ErrorKeys.DELETE_GROUP_MEMBER_ERROR_MESSAGE,
+                    e
+            );
+        }
+
+        logger.info(CLASS_NAME + ".deleteGroupMember() - delete from " + rowsDeleted + " groups");
     }
 
     @Override

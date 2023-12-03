@@ -54,4 +54,10 @@ public final class GroupsQueries {
     public static final String INSERT_GROUP_MEMBER = "INSERT INTO " + GROUPMEMBERS_TABLE_NAME + " ( "
             + GROUPMEMBERS_GROUPGUID_COLUMN + ", "
             + GROUPMEMBERS_MEMBERGUID_COLUMN + " ) VALUES (?, ?)";
+
+    /**
+     * Delete group member
+     */
+    public static final String DELETE_GROUP_MEMBER = "DELETE FROM " + GROUPMEMBERS_TABLE_NAME
+        + " WHERE " + GROUPMEMBERS_MEMBERGUID_COLUMN + " = ?";
 }

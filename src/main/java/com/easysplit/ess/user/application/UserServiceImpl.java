@@ -1,5 +1,7 @@
 package com.easysplit.ess.user.application;
 
+import com.easysplit.ess.groups.domain.contracts.GroupsRepository;
+import com.easysplit.ess.groups.infrastructure.persistence.GroupsRepositoryImpl;
 import com.easysplit.ess.user.domain.models.Friendship;
 import com.easysplit.ess.user.domain.models.FriendshipEntity;
 import com.easysplit.ess.user.domain.contracts.FriendsRepository;
@@ -15,6 +17,7 @@ import com.easysplit.ess.user.infrastructure.persistence.validators.PersistenceU
 import com.easysplit.shared.domain.models.ResourceList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +25,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService, FriendsService {
     private final UserRepository userRepository;
     private final FriendsRepository friendsRepository;
+    private final GroupsRepository groupsRepository;
     private final UserValidator userValidator;
     private final PersistenceUserValidator persistenceUserValidator;
 
@@ -29,12 +33,14 @@ public class UserServiceImpl implements UserService, FriendsService {
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            FriendsRepository friendsRepository,
+                           GroupsRepository groupsRepository,
                            UserValidator userValidator,
                            PersistenceUserValidator persistenceUserValidator) {
         this.userRepository = userRepository;
         this.userValidator = userValidator;
         this.persistenceUserValidator = persistenceUserValidator;
         this.friendsRepository = friendsRepository;
+        this.groupsRepository = groupsRepository;
     }
 
     @Override
@@ -56,8 +62,11 @@ public class UserServiceImpl implements UserService, FriendsService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(String userGuid) {
         userRepository.deleteUserById(userGuid);
+        friendsRepository.deleteUserFriendships(userGuid);
+        groupsRepository.deleteGroupMember(userGuid);
     }
 
     @Override

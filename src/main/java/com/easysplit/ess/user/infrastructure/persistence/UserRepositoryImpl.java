@@ -228,6 +228,27 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         return totalCount;
     }
 
+    @Override
+    @Transactional
+    public void deleteUserFriendships(String userGuid) {
+        // Throws a NotFoundException if user does not exist
+        getUser(userGuid);
+
+        int rowsDeleted = 0;
+        try {
+            rowsDeleted = jdbc.update(FriendshipsQueries.DELETE_USER_FRIENDSHIPS, userGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_USER_ERROR_TITLE,
+                    ErrorKeys.DELETE_USER_ERROR_MESSAGE,
+                    new Object[] {userGuid},
+                    e
+            );
+        }
+
+        logger.info(CLASS_NAME + ".deleteUserFriendships() - User friendships deleted: " + rowsDeleted);
+    }
+
     /**
      * Generates a list of user from a result set. Executes the method next() in loop to
      * go through all the rows
