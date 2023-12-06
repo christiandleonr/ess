@@ -56,6 +56,12 @@ public final class GroupsQueries {
             + GROUPMEMBERS_MEMBERGUID_COLUMN + " ) VALUES (?, ?)";
 
     /**
+     * Delete group member
+     */
+    public static final String DELETE_GROUP_MEMBER = "DELETE FROM " + GROUPMEMBERS_TABLE_NAME
+        + " WHERE " + GROUPMEMBERS_MEMBERGUID_COLUMN + " = ?";
+
+    /**
      * Gets group by id
      */
     public static final String GET_GROUP = "SELECT " + GROUPGUID_COLUMN + ", "
@@ -66,4 +72,3 @@ public final class GroupsQueries {
             + UPDATED_BY_COLUMN + ", "
             + UPDATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + GROUPGUID_COLUMN + " = ?";
 }
-

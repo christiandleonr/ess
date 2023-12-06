@@ -8,6 +8,7 @@ import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.domain.exceptions.NotFoundException;
+import com.easysplit.shared.domain.models.ResourceList;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,8 +89,8 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteUser(@RequestParam(name = "id") String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") String id) {
         try {
             userService.deleteUser(id);
         } catch (NotFoundException e) {
@@ -137,5 +138,31 @@ public class UserController {
         }
 
         return new ResponseEntity<>(createdFriendship, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}/friends")
+    public ResponseEntity<ResourceList<User>> listFriends(@PathVariable(name = "id") String userId,
+                                                          @RequestParam(name = "limit") int limit,
+                                                          @RequestParam(name = "offset") int offset,
+                                                          @RequestParam(name = "totalCount") boolean totalCount) {
+        ResourceList<User> friends = null;
+        try {
+            friends = friendsService.listFriends(userId, limit, offset, totalCount);
+
+            // TODO Work on links
+        } catch (InternalServerErrorException e) {
+            logger.error(CLASS_NAME + ".listFriends() - Something went wrong while reading the user's friends for user : " + userId, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".listFriends() - Something went wrong while reading the user's friends for user : " + userId, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
+                    ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,
+                    new Object[]{ userId },
+                    e
+            );
+        }
+
+        return new ResponseEntity<>(friends, HttpStatus.OK);
     }
 }

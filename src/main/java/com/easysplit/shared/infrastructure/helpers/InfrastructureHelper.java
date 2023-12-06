@@ -43,6 +43,22 @@ public class InfrastructureHelper {
      *
      * @param errorTitleKey error title key
      * @param errorMessageKey error message key
+     * @param t exception
+     */
+    public void throwInternalServerErrorException(String errorTitleKey,
+                                                  String errorMessageKey,
+                                                  Throwable t) {
+        String errorTitle = messageSource.getMessage(errorTitleKey, null, null);
+        String errorMessage = messageSource.getMessage(errorMessageKey, null, null);
+
+        throw new InternalServerErrorException(errorTitle, errorMessage, t);
+    }
+
+    /**
+     * Throws an InternalServerErrorException with the provided error title and error message
+     *
+     * @param errorTitleKey error title key
+     * @param errorMessageKey error message key
      * @param args arguments
      * @param t exception
      */

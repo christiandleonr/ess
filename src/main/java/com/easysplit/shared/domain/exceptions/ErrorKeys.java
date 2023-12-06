@@ -29,7 +29,12 @@ public final class ErrorKeys {
 
     public static final String CREATE_USER_USERNAMETOOLONG_MESSAGE = "create.user.illegalArgument.usernameTooLong.message";
     public static final String CREATE_USER_EMPTYUSERNAME_MESSAGE = "create.user.illegalArgument.emptyUsername.message";
-
+    public static final String CREATE_USER_EMAILTOOLONG_MESSAGE = "create.user.illegalArgument.emailTooLong.message";
+    public static final String CREATE_USER_EMPTYEMAIL_MESSAGE = "create.user.illegalArgument.emptyEmail.message";
+    public static final String CREATE_USER_INVALIDEMAILFORMAT_MESSAGE="create.user.illegalArgument.invalidEmailFormat.message";
+    public static final String CREATE_USER_EMPTYPHONE_MESSAGE = "create.user.illegalArgument.emptyPhone.message";
+    public static final String CREATE_USER_WRONGPHONESIZE_MESSAGE = "create.user.illegalArgument.phoneWrongSize.message";
+    public static final String CREATE_USER_INVALIDPHONECHAR_MESSAGE = "create.user.illegalArgument.phoneInvalidChar.message";
     public static final String CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE = "create.user.illegalArgument.invalidUsername.message";
 
     /**
@@ -56,6 +61,13 @@ public final class ErrorKeys {
     public static final String CREATE_FRIENDSHIP_ERROR_MESSAGE = "create.friendship.error.message";
 
     /**
+     * List friends
+     */
+
+    public static final String LIST_FRIENDS_ERROR_TITLE = "list.friends.error.title";
+    public static final String LIST_FRIENDS_ERROR_MESSAGE = "list.friends.error.message";
+
+    /**
      * Create group
      */
     public static final String CREATE_GROUP_ERROR_TITLE = "create.group.error.title";
@@ -67,6 +79,15 @@ public final class ErrorKeys {
     public static final String CREATE_GROUP_EMPTYNAME_MESSAGE = "create.group.illegalArgument.emptyName.message";
     public static final String CREATE_GROUP_DESCRIPTIONTOOLONG_MESSAGE = "create.group.illegalArgument.descriptionTooLong.message";
 
+    /**
+     * Delete group
+     */
+    public static final String DELETE_GROUP_MEMBER_ERROR_TITLE = "delete.group.member.error.title";
+    public static final String DELETE_GROUP_MEMBER_ERROR_MESSAGE = "delete.group.member.error.message";
+
+    /**
+     * Get group
+     */
     public static final String GET_GROUP_NOT_FOUND_TITLE = "get.group.notFound.title";
     public static final String GET_GROUP_NOT_FOUND_MESSAGE = "get.group.notFound.message";
 

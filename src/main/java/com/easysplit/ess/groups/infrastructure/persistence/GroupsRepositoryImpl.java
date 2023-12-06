@@ -133,6 +133,26 @@ public class GroupsRepositoryImpl implements GroupsRepository {
 
     @Override
     @Transactional
+    public void deleteGroupMember(String userGuid) {
+        // Throws a NotFoundException if user does not exist
+        userRepository.getUser(userGuid);
+
+        int rowsDeleted = 0;
+        try {
+            rowsDeleted = jdbc.update(GroupsQueries.DELETE_GROUP_MEMBER, userGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_GROUP_MEMBER_ERROR_TITLE,
+                    ErrorKeys.DELETE_GROUP_MEMBER_ERROR_MESSAGE,
+                    e
+            );
+        }
+
+        logger.info(CLASS_NAME + ".deleteGroupMember() - delete from " + rowsDeleted + " groups");
+    }
+
+    @Override
+    @Transactional
     public UserEntity addGroupMember(String groupGuid, UserEntity groupMember) {
         if (groupMember == null) {
             return null;

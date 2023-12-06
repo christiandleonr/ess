@@ -33,7 +33,14 @@ public interface GroupsRepository {
     /**
      * Adds users to a group
      *
-     * @param groupMembers
+     * @param groupMembers list of members to add
      */
     List<UserEntity> addGroupMembers(String groupGuid, List<UserEntity> groupMembers);
+
+    /**
+     * Delete group member
+     *
+     * @param userGuid user to be removed
+     */
+    void deleteGroupMember(String userGuid);
 }
