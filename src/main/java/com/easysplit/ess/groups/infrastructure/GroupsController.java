@@ -2,9 +2,11 @@ package com.easysplit.ess.groups.infrastructure;
 
 import com.easysplit.ess.groups.domain.contracts.GroupsService;
 import com.easysplit.ess.groups.domain.models.Group;
+import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
+import com.easysplit.shared.domain.exceptions.NotFoundException;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +52,33 @@ public class GroupsController {
         }
 
         return new ResponseEntity<>(createdGroup, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Group> getGroup(@PathVariable(name = "id") String id) {
+        Group group = null;
+        try {
+            group = groupsService.getGroup(id);
+
+            group.setLinks(infrastructureHelper.buildLinks(GROUPS_RESOURCE, id));
+        } catch (NotFoundException e) {
+            logger.debug(CLASS_NAME + ".getGroup() - Group with id " + id + " not found");
+            throw e;
+        } catch (InternalServerErrorException e) {
+            logger.error(CLASS_NAME + ".getGroup() - Something went wrong while reading the group with id " + id, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".getGroup() - Something went wrong while reading the group with id " + id, e);
+
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.GET_USER_ERROR_TITLE,
+                    ErrorKeys.GET_USER_ERROR_MESSAGE,
+                    new Object[] {id},
+                    e
+            );
+        }
+
+        return new ResponseEntity<>(group, HttpStatus.OK);
     }
 
 }

@@ -15,6 +15,14 @@ public interface GroupsRepository {
     GroupEntity createGroup(String createdBy, GroupEntity group);
 
     /**
+     * Gets a group by its guid
+     *
+     * @param groupGuid group id
+     * @return group
+     */
+    GroupEntity getGroup(String groupGuid);
+
+    /**
      * Adds a new group member
      *
      * @param groupMember class with the user and group information to be added

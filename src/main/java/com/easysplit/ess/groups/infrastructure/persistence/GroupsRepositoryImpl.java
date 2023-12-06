@@ -6,6 +6,7 @@ import com.easysplit.ess.groups.domain.sql.GroupsQueries;
 import com.easysplit.ess.user.application.UserServiceImpl;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.models.UserEntity;
+import com.easysplit.ess.user.domain.sql.UserQueries;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import com.easysplit.shared.utils.EssUtils;
@@ -16,6 +17,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,6 @@ public class GroupsRepositoryImpl implements GroupsRepository {
     private final JdbcTemplate jdbc;
     private final InfrastructureHelper infrastructureHelper;
     private final UserRepository userRepository;
-
     private static final String CLASS_NAME = GroupsRepositoryImpl.class.getName();
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -82,6 +84,36 @@ public class GroupsRepositoryImpl implements GroupsRepository {
     }
 
     @Override
+    public GroupEntity getGroup(String groupGuid) {
+        GroupEntity groupEntity = null;
+
+        try {
+            groupEntity = jdbc.query(GroupsQueries.GET_GROUP,
+                    this::toGroupEntity,
+                    groupGuid);
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".getGroup() - Something went wrong while reading the group with id: " + groupGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.GET_GROUP_ERROR_TITLE,
+                    ErrorKeys.GET_GROUP_ERROR_MESSAGE,
+                    new Object[] {groupGuid},
+                    e
+            );
+        }
+
+        if (groupEntity == null) {
+            infrastructureHelper.throwNotFoundException(
+                    ErrorKeys.GET_GROUP_NOT_FOUND_TITLE,
+                    ErrorKeys.GET_GROUP_NOT_FOUND_MESSAGE,
+                    new Object[]{groupGuid}
+            );
+        }
+
+        return groupEntity;
+
+    }
+
+    @Override
     @Transactional
     public List<UserEntity> addGroupMembers(String groupGuid, List<UserEntity> groupMembers) {
         List<UserEntity> members = new ArrayList<>();
@@ -125,5 +157,33 @@ public class GroupsRepositoryImpl implements GroupsRepository {
         }
 
         return member;
+    }
+
+    private GroupEntity toGroupEntity(ResultSet rs) throws SQLException {
+
+        GroupEntity groupEntity = null;
+
+        if (rs.next()) {
+            groupEntity = new GroupEntity();
+
+            groupEntity.setGroupGuid(rs.getString(GroupsQueries.GROUPGUID_COLUMN.toLowerCase()));
+            groupEntity.setName(rs.getString(GroupsQueries.NAME_COLUMN.toLowerCase()));
+            groupEntity.setDescription(rs.getString(GroupsQueries.DESCRIPTION_COLUMN.toLowerCase()));
+
+            String createdByGuid = rs.getString(GroupsQueries.CREATED_BY_COLUMN.toLowerCase());
+            UserEntity createdBy = userRepository.getUser(createdByGuid);
+            groupEntity.setCreatedBy(createdBy);
+
+            groupEntity.setCreatedDate(rs.getTimestamp(GroupsQueries.CREATED_DATE_COLUMN.toLowerCase()));
+
+            String updatedByGuid = rs.getString(GroupsQueries.UPDATED_BY_COLUMN.toLowerCase());
+            UserEntity updatedBy = userRepository.getUser(updatedByGuid);
+            groupEntity.setUpdatedBy(updatedBy);
+
+            groupEntity.setUpdatedDate(rs.getTimestamp(GroupsQueries.UPDATED_DATE_COLUMN.toLowerCase()));
+        }
+
+
+        return groupEntity;
     }
 }

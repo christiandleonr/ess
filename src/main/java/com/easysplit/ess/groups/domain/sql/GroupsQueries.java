@@ -54,4 +54,16 @@ public final class GroupsQueries {
     public static final String INSERT_GROUP_MEMBER = "INSERT INTO " + GROUPMEMBERS_TABLE_NAME + " ( "
             + GROUPMEMBERS_GROUPGUID_COLUMN + ", "
             + GROUPMEMBERS_MEMBERGUID_COLUMN + " ) VALUES (?, ?)";
+
+    /**
+     * Gets group by id
+     */
+    public static final String GET_GROUP = "SELECT " + GROUPGUID_COLUMN + ", "
+            + NAME_COLUMN + ", "
+            + DESCRIPTION_COLUMN + ", "
+            + CREATED_BY_COLUMN + ", "
+            + CREATED_DATE_COLUMN + ", "
+            + UPDATED_BY_COLUMN + ", "
+            + UPDATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + GROUPGUID_COLUMN + " = ?";
 }
+

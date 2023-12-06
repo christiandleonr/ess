@@ -66,4 +66,10 @@ public final class ErrorKeys {
     public static final String CREATE_GROUP_NAMETOOLONG_MESSAGE = "create.group.illegalArgument.nameTooLong.message";
     public static final String CREATE_GROUP_EMPTYNAME_MESSAGE = "create.group.illegalArgument.emptyName.message";
     public static final String CREATE_GROUP_DESCRIPTIONTOOLONG_MESSAGE = "create.group.illegalArgument.descriptionTooLong.message";
+
+    public static final String GET_GROUP_NOT_FOUND_TITLE = "get.group.notFound.title";
+    public static final String GET_GROUP_NOT_FOUND_MESSAGE = "get.group.notFound.message";
+
+    public static final String GET_GROUP_ERROR_TITLE = "get.group.error.title";
+    public static final String GET_GROUP_ERROR_MESSAGE = "get.group.error.message";
 }
