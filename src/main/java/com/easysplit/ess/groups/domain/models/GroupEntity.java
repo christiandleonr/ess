@@ -53,9 +53,7 @@ public class GroupEntity {
         return createdBy;
     }
 
-    public void setCreatedBy(UserEntity createdBy) {
-        this.createdBy = createdBy;
-    }
+    public void setCreatedBy(UserEntity createdBy) { this.createdBy = createdBy; }
 
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -85,9 +83,7 @@ public class GroupEntity {
         return members;
     }
 
-    public void setMembers(List<UserEntity> members) {
-        this.members = members;
-    }
+    public void setMembers(List<UserEntity> members) { this.members = members; }
 
     /**
      * Generates a list of members including the createdBy user

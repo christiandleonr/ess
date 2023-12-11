@@ -10,4 +10,12 @@ public interface GroupsService {
      * @return created group
      */
     Group createGroup(Group group, String createdBy);
+
+    /**
+     * Gets a group by its guid
+     *
+     * @param groupGuid group id
+     * @return group
+     */
+    Group getGroup(String groupGuid);
 }

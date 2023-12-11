@@ -83,6 +83,7 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         }
 
         if (userEntity == null) {
+            logger.debug(CLASS_NAME + ".getUser() - User with id " + userGuid + " not found");
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.GET_USER_NOT_FOUND_TITLE,
                     ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,

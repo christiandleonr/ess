@@ -84,4 +84,13 @@ public final class ErrorKeys {
      */
     public static final String DELETE_GROUP_MEMBER_ERROR_TITLE = "delete.group.member.error.title";
     public static final String DELETE_GROUP_MEMBER_ERROR_MESSAGE = "delete.group.member.error.message";
+
+    /**
+     * Get group
+     */
+    public static final String GET_GROUP_NOT_FOUND_TITLE = "get.group.notFound.title";
+    public static final String GET_GROUP_NOT_FOUND_MESSAGE = "get.group.notFound.message";
+
+    public static final String GET_GROUP_ERROR_TITLE = "get.group.error.title";
+    public static final String GET_GROUP_ERROR_MESSAGE = "get.group.error.message";
 }

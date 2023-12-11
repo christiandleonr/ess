@@ -39,7 +39,6 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable(name = "id") String id) {
         User user = null;
-
         try {
             user = userService.getUser(id);
 
