@@ -38,6 +38,7 @@ public class GroupsServiceImpl implements GroupsService {
 
         return createdGroupEntity.toGroup();
     }
+
     @Override
     public Group getGroup(String groupGuid) {
         GroupEntity group = groupsRepository.getGroup(groupGuid);

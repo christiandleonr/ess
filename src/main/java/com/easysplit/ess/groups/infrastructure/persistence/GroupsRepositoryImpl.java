@@ -6,8 +6,8 @@ import com.easysplit.ess.groups.domain.sql.GroupsQueries;
 import com.easysplit.ess.user.application.UserServiceImpl;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.models.UserEntity;
-import com.easysplit.ess.user.domain.sql.UserQueries;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
+import com.easysplit.shared.domain.exceptions.NotFoundException;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import com.easysplit.shared.utils.EssUtils;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -91,6 +90,10 @@ public class GroupsRepositoryImpl implements GroupsRepository {
             groupEntity = jdbc.query(GroupsQueries.GET_GROUP,
                     this::toGroupEntity,
                     groupGuid);
+        } catch (NotFoundException e) {
+            // Catching NotFoundException thrown from toGroupEntity method
+            logger.debug(CLASS_NAME + ".getGroup() - NotFoundException while reading the user: " + groupGuid, e);
+            throw e;
         } catch (Exception e) {
             logger.error(CLASS_NAME + ".getGroup() - Something went wrong while reading the group with id: " + groupGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
@@ -102,6 +105,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
         }
 
         if (groupEntity == null) {
+            logger.debug(CLASS_NAME + ".getGroup() - Group with id " + groupGuid + " not found");
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.GET_GROUP_NOT_FOUND_TITLE,
                     ErrorKeys.GET_GROUP_NOT_FOUND_MESSAGE,
