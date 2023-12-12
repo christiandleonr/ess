@@ -60,5 +60,27 @@ public final class UserQueries {
             + PHONE_COLUMN + ", "
             + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + USERNAME_COLUMN + " = ?";
 
+    /**
+     * Gets user by email
+     */
+    public static final String GET_USER_BY_EMAIL = "SELECT " + USERGUID_COLUMN + ", "
+            + NAME_COLUMN + ", "
+            + LASTNAME_COLUMN + ", "
+            + USERNAME_COLUMN + ", "
+            + EMAIL_COLUMN + ", "
+            + PHONE_COLUMN + ", "
+            + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + EMAIL_COLUMN + " = ?";
+
+    /**
+     * Gets user by phone number
+     */
+    public static final String GET_USER_BY_PHONE = "SELECT " + USERGUID_COLUMN + ", "
+            + NAME_COLUMN + ", "
+            + LASTNAME_COLUMN + ", "
+            + USERNAME_COLUMN + ", "
+            + EMAIL_COLUMN + ", "
+            + PHONE_COLUMN + ", "
+            + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + PHONE_COLUMN + " = ?";
+
     public static final String DELETE_USER_BY_ID = "DELETE FROM " + TABLE_NAME + " WHERE " + USERGUID_COLUMN + " = ?";
 }

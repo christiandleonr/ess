@@ -41,4 +41,13 @@ public interface FriendsRepository {
      * @param userGuid user whose friendships we want to count
      */
     void deleteUserFriendships(String userGuid);
+
+    /**
+     * Loads the friendship details between two users if exist
+     *
+     * @param friend id of user added as friend
+     * @param addedBy id of user who is started the friendship
+     * @return friendship
+     */
+    FriendshipEntity loadFriendship(String friend, String addedBy);
 }

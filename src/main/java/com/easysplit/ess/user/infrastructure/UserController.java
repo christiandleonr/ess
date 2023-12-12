@@ -124,6 +124,9 @@ public class UserController {
         } catch (NotFoundException e) {
             logger.debug(CLASS_NAME + ".addFriend() - A user from the friendship: " + friendship + " was not found");
             throw e;
+        } catch (IllegalArgumentException e) {
+            logger.debug(CLASS_NAME + ".addFriend() - Illegal argument exception, most likely the friendship already exist");
+            throw e;
         } catch (InternalServerErrorException e) {
             logger.error(CLASS_NAME + ".addFriend() - Something went wrong while creating the friendship: " + friendship, e);
             throw e;

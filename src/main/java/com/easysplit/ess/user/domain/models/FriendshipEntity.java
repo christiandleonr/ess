@@ -7,10 +7,10 @@ import java.sql.Timestamp;
  */
 public class FriendshipEntity {
     private String friendshipGuid;
-    private String friend;
+    private UserEntity friend;
     private FriendshipStatus status;
     private Timestamp createdDate;
-    private String addedBy;
+    private UserEntity addedBy;
 
     public FriendshipEntity() {
 
@@ -24,11 +24,11 @@ public class FriendshipEntity {
         this.friendshipGuid = friendshipGuid;
     }
 
-    public String getFriend() {
+    public UserEntity getFriend() {
         return friend;
     }
 
-    public void setFriend(String friend) {
+    public void setFriend(UserEntity friend) {
         this.friend = friend;
     }
 
@@ -48,12 +48,29 @@ public class FriendshipEntity {
         this.createdDate = createdDate;
     }
 
-    public String getAddedBy() {
+    public UserEntity getAddedBy() {
         return addedBy;
     }
 
-    public void setAddedBy(String addedBy) {
+    public void setAddedBy(UserEntity addedBy) {
         this.addedBy = addedBy;
+    }
+
+    /**
+     * Generates a friendship object from this entity class
+     *
+     * @return friendship
+     */
+    public Friendship toFriendship() {
+        Friendship friendship = FriendshipsMapper.INSTANCE.toFriendship(this);
+
+        User friend = UserMapper.INSTANCE.toUser(this.friend);
+        friendship.setFriend(friend);
+
+        User addedBy = UserMapper.INSTANCE.toUser(this.addedBy);
+        friendship.setAddedBy(addedBy);
+
+        return friendship;
     }
 
     @Override
