@@ -1,7 +1,6 @@
 package com.easysplit.ess.user.application;
 
 import com.easysplit.ess.groups.domain.contracts.GroupsRepository;
-import com.easysplit.ess.groups.infrastructure.persistence.GroupsRepositoryImpl;
 import com.easysplit.ess.user.domain.models.Friendship;
 import com.easysplit.ess.user.domain.models.FriendshipEntity;
 import com.easysplit.ess.user.domain.contracts.FriendsRepository;

@@ -71,4 +71,10 @@ public final class GroupsQueries {
             + CREATED_DATE_COLUMN + ", "
             + UPDATED_BY_COLUMN + ", "
             + UPDATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + GROUPGUID_COLUMN + " = ?";
+
+    /**
+     * Gets the group members by group id
+     */
+    public static final String GET_GROUP_MEMBERS = "SELECT " + GROUPMEMBERS_MEMBERGUID_COLUMN
+        + " FROM " + GROUPMEMBERS_TABLE_NAME + " WHERE " + GROUPMEMBERS_GROUPGUID_COLUMN + " = ?";
 }
