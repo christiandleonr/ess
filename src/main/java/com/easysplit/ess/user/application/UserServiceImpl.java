@@ -12,7 +12,8 @@ import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
 import com.easysplit.ess.user.domain.validators.UserValidator;
-import com.easysplit.ess.user.infrastructure.persistence.validators.PersistenceUserValidator;
+import com.easysplit.ess.user.infrastructure.persistence.validators.FriendshipsDatabaseValidator;
+import com.easysplit.ess.user.infrastructure.persistence.validators.UserDatabaseValidator;
 import com.easysplit.shared.domain.models.ResourceList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,8 @@ public class UserServiceImpl implements UserService, FriendsService {
     private final FriendsRepository friendsRepository;
     private final GroupsRepository groupsRepository;
     private final UserValidator userValidator;
-    private final PersistenceUserValidator persistenceUserValidator;
+    private final UserDatabaseValidator userDatabaseValidator;
+    private final FriendshipsDatabaseValidator friendshipsDatabaseValidator;
 
 
     @Autowired
@@ -34,12 +36,14 @@ public class UserServiceImpl implements UserService, FriendsService {
                            FriendsRepository friendsRepository,
                            GroupsRepository groupsRepository,
                            UserValidator userValidator,
-                           PersistenceUserValidator persistenceUserValidator) {
+                           UserDatabaseValidator userDatabaseValidator,
+                           FriendshipsDatabaseValidator friendshipsDatabaseValidator) {
         this.userRepository = userRepository;
         this.userValidator = userValidator;
-        this.persistenceUserValidator = persistenceUserValidator;
+        this.userDatabaseValidator = userDatabaseValidator;
         this.friendsRepository = friendsRepository;
         this.groupsRepository = groupsRepository;
+        this.friendshipsDatabaseValidator = friendshipsDatabaseValidator;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class UserServiceImpl implements UserService, FriendsService {
         userValidator.validate(user);
 
         UserEntity createUser = UserMapper.INSTANCE.toUserEntity(user);
-        persistenceUserValidator.validateUsernameUniqueness(createUser.getUsername());
+        userDatabaseValidator.validate(createUser);
 
         UserEntity createdUser = userRepository.createUser(createUser);
         return UserMapper.INSTANCE.toUser(createdUser);
@@ -70,11 +74,16 @@ public class UserServiceImpl implements UserService, FriendsService {
 
     @Override
     public Friendship addFriend(Friendship friendship) {
-        FriendshipEntity createdFriendship = friendsRepository.addFriend(
-                FriendshipsMapper.INSTANCE.toFriendshipEntity(friendship)
+        friendshipsDatabaseValidator.validateFriendshipNotExist(
+                friendship.getFriend().getId(),
+                friendship.getAddedBy().getId()
         );
 
-        return FriendshipsMapper.INSTANCE.toFriendship(createdFriendship);
+        FriendshipEntity createdFriendship = friendsRepository.addFriend(
+                friendship.toFriendshipEntity()
+        );
+
+        return createdFriendship.toFriendship();
     }
 
     @Override
