@@ -38,6 +38,14 @@ public interface GroupsRepository {
     List<UserEntity> addGroupMembers(String groupGuid, List<UserEntity> groupMembers);
 
     /**
+     * Get group members
+     *
+     * @param groupGuid group guid
+     * @return list of members
+     */
+    List<UserEntity> getGroupMembers(String groupGuid);
+
+    /**
      * Delete group member
      *
      * @param userGuid user to be removed

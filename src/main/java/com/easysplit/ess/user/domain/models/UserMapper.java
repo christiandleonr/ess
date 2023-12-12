@@ -1,6 +1,5 @@
 package com.easysplit.ess.user.domain.models;
 
-import com.easysplit.ess.groups.domain.models.GroupMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

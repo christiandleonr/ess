@@ -5,6 +5,7 @@ import com.easysplit.ess.groups.domain.contracts.GroupsService;
 import com.easysplit.ess.groups.domain.models.Group;
 import com.easysplit.ess.groups.domain.models.GroupEntity;
 import com.easysplit.ess.groups.domain.validators.GroupValidator;
+import com.easysplit.ess.user.domain.models.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class GroupsServiceImpl implements GroupsService {
     private final GroupsRepository groupsRepository;
     private final GroupValidator groupValidator;
-    private static final Logger logger = LoggerFactory.getLogger(GroupsServiceImpl.class);
 
     @Autowired
     public GroupsServiceImpl(GroupsRepository groupsRepository,
@@ -38,6 +38,9 @@ public class GroupsServiceImpl implements GroupsService {
     @Override
     public Group getGroup(String groupGuid) {
         GroupEntity group = groupsRepository.getGroup(groupGuid);
+        group.setMembers(
+                groupsRepository.getGroupMembers(groupGuid)
+        );
 
         return group.toGroup();
     }

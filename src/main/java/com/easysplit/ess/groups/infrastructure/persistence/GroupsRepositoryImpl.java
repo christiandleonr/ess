@@ -136,6 +136,38 @@ public class GroupsRepositoryImpl implements GroupsRepository {
     }
 
     @Override
+    public List<UserEntity> getGroupMembers(String groupGuid) {
+        List<UserEntity> members = new ArrayList<>();
+
+        if (EssUtils.isNullOrEmpty(groupGuid)) {
+            return members;
+        }
+
+        try {
+            List<String> memberIds = jdbc.query(GroupsQueries.GET_GROUP_MEMBERS,
+                    (rs, rowNum) -> rs.getString(GroupsQueries.GROUPMEMBERS_MEMBERGUID_COLUMN),
+                    groupGuid);
+
+            for (String memberId: memberIds) {
+                members.add(userRepository.getUser(memberId));
+            }
+        } catch (NotFoundException e) {
+            logger.debug(CLASS_NAME + ".getGroupMembers() - A member of the group was not found " + groupGuid, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".getGroupMembers() - Something went wrong while reading the group's members for group with id: " + groupGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.GET_GROUP_ERROR_TITLE,
+                    ErrorKeys.GET_GROUP_ERROR_MESSAGE,
+                    new Object[] {groupGuid},
+                    e
+            );
+        }
+
+        return members;
+    }
+
+    @Override
     @Transactional
     public void deleteGroupMember(String userGuid) {
         // Throws a NotFoundException if user does not exist
