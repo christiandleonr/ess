@@ -106,8 +106,50 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
             logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with username: " + username, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
-                    ErrorKeys.CREATE_USER_ERROR_MESSAGE,
+                    ErrorKeys.CREATE_USER_BY_USERNAME_MESSAGE,
                     new Object[] {username},
+                    e
+            );
+        }
+
+        return userEntity;
+    }
+
+    @Override
+    public UserEntity getUserByEmail(String email) {
+        UserEntity userEntity = null;
+
+        try {
+            userEntity = jdbc.query(UserQueries.GET_USER_BY_EMAIL,
+                    this::toUserEntity,
+                    email);
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with email: " + email, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.CREATE_USER_ERROR_TITLE,
+                    ErrorKeys.CREATE_USER_BY_EMAIL_MESSAGE,
+                    new Object[] {email},
+                    e
+            );
+        }
+
+        return userEntity;
+    }
+
+    @Override
+    public UserEntity getUserByPhone(String phone) {
+        UserEntity userEntity = null;
+
+        try {
+            userEntity = jdbc.query(UserQueries.GET_USER_BY_PHONE,
+                    this::toUserEntity,
+                    phone);
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with phone: " + phone, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.CREATE_USER_ERROR_TITLE,
+                    ErrorKeys.CREATE_USER_BY_PHONE_MESSAGE,
+                    new Object[] {phone},
                     e
             );
         }
@@ -142,8 +184,8 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         Timestamp createdDate = infrastructureHelper.getCurrentDate();
 
         // Throws NotFoundException if any of both users is not found
-        UserEntity friend = getUser(friendship.getFriend());
-        UserEntity addedBy = getUser(friendship.getAddedBy());
+        UserEntity friend = getUser(friendship.getFriend().getUserGuid());
+        UserEntity addedBy = getUser(friendship.getAddedBy().getUserGuid());
 
         try {
             jdbc.update(FriendshipsQueries.CREATE_FRIENDSHIP,
@@ -164,8 +206,10 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         }
 
         friendship.setFriendshipGuid(friendshipGuid);
+        friendship.setFriend(friend);
         friendship.setStatus(FriendshipStatus.PENDING);
         friendship.setCreatedDate(createdDate);
+        friendship.setAddedBy(addedBy);
 
         return friendship;
     }
@@ -250,6 +294,32 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         logger.info(CLASS_NAME + ".deleteUserFriendships() - User friendships deleted: " + rowsDeleted);
     }
 
+    @Override
+    public FriendshipEntity loadFriendship(String friend, String addedBy) {
+        FriendshipEntity friendshipEntity = null;
+
+        if (EssUtils.isNullOrEmpty(friend) || EssUtils.isNullOrEmpty(addedBy)) {
+            return null;
+        }
+
+        try {
+            friendshipEntity = jdbc.query(FriendshipsQueries.LOAD_FRIENDSHIP_DETAILS,
+                    this::toFriendshipEntity,
+                    friend, addedBy);
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".loadFriendship() - Something went wrong while loading the friendship details with friend: "
+                    + friend + " and addedBy: " + addedBy, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.LOAD_FRIENDSHIP_ERROR_TITLE,
+                    ErrorKeys.LOAD_FRIENDSHIP_ERROR_MESSAGE,
+                    new Object[] {friend, addedBy},
+                    e
+            );
+        }
+
+        return friendshipEntity;
+    }
+
     /**
      * Generates a list of user from a result set. Executes the method next() in loop to
      * go through all the rows
@@ -285,9 +355,10 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
     }
 
     /**
-     * Builds a user entity from a result set.
+     * Builds a user entity from a result set
+     *
      * @param rs result set
-     * @return
+     * @return user entity created from a result set
      */
     private UserEntity buildEntity(ResultSet rs) throws SQLException {
 
@@ -297,8 +368,42 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         userEntity.setName(rs.getString(UserQueries.NAME_COLUMN.toLowerCase()));
         userEntity.setLastname(rs.getString(UserQueries.LASTNAME_COLUMN.toLowerCase()));
         userEntity.setUsername(rs.getString(UserQueries.USERNAME_COLUMN.toLowerCase()));
+        userEntity.setEmail(rs.getString(UserQueries.EMAIL_COLUMN.toLowerCase()));
+        userEntity.setPhone(rs.getString(UserQueries.PHONE_COLUMN.toLowerCase()));
         userEntity.setCreatedDate(rs.getTimestamp(UserQueries.CREATE_DATE_COLUMN.toLowerCase()));
 
         return userEntity;
+    }
+
+    /**
+     * Build a friendship entity from a result set
+     *
+     * @param rs result set from which the friendship entity is build
+     * @return friendship entity
+     */
+    private FriendshipEntity toFriendshipEntity(ResultSet rs) throws SQLException {
+        FriendshipEntity friendshipEntity = null;
+
+        if (rs.next()) {
+            friendshipEntity = new FriendshipEntity();
+
+            friendshipEntity.setFriendshipGuid(rs.getString(FriendshipsQueries.FRIENDSHIPGUID_COLUMN.toLowerCase()));
+
+            String friendGuid = rs.getString(FriendshipsQueries.FRIEND_COLUMN.toLowerCase());
+            UserEntity friend = getUser(friendGuid);
+            friendshipEntity.setFriend(friend);
+
+            String status = rs.getString(FriendshipsQueries.STATUS_COLUMN.toLowerCase());
+            FriendshipStatus friendshipStatus = FriendshipStatus.valueOfString(status);
+            friendshipEntity.setStatus(friendshipStatus);
+
+            friendshipEntity.setCreatedDate(rs.getTimestamp(FriendshipsQueries.CREATED_DATE_COLUMN.toLowerCase()));
+
+            String addedByGuid = rs.getString(FriendshipsQueries.ADDED_BY_COLUMN.toLowerCase());
+            UserEntity addedBy = getUser(addedByGuid);
+            friendshipEntity.setAddedBy(addedBy);
+        }
+
+        return friendshipEntity;
     }
 }

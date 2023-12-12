@@ -9,10 +9,10 @@ import java.util.List;
  */
 public class Friendship {
     private String id;
-    private String friend;
+    private User friend;
     private FriendshipStatus status;
     private Timestamp createdDate;
-    private String addedBy;
+    private User addedBy;
     private List<Link> links;
 
     public Friendship() {
@@ -27,11 +27,11 @@ public class Friendship {
         this.id = id;
     }
 
-    public String getFriend() {
+    public User getFriend() {
         return friend;
     }
 
-    public void setFriend(String friend) {
+    public void setFriend(User friend) {
         this.friend = friend;
     }
 
@@ -51,11 +51,11 @@ public class Friendship {
         this.createdDate = createdDate;
     }
 
-    public String getAddedBy() {
+    public User getAddedBy() {
         return addedBy;
     }
 
-    public void setAddedBy(String addedBy) {
+    public void setAddedBy(User addedBy) {
         this.addedBy = addedBy;
     }
 
@@ -65,6 +65,23 @@ public class Friendship {
 
     public void setLinks(List<Link> links) {
         this.links = links;
+    }
+
+    /**
+     * Generates a friendship entity from this class
+     *
+     * @return friendship entity
+     */
+    public FriendshipEntity toFriendshipEntity() {
+        FriendshipEntity friendshipEntity = FriendshipsMapper.INSTANCE.toFriendshipEntity(this);
+
+        UserEntity friend = UserMapper.INSTANCE.toUserEntity(this.friend);
+        friendshipEntity.setFriend(friend);
+
+        UserEntity addedBy = UserMapper.INSTANCE.toUserEntity(this.addedBy);
+        friendshipEntity.setAddedBy(addedBy);
+
+        return friendshipEntity;
     }
 
     @Override
