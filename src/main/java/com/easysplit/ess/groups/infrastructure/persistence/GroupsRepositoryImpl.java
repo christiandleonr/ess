@@ -29,7 +29,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
     private final InfrastructureHelper infrastructureHelper;
     private final UserRepository userRepository;
     private static final String CLASS_NAME = GroupsRepositoryImpl.class.getName();
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(GroupsRepositoryImpl.class);
 
     @Autowired
     public GroupsRepositoryImpl(JdbcTemplate jdbc,

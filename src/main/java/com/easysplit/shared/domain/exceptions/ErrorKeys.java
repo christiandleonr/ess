@@ -64,6 +64,11 @@ public final class ErrorKeys {
 
     public static final String CREATE_FRIENDSHIP_ERROR_TITLE = "create.friendship.error.title";
     public static final String CREATE_FRIENDSHIP_ERROR_MESSAGE = "create.friendship.error.message";
+    public static final String CREATE_FRIENDSHIP_ILLEGALARGUMENT_TITLE = "create.friendship.illegalArgument.title";
+    public static final String CREATE_FRIENDSHIP_NULL_FRIEND_MESSAGE = "create.friendship.illegalArgument.nullFriend.message";
+    public static final String CREATE_FRIENDSHIP_NULL_ADDED_BY_MESSAGE = "create.friendship.illegalArgument.nullAddedBy.message";
+    public static final String CREATE_FRIENDSHIP_EMPTY_FRIEND_ID_MESSAGE = "create.friendship.illegalArgument.friendEmptyId.message";
+    public static final String CREATE_FRIENDSHIP_EMPTY_ADDED_BY_ID_MESSAGE = "create.friendship.illegalArgument.addedByEmptyId.message";
 
     /**
      * List friends
@@ -106,4 +111,10 @@ public final class ErrorKeys {
 
     public static final String GET_GROUP_ERROR_TITLE = "get.group.error.title";
     public static final String GET_GROUP_ERROR_MESSAGE = "get.group.error.message";
+
+    /**
+     * Create transaction
+     */
+    public static final String CREATE_TRANSACTION_ERROR_TITLE = "create.transaction.error.title";
+    public static final String CREATE_TRANSACTION_ERROR_MESSAGE = "create.transaction.error.message";
 }

@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * Friendship object to be serialized and pure data validation
+ * Friendship object to be serialized
  */
 public class Friendship {
     private String id;
