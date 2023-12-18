@@ -36,6 +36,11 @@ public final class ErrorKeys {
     public static final String CREATE_USER_WRONGPHONESIZE_MESSAGE = "create.user.illegalArgument.phoneWrongSize.message";
     public static final String CREATE_USER_INVALIDPHONECHAR_MESSAGE = "create.user.illegalArgument.phoneInvalidChar.message";
     public static final String CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE = "create.user.illegalArgument.invalidUsername.message";
+    public static final String CREATE_USER_NOT_UNIQUE_EMAIL_MESSAGE = "create.user.illegalArgument.invalidEmail.message";
+    public static final String CREATE_USER_NOT_UNIQUE_PHONE_MESSAGE = "create.user.illegalArgument.invalidPhone.message";
+    public static final String CREATE_USER_BY_USERNAME_MESSAGE = "create.user.by.username.error.message";
+    public static final String CREATE_USER_BY_EMAIL_MESSAGE = "create.user.by.email.error.message";
+    public static final String CREATE_USER_BY_PHONE_MESSAGE = "create.user.by.phone.error.message";
 
     /**
      * Get user
@@ -68,6 +73,14 @@ public final class ErrorKeys {
     public static final String LIST_FRIENDS_ERROR_MESSAGE = "list.friends.error.message";
 
     /**
+     * Load friendship details
+     */
+    public static final String LOAD_FRIENDSHIP_ERROR_TITLE = "load.friendship.error.title";
+    public static final String LOAD_FRIENDSHIP_ERROR_MESSAGE = "load.friendship.error.message";
+    public static final String LOAD_FRIENDSHIP_ILLEGALARGUMENT_TITLE = "load.friendship.illegalArgument.title";
+    public static final String LOAD_FRIENDSHIP_EXIST_MESSAGE = "load.friendship.illegalArgument.friendship.exist";
+
+    /**
      * Create group
      */
     public static final String CREATE_GROUP_ERROR_TITLE = "create.group.error.title";
@@ -78,4 +91,19 @@ public final class ErrorKeys {
     public static final String CREATE_GROUP_NAMETOOLONG_MESSAGE = "create.group.illegalArgument.nameTooLong.message";
     public static final String CREATE_GROUP_EMPTYNAME_MESSAGE = "create.group.illegalArgument.emptyName.message";
     public static final String CREATE_GROUP_DESCRIPTIONTOOLONG_MESSAGE = "create.group.illegalArgument.descriptionTooLong.message";
+
+    /**
+     * Delete group
+     */
+    public static final String DELETE_GROUP_MEMBER_ERROR_TITLE = "delete.group.member.error.title";
+    public static final String DELETE_GROUP_MEMBER_ERROR_MESSAGE = "delete.group.member.error.message";
+
+    /**
+     * Get group
+     */
+    public static final String GET_GROUP_NOT_FOUND_TITLE = "get.group.notFound.title";
+    public static final String GET_GROUP_NOT_FOUND_MESSAGE = "get.group.notFound.message";
+
+    public static final String GET_GROUP_ERROR_TITLE = "get.group.error.title";
+    public static final String GET_GROUP_ERROR_MESSAGE = "get.group.error.message";
 }

@@ -2,7 +2,6 @@ package com.easysplit.ess.user.domain.contracts;
 
 import com.easysplit.ess.user.domain.models.Friendship;
 import com.easysplit.ess.user.domain.models.User;
-import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.shared.domain.models.ResourceList;
 
 import java.util.List;

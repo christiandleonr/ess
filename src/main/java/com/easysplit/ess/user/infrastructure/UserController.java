@@ -39,7 +39,6 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable(name = "id") String id) {
         User user = null;
-
         try {
             user = userService.getUser(id);
 
@@ -90,8 +89,8 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteUser(@RequestParam(name = "id") String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") String id) {
         try {
             userService.deleteUser(id);
         } catch (NotFoundException e) {
@@ -124,6 +123,9 @@ public class UserController {
             );
         } catch (NotFoundException e) {
             logger.debug(CLASS_NAME + ".addFriend() - A user from the friendship: " + friendship + " was not found");
+            throw e;
+        } catch (IllegalArgumentException e) {
+            logger.debug(CLASS_NAME + ".addFriend() - Illegal argument exception, most likely the friendship already exist");
             throw e;
         } catch (InternalServerErrorException e) {
             logger.error(CLASS_NAME + ".addFriend() - Something went wrong while creating the friendship: " + friendship, e);

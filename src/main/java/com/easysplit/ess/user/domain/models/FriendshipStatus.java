@@ -14,4 +14,19 @@ public enum FriendshipStatus {
     public String getValue() {
         return value;
     }
+
+    /**
+     * Get the Friendship status from a string
+     *
+     * @param status status
+     * @return FriendshipStatus value
+     */
+    public static FriendshipStatus valueOfString(String status) {
+        for (FriendshipStatus enumValue : FriendshipStatus.values()) {
+            if (enumValue.value.equalsIgnoreCase(status)) {
+                return enumValue;
+            }
+        }
+        throw new IllegalArgumentException("No constant with status " + status + " found");
+    }
 }

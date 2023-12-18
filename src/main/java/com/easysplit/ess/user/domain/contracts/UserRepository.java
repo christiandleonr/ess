@@ -24,12 +24,25 @@ public interface UserRepository {
     UserEntity getUser(String userGuid);
 
     /**
-     * Validates that the username do not exist in DB.
-     * Throws an exception if the username exist
+     * Gets user by its username if exist
      *
-     * @param username username to be validated
+     * @param username username
      */
     UserEntity getUserByUsername(String username);
+
+    /**
+     * Gets user by its email if exist
+     *
+     * @param email user email
+     */
+    UserEntity getUserByEmail(String email);
+
+    /**
+     * Gets user by its phone number if exist
+     *
+     * @param phone user phone number
+     */
+    UserEntity getUserByPhone(String phone);
 
     /**
      * Deletes user by its guid

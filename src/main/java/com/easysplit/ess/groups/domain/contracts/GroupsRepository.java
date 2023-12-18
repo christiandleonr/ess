@@ -15,6 +15,14 @@ public interface GroupsRepository {
     GroupEntity createGroup(String createdBy, GroupEntity group);
 
     /**
+     * Gets a group by its guid
+     *
+     * @param groupGuid group id
+     * @return group
+     */
+    GroupEntity getGroup(String groupGuid);
+
+    /**
      * Adds a new group member
      *
      * @param groupMember class with the user and group information to be added
@@ -25,7 +33,22 @@ public interface GroupsRepository {
     /**
      * Adds users to a group
      *
-     * @param groupMembers
+     * @param groupMembers list of members to add
      */
     List<UserEntity> addGroupMembers(String groupGuid, List<UserEntity> groupMembers);
+
+    /**
+     * Get group members
+     *
+     * @param groupGuid group guid
+     * @return list of members
+     */
+    List<UserEntity> getGroupMembers(String groupGuid);
+
+    /**
+     * Delete group member
+     *
+     * @param userGuid user to be removed
+     */
+    void deleteGroupMember(String userGuid);
 }
