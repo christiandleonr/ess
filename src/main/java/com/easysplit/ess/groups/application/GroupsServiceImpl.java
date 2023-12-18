@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GroupsServiceImpl implements GroupsService {
@@ -43,5 +44,13 @@ public class GroupsServiceImpl implements GroupsService {
         );
 
         return group.toGroup();
+    }
+
+    @Override
+    @Transactional
+    public void deleteGroup(String groupGuid){
+        groupsRepository.deleteAllGroupMembers(groupGuid);
+        groupsRepository.deleteGroup(groupGuid);
+
     }
 }

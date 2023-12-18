@@ -158,6 +158,7 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
     }
 
     @Override
+    @Transactional
     public void deleteUserById(String userGuid) {
         // Throws a NotFoundException if user does not exist
         getUser(userGuid);

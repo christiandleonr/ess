@@ -83,6 +83,26 @@ public class GroupsRepositoryImpl implements GroupsRepository {
     }
 
     @Override
+    public void deleteGroup(String groupGuid){
+        // Throws a NotFoundException if group does not exist
+        getGroup(groupGuid);
+
+        int rowsDeleted = 0;
+        try{
+            rowsDeleted = jdbc.update(GroupsQueries.DELETE_GROUP_BY_ID, groupGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_GROUP_ERROR_TITLE,
+                    ErrorKeys.DELETE_GROUP_ERROR_MESSAGE,
+                    new Object[] {groupGuid},
+                    e
+            );
+        }
+
+        logger.info(CLASS_NAME + " .deleteGroupsById() - Groups deleted: "+ rowsDeleted);
+    }
+
+    @Override
     public GroupEntity getGroup(String groupGuid) {
         GroupEntity groupEntity = null;
 
@@ -185,6 +205,25 @@ public class GroupsRepositoryImpl implements GroupsRepository {
         }
 
         logger.info(CLASS_NAME + ".deleteGroupMember() - delete from " + rowsDeleted + " groups");
+    }
+
+    public void deleteAllGroupMembers(String groupGuid) {
+        // Throws a NotFoundException if user does not exist
+        getGroup(groupGuid);
+
+        int rowsDeleted = 0;
+        try {
+            rowsDeleted = jdbc.update(GroupsQueries.DELETE_ALL_GROUP_MEMBERS, groupGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_ALL_GROUP_MEMBER_ERROR_TITLE,
+                    ErrorKeys.DELETE_ALL_GROUP_MEMBER_ERROR_MESSAGE,
+                    e
+            );
+        }
+
+        logger.info(CLASS_NAME + ".deleteAllGroupMembers() - delete from " + rowsDeleted + " groups");
+
     }
 
     @Override

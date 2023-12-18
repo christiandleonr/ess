@@ -54,6 +54,28 @@ public class GroupsController {
         return new ResponseEntity<>(createdGroup, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGroup(@PathVariable(name = "id") String id){
+        try{
+            groupsService.deleteGroup(id);
+        }catch (NotFoundException e) {
+            logger.debug(CLASS_NAME + ".deleteGroup() - group with id " + id + " not found");
+            throw e;
+        }catch (InternalServerErrorException e) {
+            logger.error(CLASS_NAME + ".deleteGroup() - Something went wrong while deleting the group with id " + id, e);
+            throw e;
+        }catch (Exception e) {
+            logger.error(CLASS_NAME + ".deleteGroup() - Something went wrong while deleting the group with id " + id, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_GROUP_ERROR_TITLE,
+                    ErrorKeys.DELETE_GROUP_ERROR_MESSAGE,
+                    new Object[] {id},
+                    e
+            );
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Group> getGroup(@PathVariable(name = "id") String id) {
         Group group = null;

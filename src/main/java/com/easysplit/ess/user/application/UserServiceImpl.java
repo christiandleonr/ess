@@ -67,9 +67,9 @@ public class UserServiceImpl implements UserService, FriendsService {
     @Override
     @Transactional
     public void deleteUser(String userGuid) {
-        userRepository.deleteUserById(userGuid);
         friendsRepository.deleteUserFriendships(userGuid);
         groupsRepository.deleteGroupMember(userGuid);
+        userRepository.deleteUserById(userGuid);
     }
 
     @Override

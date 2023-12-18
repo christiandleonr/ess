@@ -38,7 +38,7 @@ public interface FriendsRepository {
     /**
      * Deletes all friendships for a user that is being deleted.
      *
-     * @param userGuid user whose friendships we want to count
+     * @param userGuid user whose friendships we want deleteNi
      */
     void deleteUserFriendships(String userGuid);
 

@@ -51,4 +51,18 @@ public interface GroupsRepository {
      * @param userGuid user to be removed
      */
     void deleteGroupMember(String userGuid);
+
+    /**
+     * Deletes all members for a group that is being deleted
+     *
+     * @param groupGuid group whose members we want to delete
+     */
+    void deleteAllGroupMembers(String groupGuid);
+
+    /**
+     *  Deletes group by its guid
+     *
+     * @param groupGuid group guid
+     */
+    void deleteGroup(String groupGuid);
 }
