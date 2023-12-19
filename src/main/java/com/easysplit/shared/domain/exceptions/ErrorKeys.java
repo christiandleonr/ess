@@ -117,4 +117,24 @@ public final class ErrorKeys {
      */
     public static final String CREATE_TRANSACTION_ERROR_TITLE = "create.transaction.error.title";
     public static final String CREATE_TRANSACTION_ERROR_MESSAGE = "create.transaction.error.message";
+    public static final String CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE = "create.transaction.illegalArgument.title";
+    public static final String CREATE_TRANSACTION_NULLOREMPTY_TRANSACTION_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.transaction.message";
+    public static final String CREATE_TRANSACTION_NULLOREMPTY_NAME_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.name.message" ;
+    public static final String CREATE_TRANSACTION_NAME_TOOLONG_MESSAGE = "create.transaction.illegalArgument.name.tooLong.message";
+    public static final String CREATE_TRANSACTION_NULLOREMPTY_CURRENCY_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.currency.message";
+    public static final String CREATE_TRANSACTION_CURRENCY_TOOLONG_MESSAGE = "create.transaction.illegalArgument.currency.tooLong.message";
+    public static final String CREATE_TRANSACTION_NULLOREMPTY_CREDITOR_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.creditor.id.message";
+    public static final String CREATE_TRANSACTION_NULLOREMPTY_DEBTOR_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.debtor.id.message";
+    public static final String CREATE_TRANSACTION_NULLOREMPTY_CREATED_BY_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.createdBy.id.message";
+
+    public static final String INSERT_NEW_DEBT_ERROR_TITLE = "insert.new.debt.error.title";
+    public static final String INSERT_NEW_DEBT_ERROR_MESSAGE = "insert.new.debt.error.message";
+    public static final String INSERT_NEW_DEBT_NULLOREMPTY_DEBT_MESSAGE = "insert.new.debt.illegalArgument.nullOrEmpty.debt";
+    public static final String INSERT_NEW_DEBT_NULLOREMPTY_TOTAL_AMOUNT_MESSAGE = "insert.new.debt.illegalArgument.nullOrEmpty.totalAmount";
+    public static final String INSERT_NEW_DEBT_NULLOREMPTY_DEBT_AMOUNT_MESSAGE = "insert.new.debt.illegalArgument.nullOrEmpty.debt.amount";
+    public static final String INSERT_NEW_DEBT_ZERO_TOTAL_AMOUNT_MESSAGE = "insert.new.debt.illegalArgument.zero.totalAmount";
+    public static final String INSERT_NEW_DEBT_ZERO_DEBT_MESSAGE = "insert.new.debt.illegalArgument.zero.debt";
+    public static final String INSERT_NEW_DEBT_DEBT_GREATERTHAN_TOTALAMOUNT = "insert.new.debt.illegalArgument.debt.greaterThan.totalAmount";
+    public static final String INSERT_NEW_DEBT_NULLOREMPTY_CREATED_BY_MESSAGE = "insert.new.debt.illegalArgument.debt.created.by.empty";
+    public static final String READ_LAST_REVISION_ERROR_MESSAGE = "read.last.revision.error.message";
 }

@@ -1,6 +1,8 @@
 package com.easysplit.ess.transactions.domain.models;
 
+import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
+import com.easysplit.ess.user.domain.models.UserMapper;
 import org.postgresql.util.PGmoney;
 
 import java.sql.Timestamp;
@@ -86,5 +88,19 @@ public class DebtEntity {
                 + "revision : " + this.revision + " | "
                 + "createdBy : " + this.createdBy + " | "
                 + "createdDate : " + this.createdDate;
+    }
+
+    /**
+     * Generates a debt object from this entity class
+     *
+     * @return equivalent debt
+     */
+    public Debt toDebt() {
+        Debt debt = DebtMapper.INSTANCE.toDebt(this);
+
+        User createdBy = UserMapper.INSTANCE.toUser(this.createdBy);
+        debt.setCreatedBy(createdBy);
+
+        return debt;
     }
 }

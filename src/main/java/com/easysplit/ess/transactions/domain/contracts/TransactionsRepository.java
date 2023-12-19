@@ -16,14 +16,4 @@ public interface TransactionsRepository {
      * @return transaction created
      */
     TransactionEntity createTransaction(TransactionEntity transactionEntity);
-
-    /**
-     * Insert a new debt related to a transaction or a new revision
-     * of a debt if the debt previously existed.
-     *
-     * @param debt debt to be created
-     * @param transactionGuid transaction id to which the debt belongs to
-     * @return created debt
-     */
-    DebtEntity insertNewDebt(DebtEntity debt, String transactionGuid);
 }

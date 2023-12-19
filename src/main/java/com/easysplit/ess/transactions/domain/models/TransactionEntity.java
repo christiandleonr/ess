@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 public class TransactionEntity {
     private String transactionGuid;
     private String name;
+    private String currency;
     private DebtEntity debt;
     private GroupEntity group;
     private UserEntity creditor;
@@ -38,6 +39,14 @@ public class TransactionEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public DebtEntity getDebt() {
@@ -116,5 +125,22 @@ public class TransactionEntity {
                 + "createdDate : " + this.createdDate + " | "
                 + "updatedBy : " + this.updatedBy + " | "
                 + "updatedDate : " + this.updatedDate;
+    }
+
+    /**
+     * Generates a transaction from this entity class
+     * @return equivalent transaction
+     */
+    public Transaction toTransaction() {
+        Transaction transaction = TransactionMapper.INSTANCE.toTransaction(this);
+
+        transaction.setDebt(this.debt.toDebt());
+        transaction.setGroup(this.group.toGroup());
+        transaction.setCreditor(this.creditor.toUser());
+        transaction.setDebtor(this.debtor.toUser());
+        transaction.setCreatedBy(this.createdBy.toUser());
+        transaction.setUpdatedBy(this.updatedBy.toUser());
+
+        return transaction;
     }
 }
