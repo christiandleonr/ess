@@ -200,6 +200,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.DELETE_GROUP_MEMBER_ERROR_TITLE,
                     ErrorKeys.DELETE_GROUP_MEMBER_ERROR_MESSAGE,
+                    new Object[]{ userGuid },
                     e
             );
         }
@@ -218,6 +219,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.DELETE_ALL_GROUP_MEMBER_ERROR_TITLE,
                     ErrorKeys.DELETE_ALL_GROUP_MEMBER_ERROR_MESSAGE,
+                    new Object[]{ groupGuid },
                     e
             );
         }
