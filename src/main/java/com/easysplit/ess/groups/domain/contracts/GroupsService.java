@@ -18,4 +18,10 @@ public interface GroupsService {
      * @return group
      */
     Group getGroup(String groupGuid);
+
+    /**
+     * Deletes group by its guid
+     * @param groupGuid group id
+     */
+    void deleteGroup(String groupGuid);
 }

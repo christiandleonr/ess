@@ -96,6 +96,8 @@ public class User {
                 + "name : " + this.name + " | "
                 + "lastname : " + this.lastname + " | "
                 + "username : " + this.username + " | "
+                + "email : " + this.email + " | "
+                + "phone : " + this.phone + " | "
                 + "createdDate : " + this.createdDate;
     }
 

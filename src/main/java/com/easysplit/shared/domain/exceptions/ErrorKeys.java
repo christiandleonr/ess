@@ -100,8 +100,16 @@ public final class ErrorKeys {
     /**
      * Delete group
      */
+    public static final String DELETE_GROUP_ERROR_TITLE = "delete.group.error.title";
+    public static final String DELETE_GROUP_ERROR_MESSAGE = "delete.group.error.message";
+
+    /**
+     * Delete group member
+     */
     public static final String DELETE_GROUP_MEMBER_ERROR_TITLE = "delete.group.member.error.title";
     public static final String DELETE_GROUP_MEMBER_ERROR_MESSAGE = "delete.group.member.error.message";
+    public static final String DELETE_ALL_GROUP_MEMBER_ERROR_TITLE = "delete.all.group.member.error.title";
+    public static final String DELETE_ALL_GROUP_MEMBER_ERROR_MESSAGE = "delete.all.group.member.error.message";
 
     /**
      * Get group
