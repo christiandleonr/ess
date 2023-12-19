@@ -82,5 +82,8 @@ public final class UserQueries {
             + PHONE_COLUMN + ", "
             + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + PHONE_COLUMN + " = ?";
 
+    /**
+     * Deletes user by id
+     */
     public static final String DELETE_USER_BY_ID = "DELETE FROM " + TABLE_NAME + " WHERE " + USERGUID_COLUMN + " = ?";
 }

@@ -208,7 +208,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
     }
 
     public void deleteAllGroupMembers(String groupGuid) {
-        // Throws a NotFoundException if user does not exist
+        // Throws a NotFoundException if group does not exist
         getGroup(groupGuid);
 
         int rowsDeleted = 0;

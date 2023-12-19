@@ -38,7 +38,7 @@ public interface FriendsRepository {
     /**
      * Deletes all friendships for a user that is being deleted.
      *
-     * @param userGuid user whose friendships we want deleteNi
+     * @param userGuid user whose friendships we want delete
      */
     void deleteUserFriendships(String userGuid);
 
