@@ -107,7 +107,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
             debtGuid = UUID.randomUUID().toString();
             revision = 1; // The revision starts from 1
         } else {
-            revision = getLastRevision(debtGuid);
+            revision = getLastRevision(debtGuid) + 1;
         }
         Timestamp createdDate = infrastructureHelper.getCurrentDate();
 

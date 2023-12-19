@@ -53,18 +53,18 @@ public class UserServiceImpl implements UserService, FriendsService {
     public User getUser(String userGuid) {
         UserEntity user = userRepository.getUser(userGuid);
 
-        return UserMapper.INSTANCE.toUser(user);
+        return user.toUser();
     }
 
     @Override
     public User createUser(User user) {
         userValidator.validate(user);
 
-        UserEntity createUser = UserMapper.INSTANCE.toUserEntity(user);
+        UserEntity createUser = user.toUserEntity();
         userDatabaseValidator.validate(createUser);
 
         UserEntity createdUser = userRepository.createUser(createUser);
-        return UserMapper.INSTANCE.toUser(createdUser);
+        return createdUser.toUser();
     }
 
     @Override

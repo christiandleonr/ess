@@ -24,10 +24,6 @@ public class Transaction {
     private Timestamp updatedDate;
     private List<Link> links;
 
-    public Transaction() {
-
-    }
-
     public String getId() {
         return id;
     }
