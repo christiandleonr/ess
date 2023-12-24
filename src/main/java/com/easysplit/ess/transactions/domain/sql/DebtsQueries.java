@@ -13,7 +13,7 @@ public class DebtsQueries {
 
     }
 
-    public static final String ESS_SCHEMA = "ESS_SCHEMA";
+    public static final String ESS_SCHEMA = "ESS_SCHEMA.";
 
     /**
      * Debts table - all column

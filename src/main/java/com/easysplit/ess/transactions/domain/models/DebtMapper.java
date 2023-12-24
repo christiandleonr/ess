@@ -11,20 +11,22 @@ public interface DebtMapper {
 
     @Mappings({
             @Mapping(source="id", target="debtGuid"),
-            @Mapping(source="totalAmount", target="totalAmount"),
-            @Mapping(source="debt", target="debt"),
+            @Mapping(target="totalAmount", ignore = true),
+            @Mapping(target="debt", ignore = true),
             @Mapping(source="debtSettled", target="debtSettled"),
             @Mapping(source="revision", target="revision"),
+            @Mapping(target="createdBy", ignore = true),
             @Mapping(source="createdDate", target="createdDate"),
     })
     DebtEntity toDebtEntity(Debt debt);
 
     @Mappings({
             @Mapping(source="debtGuid", target="id"),
-            @Mapping(source="totalAmount", target="totalAmount"),
-            @Mapping(source="debt", target="debt"),
+            @Mapping(target="totalAmount", ignore = true),
+            @Mapping(target="debt", ignore = true),
             @Mapping(source="debtSettled", target="debtSettled"),
             @Mapping(source="revision", target="revision"),
+            @Mapping(target="createdBy", ignore = true),
             @Mapping(source="createdDate", target="createdDate"),
     })
     Debt toDebt(DebtEntity debtEntity);

@@ -5,6 +5,7 @@ import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.models.Link;
 
 import java.sql.Timestamp;
+import java.util.Currency;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 public class Transaction {
     private String id;
     private String name;
-    private String currency;
+    private Currency currency;
     private Debt debt;
     private Group group;
     private User creditor;
@@ -40,11 +41,11 @@ public class Transaction {
         this.name = name;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 
@@ -128,12 +129,15 @@ public class Transaction {
     public TransactionEntity toTransactionEntity() {
         TransactionEntity transaction = TransactionMapper.INSTANCE.toTransactionEntity(this);
 
+        transaction.setCurrency(this.currency.getCurrencyCode());
+
         transaction.setDebt(this.debt.toDebtEntity());
-        transaction.setGroup(this.group.toGroupEntity());
         transaction.setCreditor(this.creditor.toUserEntity());
         transaction.setDebtor(this.debtor.toUserEntity());
         transaction.setCreatedBy(this.createdBy.toUserEntity());
-        transaction.setUpdatedBy(this.updatedBy.toUserEntity());
+
+        if (this.group != null) transaction.setGroup(this.group.toGroupEntity());
+        if (this.updatedBy != null) transaction.setUpdatedBy(this.updatedBy.toUserEntity());
 
         return transaction;
     }

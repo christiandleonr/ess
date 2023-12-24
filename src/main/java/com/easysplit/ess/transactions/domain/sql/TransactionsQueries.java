@@ -13,12 +13,12 @@ public final class TransactionsQueries {
 
     }
 
-    public static final String ESS_SCHEMA = "ESS_SCHEMA";
+    public static final String ESS_SCHEMA = "ESS_SCHEMA.";
 
     /**
      * Transactions table - all columns
      */
-    public static final String TABLE_NAME = ESS_SCHEMA + "ESS_SCHEMA.";
+    public static final String TABLE_NAME = ESS_SCHEMA + "TRANSACTIONS";
     public static final String TRANSACTIONGUID_COLUMN = "TRANSACTIONGUID";
     public static final String NAME_COLUMN = "NAME";
     public static final String CURRENCY_COLUMN = "CURRENCY";

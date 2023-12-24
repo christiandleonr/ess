@@ -12,8 +12,14 @@ public interface TransactionMapper {
     @Mappings({
             @Mapping(source="id", target="transactionGuid"),
             @Mapping(source="name", target="name"),
-            @Mapping(source="currency", target="currency"),
+            @Mapping(target="currency", ignore = true),
+            @Mapping(target="debt", ignore = true),
+            @Mapping(target="group", ignore = true),
+            @Mapping(target="creditor", ignore = true),
+            @Mapping(target="debtor", ignore = true),
+            @Mapping(target="createdBy", ignore = true),
             @Mapping(source="createdDate", target="createdDate"),
+            @Mapping(target="updatedBy", ignore = true),
             @Mapping(source="updatedDate", target="updatedDate"),
     })
     TransactionEntity toTransactionEntity(Transaction transaction);
@@ -21,8 +27,14 @@ public interface TransactionMapper {
     @Mappings({
             @Mapping(source="transactionGuid", target="id"),
             @Mapping(source="name", target="name"),
-            @Mapping(source="currency", target="currency"),
+            @Mapping(target="currency", ignore = true),
+            @Mapping(target="debt", ignore = true),
+            @Mapping(target="group", ignore = true),
+            @Mapping(target="creditor", ignore = true),
+            @Mapping(target="debtor", ignore = true),
+            @Mapping(target="createdBy", ignore = true),
             @Mapping(source="createdDate", target="createdDate"),
+            @Mapping(target="updatedBy", ignore = true),
             @Mapping(source="updatedDate", target="updatedDate"),
     })
     Transaction toTransaction(TransactionEntity transactionEntity);

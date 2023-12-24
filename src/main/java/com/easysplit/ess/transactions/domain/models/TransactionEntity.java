@@ -4,6 +4,7 @@ import com.easysplit.ess.groups.domain.models.GroupEntity;
 import com.easysplit.ess.user.domain.models.UserEntity;
 
 import java.sql.Timestamp;
+import java.util.Currency;
 
 /**
  * Class that represents the table <i>transactions</i>
@@ -134,12 +135,14 @@ public class TransactionEntity {
     public Transaction toTransaction() {
         Transaction transaction = TransactionMapper.INSTANCE.toTransaction(this);
 
+        transaction.setCurrency(Currency.getInstance(this.currency));
+
         transaction.setDebt(this.debt.toDebt());
-        transaction.setGroup(this.group.toGroup());
+        if (this.group != null) transaction.setGroup(this.group.toGroup());
         transaction.setCreditor(this.creditor.toUser());
         transaction.setDebtor(this.debtor.toUser());
         transaction.setCreatedBy(this.createdBy.toUser());
-        transaction.setUpdatedBy(this.updatedBy.toUser());
+        if (this.updatedBy != null) transaction.setUpdatedBy(this.updatedBy.toUser());
 
         return transaction;
     }

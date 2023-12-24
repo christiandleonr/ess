@@ -48,7 +48,7 @@ public class TransactionsValidator {
         }
 
         validateName(transaction.getName());
-        validateCurrency(transaction.getCurrency());
+        validateCurrency(transaction.getCurrency().getCurrencyCode());
         validateDebt(transaction.getDebt());
         validateUserInTransaction(transaction.getCreditor(), ErrorKeys.CREATE_TRANSACTION_NULLOREMPTY_CREDITOR_MESSAGE);
         validateUserInTransaction(transaction.getDebtor(), ErrorKeys.CREATE_TRANSACTION_NULLOREMPTY_DEBTOR_MESSAGE);
@@ -133,7 +133,6 @@ public class TransactionsValidator {
 
         validateTotalAmount(debt.getTotalAmount());
         validateDebt(debt.getDebt(), debt.getTotalAmount());
-        validateUserInTransaction(debt.getCreatedBy(), ErrorKeys.INSERT_NEW_DEBT_NULLOREMPTY_CREATED_BY_MESSAGE);
     }
 
     /**
@@ -150,7 +149,7 @@ public class TransactionsValidator {
             );
         }
 
-        if (TRANSACTION_DEBT_TOTAL_AMOUNT_LOWER_LIMIT.compareTo(totalAmount.getAmount()) < 0) {
+        if (TRANSACTION_DEBT_TOTAL_AMOUNT_LOWER_LIMIT.compareTo(totalAmount.getAmount()) > 0) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.INSERT_NEW_DEBT_ZERO_TOTAL_AMOUNT_MESSAGE,
@@ -174,7 +173,7 @@ public class TransactionsValidator {
             );
         }
 
-        if (TRANSACTION_DEBT_LOWER_LIMIT.compareTo(debt.getAmount()) < 0) {
+        if (TRANSACTION_DEBT_LOWER_LIMIT.compareTo(debt.getAmount()) > 0) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.INSERT_NEW_DEBT_ZERO_DEBT_MESSAGE,

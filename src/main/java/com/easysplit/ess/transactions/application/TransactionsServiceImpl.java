@@ -32,7 +32,7 @@ public class TransactionsServiceImpl implements TransactionsService {
         transactionsValidator.validate(transaction);
 
         TransactionEntity createdTransaction = transactionsRepository.createTransaction(transaction.toTransactionEntity());
-        DebtEntity createdDebt = debtsRepository.insertNewDebt(createdTransaction.getDebt(), createdTransaction.getTransactionGuid());
+        DebtEntity createdDebt = debtsRepository.insertNewDebt(createdTransaction.getDebt(), createdTransaction.getTransactionGuid(), createdTransaction.getCreatedBy());
 
         createdTransaction.setDebt(createdDebt);
 

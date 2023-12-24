@@ -53,20 +53,18 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
         UserEntity creditor = null;
         UserEntity debtor = null;
         UserEntity createdBy = null;
-        GroupEntity group = null;
 
         try {
             // Throws a NotFoundException if a user or group does not exist
             creditor = userRepository.getUser(transaction.getCreditor().getUserGuid());
             debtor = userRepository.getUser(transaction.getDebtor().getUserGuid());
             createdBy = userRepository.getUser(transaction.getCreatedBy().getUserGuid());
-            group = groupsRepository.getGroup(transaction.getGroup().getGroupGuid());
 
             jdbc.update(TransactionsQueries.INSERT_TRANSACTION,
                     transactionGuid,
                     transaction.getName(),
                     transaction.getCurrency(),
-                    group.getGroupGuid(),
+                    null,
                     creditor.getUserGuid(),
                     debtor.getUserGuid(),
                     createdBy.getUserGuid(),
@@ -87,7 +85,6 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
         transaction.setTransactionGuid(transactionGuid);
         transaction.setCreditor(creditor);
         transaction.setDebtor(debtor);
-        transaction.setGroup(group);
         transaction.setCreatedBy(createdBy);
         transaction.setCreatedDate(createdDate);
         transaction.setUpdatedBy(createdBy);
@@ -98,7 +95,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
 
     @Override
     @Transactional
-    public DebtEntity insertNewDebt(DebtEntity debt, String transactionGuid) {
+    public DebtEntity insertNewDebt(DebtEntity debt, String transactionGuid, UserEntity createdBy) {
         String debtGuid = debt.getDebtGuid();
         int revision = 0;
 
@@ -112,8 +109,6 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
         Timestamp createdDate = infrastructureHelper.getCurrentDate();
 
         try {
-            UserEntity createdBy = userRepository.getUser(debt.getCreatedBy().getUserGuid());
-
             jdbc.update(DebtsQueries.INSERT_DEBT,
                     debtGuid,
                     transactionGuid,
@@ -138,6 +133,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
 
         debt.setDebtGuid(debtGuid);
         debt.setRevision(revision);
+        debt.setCreatedBy(createdBy);
         debt.setCreatedDate(createdDate);
 
         return debt;

@@ -1,18 +1,21 @@
 package com.easysplit.shared.domain.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.math.BigDecimal;
 import java.util.Currency;
 
 /**
  * Class that represent the money used for a transaction
  */
+@JsonSerialize(using = MoneySerializer.class)
+@JsonDeserialize(using = MoneyDeserializer.class)
 public class Money {
     private BigDecimal amount;
-    private Currency currency;
 
-    public Money(BigDecimal amount, Currency currency) {
+    public Money(BigDecimal amount) {
         this.amount = amount;
-        this.currency = currency;
     }
 
     public BigDecimal getAmount() {
@@ -23,16 +26,8 @@ public class Money {
         this.amount = amount;
     }
 
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
     @Override
     public String toString() {
-        return this.amount + " " + this.currency.getCurrencyCode();
+        return this.amount + "";
     }
 }

@@ -3,6 +3,7 @@ package com.easysplit.ess.transactions.domain.models;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.models.Link;
 import com.easysplit.shared.domain.models.Money;
+import org.postgresql.util.PGmoney;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -94,6 +95,11 @@ public class Debt {
      * @return equivalent debt entity
      */
     public DebtEntity toDebtEntity() {
-        return DebtMapper.INSTANCE.toDebtEntity(this);
+        DebtEntity debt = DebtMapper.INSTANCE.toDebtEntity(this);
+
+        debt.setTotalAmount(this.totalAmount.getAmount());
+        debt.setDebt(this.debt.getAmount());
+
+        return debt;
     }
 }
