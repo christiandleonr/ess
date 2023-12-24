@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.easysplit</groupId>
 	<artifactId>ess</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>ess</name>
 	<description>Easy Split Services</description>
 	<properties>
