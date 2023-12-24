@@ -1,0 +1,31 @@
+package com.easysplit.shared.domain.models;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+
+/**
+ * Class that handles the deserialization for the custom object Money
+ */
+public class MoneyDeserializer extends StdDeserializer<Money> {
+
+    public MoneyDeserializer() {
+        this(null);
+    }
+
+    public MoneyDeserializer(Class<?> vc) {
+        super(vc);
+    }
+
+    @Override
+    public Money deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+        JsonNode node = jp.getCodec().readTree(jp);
+        BigDecimal amount = node.decimalValue();
+
+        return new Money(amount);
+    }
+}

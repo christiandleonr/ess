@@ -14,9 +14,7 @@ public interface GroupMapper {
             @Mapping(source="name", target="name"),
             @Mapping(source="description", target="description"),
             @Mapping(source="members", target="members"),
-            @Mapping(source="createdBy", target="createdBy"),
             @Mapping(source="createdDate", target="createdDate"),
-            @Mapping(source="updatedBy", target="updatedBy"),
             @Mapping(source="updatedDate", target="updatedDate"),
     })
     GroupEntity toGroupEntity(Group group);
@@ -26,9 +24,7 @@ public interface GroupMapper {
             @Mapping(source="name", target="name"),
             @Mapping(source="description", target="description"),
             @Mapping(source="members", target="members"),
-            @Mapping(source="createdBy", target="createdBy"),
             @Mapping(source="createdDate", target="createdDate"),
-            @Mapping(source="updatedBy", target="updatedBy"),
             @Mapping(source="updatedDate", target="updatedDate"),
     })
     Group toGroup(GroupEntity groupEntity);

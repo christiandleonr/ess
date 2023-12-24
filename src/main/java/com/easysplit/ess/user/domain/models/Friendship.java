@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * Friendship object to be serialized and pure data validation
+ * Friendship object to be serialized
  */
 public class Friendship {
     private String id;
@@ -74,12 +74,8 @@ public class Friendship {
      */
     public FriendshipEntity toFriendshipEntity() {
         FriendshipEntity friendshipEntity = FriendshipsMapper.INSTANCE.toFriendshipEntity(this);
-
-        UserEntity friend = UserMapper.INSTANCE.toUserEntity(this.friend);
-        friendshipEntity.setFriend(friend);
-
-        UserEntity addedBy = UserMapper.INSTANCE.toUserEntity(this.addedBy);
-        friendshipEntity.setAddedBy(addedBy);
+        friendshipEntity.setFriend(this.friend.toUserEntity());
+        friendshipEntity.setAddedBy(this.addedBy.toUserEntity());
 
         return friendshipEntity;
     }

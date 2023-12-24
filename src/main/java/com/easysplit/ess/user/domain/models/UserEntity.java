@@ -91,4 +91,13 @@ public class UserEntity {
                 + "username : " + this.username + " | "
                 + "createdDate : " + this.createdDate;
     }
+
+    /**
+     * Generates a user from this entity class
+     *
+     * @return equivalent user
+     */
+    public User toUser() {
+        return UserMapper.INSTANCE.toUser(this);
+    }
 }

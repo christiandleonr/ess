@@ -29,9 +29,9 @@ import java.util.UUID;
 @Repository
 public class UserRepositoryImpl implements UserRepository, FriendsRepository {
     private static final String CLASS_NAME = UserRepositoryImpl.class.getName();
+    private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
     private final JdbcTemplate jdbc;
     private final InfrastructureHelper infrastructureHelper;
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     public UserRepositoryImpl(JdbcTemplate jdbc, InfrastructureHelper infrastructureHelper){
@@ -67,6 +67,10 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
     @Override
     public UserEntity getUser(String userGuid) {
         UserEntity userEntity = null;
+
+        if (EssUtils.isNullOrEmpty(userGuid)) {
+            return null;
+        }
 
         try {
             userEntity = jdbc.query(UserQueries.GET_USER,

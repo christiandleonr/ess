@@ -63,12 +63,8 @@ public class FriendshipEntity {
      */
     public Friendship toFriendship() {
         Friendship friendship = FriendshipsMapper.INSTANCE.toFriendship(this);
-
-        User friend = UserMapper.INSTANCE.toUser(this.friend);
-        friendship.setFriend(friend);
-
-        User addedBy = UserMapper.INSTANCE.toUser(this.addedBy);
-        friendship.setAddedBy(addedBy);
+        friendship.setFriend(this.friend.toUser());
+        friendship.setAddedBy(this.addedBy.toUser());
 
         return friendship;
     }

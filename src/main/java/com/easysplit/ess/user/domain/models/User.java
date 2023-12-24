@@ -100,4 +100,13 @@ public class User {
                 + "phone : " + this.phone + " | "
                 + "createdDate : " + this.createdDate;
     }
+
+    /**
+     * Generates a user entity from this class
+     *
+     * @return equivalent user entity
+     */
+    public UserEntity toUserEntity() {
+        return UserMapper.INSTANCE.toUserEntity(this);
+    }
 }

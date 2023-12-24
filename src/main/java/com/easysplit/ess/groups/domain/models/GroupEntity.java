@@ -110,8 +110,8 @@ public class GroupEntity {
         List<User> members = UserMapper.INSTANCE.toListOfUsers(this.getMembers());
 
         group.setMembers(members);
-        group.setCreatedBy(UserMapper.INSTANCE.toUser(this.createdBy));
-        group.setUpdatedBy(UserMapper.INSTANCE.toUser(this.updatedBy));
+        group.setCreatedBy(this.createdBy.toUser());
+        group.setUpdatedBy(this.updatedBy.toUser());
 
         return group;
     }

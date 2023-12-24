@@ -7,10 +7,10 @@ import com.easysplit.ess.user.domain.contracts.FriendsRepository;
 import com.easysplit.ess.user.domain.contracts.FriendsService;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.contracts.UserService;
-import com.easysplit.ess.user.domain.models.FriendshipsMapper;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
+import com.easysplit.ess.user.domain.validators.FriendshipValidator;
 import com.easysplit.ess.user.domain.validators.UserValidator;
 import com.easysplit.ess.user.infrastructure.persistence.validators.FriendshipsDatabaseValidator;
 import com.easysplit.ess.user.infrastructure.persistence.validators.UserDatabaseValidator;
@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService, FriendsService {
     private final FriendsRepository friendsRepository;
     private final GroupsRepository groupsRepository;
     private final UserValidator userValidator;
+    private final FriendshipValidator friendshipValidator;
     private final UserDatabaseValidator userDatabaseValidator;
     private final FriendshipsDatabaseValidator friendshipsDatabaseValidator;
 
@@ -36,10 +37,12 @@ public class UserServiceImpl implements UserService, FriendsService {
                            FriendsRepository friendsRepository,
                            GroupsRepository groupsRepository,
                            UserValidator userValidator,
+                           FriendshipValidator friendshipValidator,
                            UserDatabaseValidator userDatabaseValidator,
                            FriendshipsDatabaseValidator friendshipsDatabaseValidator) {
         this.userRepository = userRepository;
         this.userValidator = userValidator;
+        this.friendshipValidator = friendshipValidator;
         this.userDatabaseValidator = userDatabaseValidator;
         this.friendsRepository = friendsRepository;
         this.groupsRepository = groupsRepository;
@@ -50,18 +53,18 @@ public class UserServiceImpl implements UserService, FriendsService {
     public User getUser(String userGuid) {
         UserEntity user = userRepository.getUser(userGuid);
 
-        return UserMapper.INSTANCE.toUser(user);
+        return user.toUser();
     }
 
     @Override
     public User createUser(User user) {
         userValidator.validate(user);
 
-        UserEntity createUser = UserMapper.INSTANCE.toUserEntity(user);
+        UserEntity createUser = user.toUserEntity();
         userDatabaseValidator.validate(createUser);
 
         UserEntity createdUser = userRepository.createUser(createUser);
-        return UserMapper.INSTANCE.toUser(createdUser);
+        return createdUser.toUser();
     }
 
     @Override
@@ -74,6 +77,8 @@ public class UserServiceImpl implements UserService, FriendsService {
 
     @Override
     public Friendship addFriend(Friendship friendship) {
+        friendshipValidator.validate(friendship);
+
         friendshipsDatabaseValidator.validateFriendshipNotExist(
                 friendship.getFriend().getId(),
                 friendship.getAddedBy().getId()

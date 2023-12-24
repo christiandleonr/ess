@@ -5,6 +5,9 @@ import com.easysplit.ess.user.domain.models.UserEntity;
 
 import java.util.List;
 
+/**
+ * Class that handle the database operations for the groups resource
+ */
 public interface GroupsRepository {
     /**
      * Creates group with the list of members provided

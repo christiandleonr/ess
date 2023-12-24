@@ -2,7 +2,6 @@ package com.easysplit.ess.groups.infrastructure;
 
 import com.easysplit.ess.groups.domain.contracts.GroupsService;
 import com.easysplit.ess.groups.domain.models.Group;
-import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
@@ -35,6 +34,9 @@ public class GroupsController {
             createdGroup = groupsService.createGroup(group, group.getCreatedBy().getId());
 
             createdGroup.setLinks(infrastructureHelper.buildLinks(GROUPS_RESOURCE, createdGroup.getId()));
+        } catch (NotFoundException e) {
+            logger.debug(CLASS_NAME + ".createGroup() - Resource not found for group: " + group);
+            throw e;
         } catch (IllegalArgumentException e) {
             logger.debug(CLASS_NAME + ".createGroup() - Invalid data for group: " + group);
             throw e;
@@ -46,7 +48,7 @@ public class GroupsController {
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_GROUP_ERROR_TITLE,
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
-                    new Object[] {createdGroup},
+                    new Object[] {group},
                     e
             );
         }
