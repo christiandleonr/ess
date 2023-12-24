@@ -1,21 +1,9 @@
--- Database: ess
+-- The docker compose file creates the database.
+-- This file creates the schema and all the needed tables
 
--- DROP SCHEMA IF EXISTS ess_schema ;
-
+-- DROP SCHEMA IF EXISTS ess_schema;
 CREATE SCHEMA IF NOT EXISTS ess_schema
     AUTHORIZATION christiandleon;
-
--- DROP DATABASE IF EXISTS ess;
-
-CREATE DATABASE ess
-    WITH
-    OWNER = christiandleon
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = s-1
-    IS_TEMPLATE = False;
 
 CREATE TABLE ESS_SCHEMA.USERS (
     USERGUID VARCHAR(150) UNIQUE NOT NULL,

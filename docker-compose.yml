@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/ess
+      SPRING_DATASOURCE_USERNAME: christiandleon
+      SPRING_DATASOURCE_PASSWORD: 0urD3stiny12
+
+  database:
+    image: postgres:latest
+    volumes:
+      - ./src/main/java/com/easysplit/shared/domain/sql/ess_schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_DB: ess
+      POSTGRES_USER: christiandleon
+      POSTGRES_PASSWORD: 0urD3stiny12
