@@ -38,4 +38,11 @@ public class TransactionsServiceImpl implements TransactionsService {
 
         return createdTransaction.toTransaction();
     }
+
+    public Transaction getTransaction(String transactionGuid){
+        TransactionEntity transaction = transactionsRepository.getTransaction(transactionGuid);
+
+        return transaction.toTransaction();
+    }
+
 }

@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -57,5 +54,32 @@ public class TransactionsController {
         }
 
         return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Transaction> getTransaction(@PathVariable(name = "id") String id){
+        Transaction transaction = null;
+        try{
+            transaction = transactionsService.getTransaction(id);
+
+            transaction.setLinks(infrastructureHelper.buildLinks(TRANSACTIONS_RESOURCE, id));
+        } catch (NotFoundException e) {
+            logger.debug(CLASS_NAME + " .getTransaction() - Transaction with id " + id + " not found");
+            throw e;
+        } catch (InternalServerErrorException e){
+            logger.error(CLASS_NAME + " .getTransaction() - Something went wrong while reading the user with id " + id, e);
+            throw e;
+        } catch (Exception e){
+            logger.error(CLASS_NAME + " .getTransaction() - Something went wrong while reading the user with id " + id, e);
+
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
+                    ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
+                    new Object[] {id},
+                    e
+            );
+        }
+
+        return new ResponseEntity<>(transaction, HttpStatus.OK);
     }
 }

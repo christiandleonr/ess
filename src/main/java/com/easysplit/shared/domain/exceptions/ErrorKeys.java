@@ -134,7 +134,6 @@ public final class ErrorKeys {
     public static final String CREATE_TRANSACTION_NULLOREMPTY_CREDITOR_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.creditor.id.message";
     public static final String CREATE_TRANSACTION_NULLOREMPTY_DEBTOR_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.debtor.id.message";
     public static final String CREATE_TRANSACTION_NULLOREMPTY_CREATED_BY_MESSAGE = "create.transaction.illegalArgument.nullOrEmpty.createdBy.id.message";
-
     public static final String INSERT_NEW_DEBT_ERROR_TITLE = "insert.new.debt.error.title";
     public static final String INSERT_NEW_DEBT_ERROR_MESSAGE = "insert.new.debt.error.message";
     public static final String INSERT_NEW_DEBT_NULLOREMPTY_DEBT_MESSAGE = "insert.new.debt.illegalArgument.nullOrEmpty.debt";
@@ -145,4 +144,12 @@ public final class ErrorKeys {
     public static final String INSERT_NEW_DEBT_DEBT_GREATERTHAN_TOTALAMOUNT = "insert.new.debt.illegalArgument.debt.greaterThan.totalAmount";
     public static final String INSERT_NEW_DEBT_NULLOREMPTY_CREATED_BY_MESSAGE = "insert.new.debt.illegalArgument.debt.created.by.empty";
     public static final String READ_LAST_REVISION_ERROR_MESSAGE = "read.last.revision.error.message";
+
+    /**
+     * Get transaction
+     */
+    public static final String GET_TRANSACTION_NOT_FOUND_TITLE = "get.transaction.notFound.title";
+    public static final String GET_TRANSACTION_NOT_FOUND_MESSAGE = "get.transaction.notFound.message";
+    public static final String GET_TRANSACTION_ERROR_TITLE = "get.transaction.error.title";
+    public static final String GET_TRANSACTION_ERROR_MESSAGE = "get.transaction.error.message";
 }

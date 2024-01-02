@@ -21,8 +21,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+//import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.UUID;
+import java.util.Date;
 
 @Repository
 public class TransactionsRepositoryImpl implements TransactionsRepository, DebtsRepository {
@@ -159,5 +163,73 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
         }
 
         return revision;
+    }
+
+    @Override
+    public TransactionEntity getTransaction(String transactionGuid){
+        TransactionEntity transactionEntity = null;
+
+        try{
+            transactionEntity = jdbc.query(TransactionsQueries.GET_TRANSACTION,
+                    this::toTransactionEntity,
+                    transactionGuid);
+        }catch(NotFoundException e){
+            //Catching NotFoundException thrown from toTransactionEntity method
+            logger.debug(CLASS_NAME + ".getTransaction() - NotFoundException while reading the transaction: " + transactionGuid, e);
+            throw e;
+        }catch(Exception e){
+            logger.error(CLASS_NAME + ".getTransaction() - Something went wrong while reading the group with id: "+ transactionGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
+                    ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
+                    new Object[] {transactionGuid},
+                    e
+            );
+        }
+
+        return transactionEntity;
+    }
+
+    private TransactionEntity toTransactionEntity(ResultSet rs) throws SQLException {
+
+        TransactionEntity transactionEntity = null;
+
+        if(rs.next()) {
+            transactionEntity = new TransactionEntity();
+
+            transactionEntity.setTransactionGuid(rs.getString(TransactionsQueries.TRANSACTIONGUID_COLUMN.toLowerCase()));
+            transactionEntity.setName(rs.getString(TransactionsQueries.NAME_COLUMN.toLowerCase()));
+
+            String creditorByGuid = rs.getString(TransactionsQueries.CREDITOR_COLUMN.toLowerCase());
+            UserEntity creditor = userRepository.getUser(creditorByGuid);
+            transactionEntity.setCreditor(creditor);
+
+            String debtorByGuid = rs.getString(TransactionsQueries.DEBTOR_COLUMN.toLowerCase());
+            UserEntity debtor = userRepository.getUser(debtorByGuid);
+            transactionEntity.setDebtor(debtor);
+
+            //DEBT DETAILS HERE
+
+            String createdByGuid = rs.getString((TransactionsQueries.CREATED_BY_COLUMN.toLowerCase()));
+            UserEntity createdBy = userRepository.getUser(createdByGuid);
+            transactionEntity.setCreatedBy(createdBy);
+
+            //NEED TO TEST FOR ERRORS
+            String date = rs.getString((TransactionsQueries.CREATED_DATE_COLUMN.toLowerCase()));
+            Timestamp createdDate = Timestamp.valueOf(date);
+            transactionEntity.setCreatedDate(createdDate);
+
+            String updatedByGuid = rs.getString((TransactionsQueries.UPDATED_BY_COLUMN.toLowerCase()));
+            UserEntity updatedBy = userRepository.getUser(updatedByGuid);
+            transactionEntity.setUpdatedBy(updatedBy);
+
+
+            Date currentDate = new Date();
+            Timestamp updatedDate = new Timestamp(currentDate.getTime());
+            transactionEntity.setUpdatedDate(updatedDate);
+        }
+
+
+        return transactionEntity;
     }
 }

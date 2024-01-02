@@ -16,4 +16,12 @@ public interface TransactionsRepository {
      * @return transaction created
      */
     TransactionEntity createTransaction(TransactionEntity transactionEntity);
+
+    /**
+     *Gets a transaction by is guid
+     *
+     * @param transactionGuid transaction id
+     * @return transactionEntity
+     */
+    TransactionEntity getTransaction(String transactionGuid);
 }
