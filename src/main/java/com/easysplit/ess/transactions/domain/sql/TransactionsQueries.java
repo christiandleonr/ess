@@ -1,5 +1,7 @@
 package com.easysplit.ess.transactions.domain.sql;
 
+import com.easysplit.ess.transactions.domain.models.Debt;
+
 /**
  * Class that holds string variables with the queries for the <i>transactions</i> table
  */
@@ -29,6 +31,10 @@ public final class TransactionsQueries {
     public static final String CREATED_DATE_COLUMN = "CREATED_DATE";
     public static final String UPDATED_BY_COLUMN = "UPDATED_BY";
     public static final String UPDATED_DATE_COLUMN = "UPDATED_DATE";
+    public static final String DEBTGUID_COLUMN = "DEBTGUID";
+    public static final String TOTAL_AMOUNT_COLUMN = "TOTALAMOUNT";
+    public static final String DEBT_SETTLED_COLUMN = "DEBTSETTLED";
+    public static final String DEBT_COLUMN = "DEBT";
 
     /**
      * Inserts a new transaction
@@ -43,4 +49,19 @@ public final class TransactionsQueries {
             + CREATED_DATE_COLUMN + ", "
             + UPDATED_BY_COLUMN + ", "
             + UPDATED_DATE_COLUMN + " ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    /**
+     * Gets transaction by id
+     */
+    public static final String GET_TRANSACTION = "SELECT " + TRANSACTIONGUID_COLUMN + ", "
+            + NAME_COLUMN + ", "
+            + CURRENCY_COLUMN + ", "
+            + GROUPGUID_COLUMN + ", "
+            + CREDITOR_COLUMN + ", "
+            + DEBTOR_COLUMN + ", "
+            + CREATED_BY_COLUMN + ", "
+            + CREATED_DATE_COLUMN + ", "
+            + UPDATED_BY_COLUMN + ", "
+            + UPDATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + TRANSACTIONGUID_COLUMN + " = ?";
+
 }
