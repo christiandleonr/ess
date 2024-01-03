@@ -14,9 +14,7 @@ public class UserEntity {
     private String phone;
     private Timestamp createdDate;
 
-    public UserEntity() {
-
-    }
+    public UserEntity() {}
 
     public UserEntity(String userGuid, String name, String lastname, String username, String email, String phone, Timestamp createdDate) {
         this.userGuid = userGuid;

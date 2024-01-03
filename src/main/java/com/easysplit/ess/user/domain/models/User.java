@@ -18,9 +18,7 @@ public class User {
     private Timestamp createdDate;
     private List<Link> links;
 
-    public User() {
-
-    }
+    public User() {}
 
     public User(String id, String name, String lastname, String username, String email, String phone, Timestamp createdDate) {
         this.id = id;

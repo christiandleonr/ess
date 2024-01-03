@@ -12,9 +12,7 @@ public class FriendshipEntity {
     private Timestamp createdDate;
     private UserEntity addedBy;
 
-    public FriendshipEntity() {
-
-    }
+    public FriendshipEntity() {}
 
     public String getFriendshipGuid() {
         return friendshipGuid;
