@@ -11,9 +11,7 @@ public class TestUtils {
      * Private constructor to prevent instantiation of the class.
      * This class should only hold string constants and should not be instantiated
      */
-    private TestUtils() {
-
-    }
+    private TestUtils() {}
 
     /**
      * Generates a unique string based on the current timestamp, util to avoid creating
