@@ -8,6 +8,10 @@ public class ErrorResponse  {
     private String errorMessage;
     private Throwable cause;
 
+    public ErrorResponse() {
+
+    }
+
     public ErrorResponse(String errorTitle, String errorMessage) {
         this.errorTitle = errorTitle;
         this.errorMessage = errorMessage;

@@ -6,7 +6,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 #
 # Run stage
@@ -16,6 +16,6 @@ WORKDIR /app
 
 COPY --from=build /app/target/ess-0.0.1.jar /app/app.jar
 
-EXPOSE 8080
+EXPOSE 8080 5005
 
 CMD ["java", "-jar", "app.jar"]
