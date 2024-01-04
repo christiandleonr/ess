@@ -4,7 +4,6 @@ import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
 import com.easysplit.shared.domain.models.Money;
-import org.postgresql.util.PGmoney;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -14,7 +13,6 @@ import java.sql.Timestamp;
  */
 public class DebtEntity {
     private String debtGuid;
-    private String transactionGuid;
     private BigDecimal totalAmount;
     private BigDecimal debt;
     private boolean debtSettled;
@@ -33,15 +31,6 @@ public class DebtEntity {
     public void setDebtGuid(String debtGuid) {
         this.debtGuid = debtGuid;
     }
-
-    public String getTransactionGuid() {
-        return transactionGuid;
-    }
-
-    public void setTransactionGuid(String transactionGuid) {
-        this.transactionGuid = transactionGuid;
-    }
-
     public BigDecimal getTotalAmount() {
         return totalAmount;
     }
@@ -93,7 +82,6 @@ public class DebtEntity {
     @Override
     public String toString() {
         return "debtGuid : " + this.debtGuid + " | "
-                + "transactionGuid: " + this.transactionGuid + " | "
                 + "totalAmount : " + this.totalAmount + " | "
                 + "debt : " + this.debt + " | "
                 + "debtSettled : " + this.debtSettled + " | "

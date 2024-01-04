@@ -31,10 +31,6 @@ public final class TransactionsQueries {
     public static final String CREATED_DATE_COLUMN = "CREATED_DATE";
     public static final String UPDATED_BY_COLUMN = "UPDATED_BY";
     public static final String UPDATED_DATE_COLUMN = "UPDATED_DATE";
-    public static final String DEBTGUID_COLUMN = "DEBTGUID";
-    public static final String TOTAL_AMOUNT_COLUMN = "TOTALAMOUNT";
-    public static final String DEBT_SETTLED_COLUMN = "DEBTSETTLED";
-    public static final String DEBT_COLUMN = "DEBT";
 
     /**
      * Inserts a new transaction

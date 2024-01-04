@@ -18,7 +18,7 @@ public interface TransactionsRepository {
     TransactionEntity createTransaction(TransactionEntity transactionEntity);
 
     /**
-     *Gets a transaction by is guid
+     * Gets a transaction by is guid
      *
      * @param transactionGuid transaction id
      * @return transactionEntity
@@ -26,7 +26,7 @@ public interface TransactionsRepository {
     TransactionEntity getTransaction(String transactionGuid);
 
     /**
-     *Gets a debt by the transaction guid
+     * Gets a debt by the transaction guid
      *
      * @param transactionGuid transaction id
      * @return debtEntity

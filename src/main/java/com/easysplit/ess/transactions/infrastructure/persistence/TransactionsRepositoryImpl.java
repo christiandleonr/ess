@@ -263,7 +263,6 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
             debtEntity = new DebtEntity();
 
             debtEntity.setDebtGuid(rs.getString(DebtsQueries.DEBTGUID_COLUMN.toLowerCase()));
-            debtEntity.setTransactionGuid(rs.getString(DebtsQueries.TRANSACTIONGUID_COLUMN.toLowerCase()));
             debtEntity.setTotalAmount(rs.getBigDecimal(DebtsQueries.TOTAL_AMOUNT_COLUMN.toLowerCase()));
             debtEntity.setDebt(rs.getBigDecimal(DebtsQueries.DEBT_COLUMN.toLowerCase()));
             debtEntity.setDebtSettled(rs.getBoolean(DebtsQueries.DEBT_SETTLED_COLUMN.toLowerCase()));
