@@ -22,9 +22,7 @@ public class Group {
     private Timestamp updatedDate;
     private List<Link> links;
 
-    public Group() {
-
-    }
+    public Group() {}
 
     public String getId() {
         return id;

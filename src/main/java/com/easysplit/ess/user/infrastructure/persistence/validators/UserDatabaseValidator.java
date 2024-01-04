@@ -44,7 +44,7 @@ public class UserDatabaseValidator {
             infrastructureHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE,
-                    new Object[]{ username }
+                    new Object[]{username}
             );
         }
     }
@@ -59,8 +59,8 @@ public class UserDatabaseValidator {
         if (userEntity != null) {
             infrastructureHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
-                    ErrorKeys.CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE,
-                    new Object[]{ email }
+                    ErrorKeys.CREATE_USER_NOT_UNIQUE_EMAIL_MESSAGE,
+                    new Object[]{email}
             );
         }
     }
@@ -75,8 +75,8 @@ public class UserDatabaseValidator {
         if (userEntity != null) {
             infrastructureHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
-                    ErrorKeys.CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE,
-                    new Object[]{ phone }
+                    ErrorKeys.CREATE_USER_NOT_UNIQUE_PHONE_MESSAGE,
+                    new Object[]{phone}
             );
         }
     }

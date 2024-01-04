@@ -14,9 +14,7 @@ public class ResourceList<T> {
     private List<T> data;
     private List<Link> links;
 
-    public ResourceList() {
-
-    }
+    public ResourceList() {}
 
     public int getLimit() {
         return limit;

@@ -8,9 +8,7 @@ public class Link {
     private String method;
     private String type;
 
-    public Link() {
-
-    }
+    public Link() {}
 
     public String getHref() {
         return href;

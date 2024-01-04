@@ -59,7 +59,7 @@ public final class FriendshipsQueries {
      * Delete user friendships
      */
     public static final String DELETE_USER_FRIENDSHIPS = "DELETE FROM " + TABLE_NAME
-            + " WHERE = ? IN ( " + FRIEND_COLUMN + ", " + ADDED_BY_COLUMN + " )";
+            + " WHERE ? IN ( " + FRIEND_COLUMN + ", " + ADDED_BY_COLUMN + " )";
 
     /**
      * Loads friendship details if exist

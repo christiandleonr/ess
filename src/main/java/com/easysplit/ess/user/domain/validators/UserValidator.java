@@ -15,11 +15,11 @@ import java.util.regex.Matcher;
  */
 @Component
 public class UserValidator {
-    private static final int USER_NAME_LENGTH_LIMIT = 100;
-    private static final int USER_LASTNAME_LENGTH_LIMIT = 100;
-    private static final int USER_USERNAME_LENGTH_LIMIT = 50;
-    private static final int USER_EMAIL_LENGTH_LIMIT = 100;
-    private static final int USER_PHONE_LENGTH_LIMIT = 10;
+    public static final int USER_NAME_LENGTH_LIMIT = 100;
+    public static final int USER_LASTNAME_LENGTH_LIMIT = 100;
+    public static final int USER_USERNAME_LENGTH_LIMIT = 50;
+    public static final int USER_EMAIL_LENGTH_LIMIT = 100;
+    public static final int USER_PHONE_LENGTH_LIMIT = 10;
 
     private final DomainHelper domainHelper;
 
@@ -157,15 +157,6 @@ public class UserValidator {
             );
         }
 
-        if(phone.length()!=USER_PHONE_LENGTH_LIMIT){
-            domainHelper.throwIllegalArgumentException(
-                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
-                    ErrorKeys.CREATE_USER_WRONGPHONESIZE_MESSAGE,
-                    new Object[] {USER_PHONE_LENGTH_LIMIT}
-            );
-
-        }
-
         if(!validatePhoneFormat(phone)){
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
@@ -175,6 +166,14 @@ public class UserValidator {
 
         }
 
+        if(phone.length()!=USER_PHONE_LENGTH_LIMIT){
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_WRONGPHONESIZE_MESSAGE,
+                    new Object[] {USER_PHONE_LENGTH_LIMIT}
+            );
+
+        }
     }
 
     private boolean validatePhoneFormat(String phone){

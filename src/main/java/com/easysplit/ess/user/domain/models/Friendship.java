@@ -15,9 +15,7 @@ public class Friendship {
     private User addedBy;
     private List<Link> links;
 
-    public Friendship() {
-
-    }
+    public Friendship() {}
 
     public String getId() {
         return id;

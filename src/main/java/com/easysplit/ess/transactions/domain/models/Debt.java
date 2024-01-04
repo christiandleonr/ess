@@ -21,9 +21,7 @@ public class Debt {
     private Timestamp createdDate;
     private List<Link> links;
 
-    public Debt() {
-
-    }
+    public Debt() {}
 
     public String getId() {
         return id;
