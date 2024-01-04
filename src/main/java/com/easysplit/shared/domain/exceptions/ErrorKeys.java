@@ -152,4 +152,13 @@ public final class ErrorKeys {
     public static final String GET_TRANSACTION_NOT_FOUND_MESSAGE = "get.transaction.notFound.message";
     public static final String GET_TRANSACTION_ERROR_TITLE = "get.transaction.error.title";
     public static final String GET_TRANSACTION_ERROR_MESSAGE = "get.transaction.error.message";
+
+    /**
+     * Get debt
+     */
+    public static final String GET_DEBT_NOT_FOUND_TITLE = "get.debt.notFound.title";
+    public static final String GET_DEBT_NOT_FOUND_MESSAGE = "get.debt.notFound.message";
+    public static final String GET_DEBT_ERROR_TITLE = "get.debt.error.title";
+    public static final String GET_DEBT_ERROR_MESSAGE = "get.debt.error.message";
+
 }

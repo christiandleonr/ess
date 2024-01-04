@@ -44,10 +44,10 @@ public class TransactionsController {
             logger.error(CLASS_NAME + ".createTransaction() - Something went wrong while creating the transaction: " + transaction, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createGroup() - Something went wrong while creating the transaction: " + transaction, e);
+            logger.error(CLASS_NAME + ".createTransaction() - Something went wrong while creating the transaction: " + transaction, e);
             infrastructureHelper.throwInternalServerErrorException(
-                    ErrorKeys.CREATE_GROUP_ERROR_TITLE,
-                    ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
+                    ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
+                    ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
                     new Object[] {transaction},
                     e
             );

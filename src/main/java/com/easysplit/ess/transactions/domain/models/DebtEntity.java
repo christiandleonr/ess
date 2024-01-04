@@ -14,6 +14,7 @@ import java.sql.Timestamp;
  */
 public class DebtEntity {
     private String debtGuid;
+    private String transactionGuid;
     private BigDecimal totalAmount;
     private BigDecimal debt;
     private boolean debtSettled;
@@ -31,6 +32,14 @@ public class DebtEntity {
 
     public void setDebtGuid(String debtGuid) {
         this.debtGuid = debtGuid;
+    }
+
+    public String getTransactionGuid() {
+        return transactionGuid;
+    }
+
+    public void setTransactionGuid(String transactionGuid) {
+        this.transactionGuid = transactionGuid;
     }
 
     public BigDecimal getTotalAmount() {
@@ -84,6 +93,7 @@ public class DebtEntity {
     @Override
     public String toString() {
         return "debtGuid : " + this.debtGuid + " | "
+                + "transactionGuid: " + this.transactionGuid + " | "
                 + "totalAmount : " + this.totalAmount + " | "
                 + "debt : " + this.debt + " | "
                 + "debtSettled : " + this.debtSettled + " | "

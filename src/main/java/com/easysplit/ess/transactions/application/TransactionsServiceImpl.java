@@ -40,7 +40,11 @@ public class TransactionsServiceImpl implements TransactionsService {
     }
 
     public Transaction getTransaction(String transactionGuid){
+
         TransactionEntity transaction = transactionsRepository.getTransaction(transactionGuid);
+
+        DebtEntity debt = transactionsRepository.getDebt(transactionGuid);
+        transaction.setDebt(debt);
 
         return transaction.toTransaction();
     }

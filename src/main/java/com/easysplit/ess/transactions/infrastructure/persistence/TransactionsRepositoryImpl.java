@@ -1,7 +1,6 @@
 package com.easysplit.ess.transactions.infrastructure.persistence;
 
 import com.easysplit.ess.groups.domain.contracts.GroupsRepository;
-import com.easysplit.ess.groups.domain.models.GroupEntity;
 import com.easysplit.ess.transactions.domain.contracts.DebtsRepository;
 import com.easysplit.ess.transactions.domain.contracts.TransactionsRepository;
 import com.easysplit.ess.transactions.domain.models.DebtEntity;
@@ -21,7 +20,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-//import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -178,7 +176,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
             logger.debug(CLASS_NAME + ".getTransaction() - NotFoundException while reading the transaction: " + transactionGuid, e);
             throw e;
         }catch(Exception e){
-            logger.error(CLASS_NAME + ".getTransaction() - Something went wrong while reading the group with id: "+ transactionGuid, e);
+            logger.error(CLASS_NAME + ".getTransaction() - Something went wrong while reading the transaction with id: "+ transactionGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
@@ -188,6 +186,32 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
         }
 
         return transactionEntity;
+    }
+
+    @Override
+    public DebtEntity getDebt(String transactionGuid){
+        DebtEntity debtEntity = null;
+
+        try{
+            debtEntity = jdbc.query(DebtsQueries.GET_DEBT,
+                    this::toDebtEntity,
+                    transactionGuid);
+        }catch(NotFoundException e){
+            //Catching NotFoundException thrown from toDebtEntity method
+            logger.debug(CLASS_NAME + ".getDebt() - NotFoundException while reading the debt of the transaction: " + transactionGuid, e);
+            throw e;
+        }catch(Exception e){
+            logger.error(CLASS_NAME + ".getDebt() - Something went wrong while reading the debt of the transaction with id: "+ transactionGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.GET_DEBT_ERROR_TITLE,
+                    ErrorKeys.GET_DEBT_ERROR_MESSAGE,
+                    new Object[] {transactionGuid},
+                    e
+            );
+        }
+
+        return debtEntity;
+
     }
 
     private TransactionEntity toTransactionEntity(ResultSet rs) throws SQLException {
@@ -208,13 +232,11 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
             UserEntity debtor = userRepository.getUser(debtorByGuid);
             transactionEntity.setDebtor(debtor);
 
-            //DEBT DETAILS HERE
 
             String createdByGuid = rs.getString((TransactionsQueries.CREATED_BY_COLUMN.toLowerCase()));
             UserEntity createdBy = userRepository.getUser(createdByGuid);
             transactionEntity.setCreatedBy(createdBy);
 
-            //NEED TO TEST FOR ERRORS
             String date = rs.getString((TransactionsQueries.CREATED_DATE_COLUMN.toLowerCase()));
             Timestamp createdDate = Timestamp.valueOf(date);
             transactionEntity.setCreatedDate(createdDate);
@@ -231,5 +253,29 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
 
 
         return transactionEntity;
+    }
+
+    private DebtEntity toDebtEntity(ResultSet rs) throws SQLException{
+
+        DebtEntity debtEntity = null;
+
+        if(rs.next()){
+            debtEntity = new DebtEntity();
+
+            debtEntity.setDebtGuid(rs.getString(DebtsQueries.DEBTGUID_COLUMN.toLowerCase()));
+            debtEntity.setTransactionGuid(rs.getString(DebtsQueries.TRANSACTIONGUID_COLUMN.toLowerCase()));
+            debtEntity.setTotalAmount(rs.getBigDecimal(DebtsQueries.TOTAL_AMOUNT_COLUMN.toLowerCase()));
+            debtEntity.setDebt(rs.getBigDecimal(DebtsQueries.DEBT_COLUMN.toLowerCase()));
+            debtEntity.setDebtSettled(rs.getBoolean(DebtsQueries.DEBT_SETTLED_COLUMN.toLowerCase()));
+            debtEntity.setRevision(rs.getInt(DebtsQueries.REVISION_COLUMN.toLowerCase()));
+
+            String createdByGuid = rs.getString((TransactionsQueries.CREATED_BY_COLUMN.toLowerCase()));
+            UserEntity createdBy = userRepository.getUser(createdByGuid);
+            debtEntity.setCreatedBy(createdBy);
+
+            debtEntity.setCreatedDate(rs.getTimestamp(DebtsQueries.CREATED_DATE_COLUMN.toLowerCase()));
+
+        }
+        return debtEntity;
     }
 }

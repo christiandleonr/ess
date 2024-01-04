@@ -24,4 +24,12 @@ public interface TransactionsRepository {
      * @return transactionEntity
      */
     TransactionEntity getTransaction(String transactionGuid);
+
+    /**
+     *Gets a debt by the transaction guid
+     *
+     * @param transactionGuid transaction id
+     * @return debtEntity
+     */
+    DebtEntity getDebt(String transactionGuid);
 }
