@@ -21,9 +21,7 @@ public class GroupEntity {
     private UserEntity updatedBy;
     private Timestamp updatedDate;
 
-    public GroupEntity() {
-
-    }
+    public GroupEntity() {}
 
     public String getGroupGuid() {
         return groupGuid;

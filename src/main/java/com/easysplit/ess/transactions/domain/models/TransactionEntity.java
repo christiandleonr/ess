@@ -22,9 +22,7 @@ public class TransactionEntity {
     private UserEntity updatedBy;
     private Timestamp updatedDate;
 
-    public TransactionEntity() {
-
-    }
+    public TransactionEntity() {}
 
     public String getTransactionGuid() {
         return transactionGuid;

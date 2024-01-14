@@ -20,9 +20,7 @@ public class DebtEntity {
     private UserEntity createdBy;
     private Timestamp createdDate;
 
-    public DebtEntity() {
-
-    }
+    public DebtEntity() {}
 
     public String getDebtGuid() {
         return debtGuid;

@@ -46,8 +46,8 @@ public class TransactionsController {
         } catch (Exception e) {
             logger.error(CLASS_NAME + ".createTransaction() - Something went wrong while creating the transaction: " + transaction, e);
             infrastructureHelper.throwInternalServerErrorException(
-                    ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
-                    ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
+                    ErrorKeys.CREATE_TRANSACTION_ERROR_TITLE,
+                    ErrorKeys.CREATE_TRANSACTION_ERROR_MESSAGE,
                     new Object[] {transaction},
                     e
             );

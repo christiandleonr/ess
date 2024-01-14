@@ -7,12 +7,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+      - "5005:5005"
     depends_on:
       - database
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/ess
       SPRING_DATASOURCE_USERNAME: christiandleon
       SPRING_DATASOURCE_PASSWORD: 0urD3stiny12
+      _JAVA_OPTIONS: >
+        -Xdebug
+        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
 
   database:
     image: postgres:latest
