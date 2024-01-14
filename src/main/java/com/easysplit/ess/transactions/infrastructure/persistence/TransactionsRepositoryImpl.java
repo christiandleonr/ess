@@ -72,6 +72,8 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     createdBy.getUserGuid(),
                     createdDate
             );
+        } catch (NotFoundException e) {
+          throw e;
         } catch (Exception e) {
             logger.error(CLASS_NAME + ".createTransaction() - Something went wrong while creating the transaction: " + transaction, e);
             infrastructureHelper.throwInternalServerErrorException(
