@@ -46,4 +46,16 @@ public class DebtsQueries {
      */
     public static final String GET_LAST_REVISION = "SELECT " + REVISION_COLUMN + " FROM " + TABLE_NAME
             + " WHERE " + DEBTGUID_COLUMN + " = ? ORDER BY " + REVISION_COLUMN + " DESC LIMIT 1";
+
+    /**
+     * Get the debt by transaction guid
+     */
+    public static final String GET_DEBT = "SELECT " + DEBTGUID_COLUMN + ", "
+            + TOTAL_AMOUNT_COLUMN + ", "
+            + DEBT_COLUMN + ", "
+            + DEBT_SETTLED_COLUMN + ", "
+            + REVISION_COLUMN + ", "
+            + CREATED_BY_COLUMN + ", "
+            + CREATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + TRANSACTIONGUID_COLUMN + " = ? ORDER BY " + REVISION_COLUMN + " DESC LIMIT 1";
+
 }

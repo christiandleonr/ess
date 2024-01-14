@@ -4,7 +4,6 @@ import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
 import com.easysplit.shared.domain.models.Money;
-import org.postgresql.util.PGmoney;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -30,7 +29,6 @@ public class DebtEntity {
     public void setDebtGuid(String debtGuid) {
         this.debtGuid = debtGuid;
     }
-
     public BigDecimal getTotalAmount() {
         return totalAmount;
     }

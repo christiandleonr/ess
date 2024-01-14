@@ -1,5 +1,7 @@
 package com.easysplit.ess.transactions.domain.sql;
 
+import com.easysplit.ess.transactions.domain.models.Debt;
+
 /**
  * Class that holds string variables with the queries for the <i>transactions</i> table
  */
@@ -43,4 +45,19 @@ public final class TransactionsQueries {
             + CREATED_DATE_COLUMN + ", "
             + UPDATED_BY_COLUMN + ", "
             + UPDATED_DATE_COLUMN + " ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    /**
+     * Gets transaction by id
+     */
+    public static final String GET_TRANSACTION = "SELECT " + TRANSACTIONGUID_COLUMN + ", "
+            + NAME_COLUMN + ", "
+            + CURRENCY_COLUMN + ", "
+            + GROUPGUID_COLUMN + ", "
+            + CREDITOR_COLUMN + ", "
+            + DEBTOR_COLUMN + ", "
+            + CREATED_BY_COLUMN + ", "
+            + CREATED_DATE_COLUMN + ", "
+            + UPDATED_BY_COLUMN + ", "
+            + UPDATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + TRANSACTIONGUID_COLUMN + " = ?";
+
 }

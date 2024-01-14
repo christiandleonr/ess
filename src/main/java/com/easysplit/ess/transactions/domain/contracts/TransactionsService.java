@@ -14,4 +14,12 @@ public interface TransactionsService {
      * @return created transaction
      */
     Transaction createNewTransaction(Transaction transaction);
+
+    /**
+     * Gets a Transaction by its guid
+     *
+     * @param transactionGuid transaction id
+     * @return transaction
+     */
+    Transaction getTransaction(String transactionGuid);
 }
