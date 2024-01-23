@@ -16,6 +16,7 @@ import com.easysplit.ess.user.infrastructure.persistence.validators.FriendshipsD
 import com.easysplit.ess.user.infrastructure.persistence.validators.UserDatabaseValidator;
 import com.easysplit.shared.domain.models.ResourceList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService, FriendsService {
     private final FriendshipValidator friendshipValidator;
     private final UserDatabaseValidator userDatabaseValidator;
     private final FriendshipsDatabaseValidator friendshipsDatabaseValidator;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
@@ -39,7 +41,8 @@ public class UserServiceImpl implements UserService, FriendsService {
                            UserValidator userValidator,
                            FriendshipValidator friendshipValidator,
                            UserDatabaseValidator userDatabaseValidator,
-                           FriendshipsDatabaseValidator friendshipsDatabaseValidator) {
+                           FriendshipsDatabaseValidator friendshipsDatabaseValidator,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userValidator = userValidator;
         this.friendshipValidator = friendshipValidator;
@@ -47,6 +50,7 @@ public class UserServiceImpl implements UserService, FriendsService {
         this.friendsRepository = friendsRepository;
         this.groupsRepository = groupsRepository;
         this.friendshipsDatabaseValidator = friendshipsDatabaseValidator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -62,6 +66,8 @@ public class UserServiceImpl implements UserService, FriendsService {
 
         UserEntity createUser = user.toUserEntity();
         userDatabaseValidator.validate(createUser);
+
+        createUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         UserEntity createdUser = userRepository.createUser(createUser);
         return createdUser.toUser();

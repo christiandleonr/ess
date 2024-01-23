@@ -20,6 +20,7 @@ public class UserValidator {
     public static final int USER_USERNAME_LENGTH_LIMIT = 50;
     public static final int USER_EMAIL_LENGTH_LIMIT = 100;
     public static final int USER_PHONE_LENGTH_LIMIT = 10;
+    public static final int USER_PASSWORD_LENGTH_LIMIT = 18;
 
     private final DomainHelper domainHelper;
 
@@ -43,6 +44,7 @@ public class UserValidator {
         validateUserName(user.getName());
         validateLastname(user.getLastname());
         validateUsername(user.getUsername());
+        validatePassword(user.getPassword());
         validateEmail(user.getEmail());
         validatePhone(user.getPhone());
     }
@@ -114,6 +116,31 @@ public class UserValidator {
     }
 
     /**
+     * Validates the user plain text password, the password cannot be null nor empty and must
+     * not exceed 18 characters.
+     *
+     * @param password plain text password provided by user
+     */
+    private void validatePassword(String password) {
+        // TODO Change error messages
+        if (EssUtils.isNullOrEmpty(password)) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_EMPTYUSERNAME_MESSAGE,
+                    new Object[] {password}
+            );
+        }
+
+        if (password.length() > USER_PASSWORD_LENGTH_LIMIT) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_USER_USERNAMETOOLONG_MESSAGE,
+                    new Object[] {USER_USERNAME_LENGTH_LIMIT}
+            );
+        }
+    }
+
+    /**
      * Validates the user email, email cannot be empty
      * the number of characters cannot exceed 100,
      * and the Format has to be valid.
@@ -143,6 +170,7 @@ public class UserValidator {
             );
         }
     }
+
     /**
      *Validates the user phone number, number cannot be empty
      * the number of characters cannot exceed 10,
@@ -182,9 +210,5 @@ public class UserValidator {
         Matcher matcher = pattern.matcher(phone);
 
         return matcher.matches();
-    }
-
-    public void throwIllegalArgumentException() {
-
     }
 }

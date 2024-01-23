@@ -23,6 +23,7 @@ public final class UserQueries {
     public static final String NAME_COLUMN = "NAME";
     public static final String LASTNAME_COLUMN = "LASTNAME";
     public static final String USERNAME_COLUMN = "USERNAME";
+    public static final String PASSWORD_COLUMN = "PASSWORD";
     public static final String EMAIL_COLUMN = "EMAIL";
     public static final String PHONE_COLUMN = "PHONE";
     public static final String CREATE_DATE_COLUMN = "CREATED_DATE";
@@ -34,6 +35,7 @@ public final class UserQueries {
             + NAME_COLUMN + ", "
             + LASTNAME_COLUMN + ", "
             + USERNAME_COLUMN + ", "
+            + PASSWORD_COLUMN + ", "
             + EMAIL_COLUMN + ", "
             + PHONE_COLUMN + ", "
             + CREATE_DATE_COLUMN + " ) VALUES (?, ?, ?, ?, ?, ?, ?)";

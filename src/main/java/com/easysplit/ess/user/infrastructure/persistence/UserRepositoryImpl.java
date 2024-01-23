@@ -3,7 +3,6 @@ package com.easysplit.ess.user.infrastructure.persistence;
 import com.easysplit.ess.user.domain.models.FriendshipEntity;
 import com.easysplit.ess.user.domain.models.FriendshipStatus;
 import com.easysplit.ess.user.domain.sql.FriendshipsQueries;
-import com.easysplit.ess.user.application.UserServiceImpl;
 import com.easysplit.ess.user.domain.contracts.FriendsRepository;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.models.UserEntity;
@@ -47,7 +46,14 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
 
         try {
             jdbc.update(UserQueries.INSERT_USER,
-                    userGuid, user.getName(), user.getLastname(), user.getUsername(), user.getEmail(), user.getPhone(), createdDate);
+                    userGuid,
+                    user.getName(),
+                    user.getLastname(),
+                    user.getUsername(),
+                    user.getPassword(),
+                    user.getEmail(),
+                    user.getPhone(),
+                    createdDate);
         } catch (Exception e) {
             logger.error(CLASS_NAME + ".createUser() - Something went wrong while creating the user: " + user, e);
             infrastructureHelper.throwInternalServerErrorException(
@@ -171,6 +177,7 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         try {
             rowsDeleted = jdbc.update(UserQueries.DELETE_USER_BY_ID, userGuid);
         } catch (Exception e) {
+            logger.error(CLASS_NAME + ".deleteRefreshToken() - Something went wrong while deleting the user with id: " + userGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.DELETE_USER_ERROR_TITLE,
                     ErrorKeys.DELETE_USER_ERROR_MESSAGE,

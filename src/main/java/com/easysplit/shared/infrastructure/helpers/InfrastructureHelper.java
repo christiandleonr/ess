@@ -39,6 +39,16 @@ public class InfrastructureHelper {
     }
 
     /**
+     * Generates an expiry date from the current date adding a duration time.
+     *
+     * @param duration duration in minutes
+     * @return
+     */
+    public Timestamp getExpiryDate(int duration) {
+        return new Timestamp(System.currentTimeMillis() + ((long) duration * 60 * 1000));
+    }
+
+    /**
      * Throws an InternalServerErrorException with the provided error title and error message
      *
      * @param errorTitleKey error title key
