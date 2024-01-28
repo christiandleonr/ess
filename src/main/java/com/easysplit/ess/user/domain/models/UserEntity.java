@@ -1,6 +1,7 @@
 package com.easysplit.ess.user.domain.models;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * User object to be used for database operations
@@ -13,6 +14,7 @@ public class UserEntity {
     private String password;
     private String email;
     private String phone;
+    private List<RoleEntity> roles;
     private Timestamp createdDate;
 
     public UserEntity() {}
@@ -82,6 +84,15 @@ public class UserEntity {
     public void setPhone(String phone){
         this.phone = phone;
     }
+
+    public List<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntity> roles) {
+        this.roles = roles;
+    }
+
     public Timestamp getCreatedDate() {
         return createdDate;
     }

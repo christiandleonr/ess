@@ -1,12 +1,13 @@
 package com.easysplit.ess.user.infrastructure.persistence;
 
-import com.easysplit.ess.user.domain.models.FriendshipEntity;
-import com.easysplit.ess.user.domain.models.FriendshipStatus;
+import com.easysplit.ess.user.domain.contracts.RolesRepository;
+import com.easysplit.ess.user.domain.models.*;
 import com.easysplit.ess.user.domain.sql.FriendshipsQueries;
 import com.easysplit.ess.user.domain.contracts.FriendsRepository;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
-import com.easysplit.ess.user.domain.models.UserEntity;
+import com.easysplit.ess.user.domain.sql.RolesQueries;
 import com.easysplit.ess.user.domain.sql.UserQueries;
+import com.easysplit.ess.user.domain.sql.UserRolesQueries;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
@@ -26,11 +27,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository, FriendsRepository {
+public class UserRepositoryImpl implements UserRepository, RolesRepository, FriendsRepository {
     private static final String CLASS_NAME = UserRepositoryImpl.class.getName();
     private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
     private final JdbcTemplate jdbc;
     private final InfrastructureHelper infrastructureHelper;
+    private static final String ES_USER_ROLEGUID = "93605fa8-0fd6-4d1a-a0a5-80f4d892b091";
 
     @Autowired
     public UserRepositoryImpl(JdbcTemplate jdbc, InfrastructureHelper infrastructureHelper){
@@ -66,6 +68,12 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
 
         user.setUserGuid(userGuid);
         user.setCreatedDate(createdDate);
+
+        /**
+         * Handle user roles
+         */
+        insertUserRole(new UserRoleEntity(userGuid, ES_USER_ROLEGUID));
+        user.setRoles(getRoles(userGuid));
 
         return user;
     }
@@ -187,6 +195,33 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         }
 
         logger.info(CLASS_NAME + ".deleteUserById() - Users deleted: " + rowsDeleted);
+    }
+
+    @Override
+    @Transactional
+    public void insertUserRole(UserRoleEntity userRoleEntity) {
+        try {
+            jdbc.update(UserRolesQueries.INSERT_USER_ROLE,
+                    userRoleEntity.getUserGuid(),
+                    userRoleEntity.getRoleGuid()
+            );
+        } catch (Exception e) {
+            // TODO Work on exceptions
+        }
+    }
+
+    @Override
+    public List<RoleEntity> getRoles(String userGuid) {
+        List<RoleEntity> roles = new ArrayList<>();
+        try {
+            roles = jdbc.query(RolesQueries.GET_USER_ROLES,
+                    this::toRoles,
+                    userGuid);
+        } catch (Exception e) {
+            // TODO Work on exceptions
+        }
+
+        return roles;
     }
 
     @Override
@@ -385,6 +420,31 @@ public class UserRepositoryImpl implements UserRepository, FriendsRepository {
         userEntity.setCreatedDate(rs.getTimestamp(UserQueries.CREATE_DATE_COLUMN.toLowerCase()));
 
         return userEntity;
+    }
+
+    private List<RoleEntity> toRoles(ResultSet rs) throws SQLException {
+        List<RoleEntity> roles = new ArrayList<>();
+
+        while (rs.next()) {
+            roles.add(buildRoleEntity(rs));
+        }
+
+        return roles;
+    }
+
+    /**
+     * Build a role entity from a result set
+     *
+     * @param rs result set
+     * @return role entity
+     */
+    private RoleEntity buildRoleEntity(ResultSet rs) throws SQLException {
+        RoleEntity roleEntity = new RoleEntity();
+
+        roleEntity.setRoleGuid(rs.getString(RolesQueries.ROLEGUID_COLUMN).toLowerCase());
+        roleEntity.setName(rs.getString(RolesQueries.NAME_COLUMN).toLowerCase());
+
+        return roleEntity;
     }
 
     /**

@@ -28,4 +28,11 @@ public class ExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorTitle(), e.getErrorMessage(), e);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorTitle(), e.getErrorMessage(), e);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

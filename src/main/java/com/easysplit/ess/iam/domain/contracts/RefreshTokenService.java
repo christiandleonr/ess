@@ -21,4 +21,11 @@ public interface RefreshTokenService {
      * @return refresh token details
      */
     RefreshToken getByToken(String token);
+
+    /**
+     * Verifies that a refresh token has not expired
+     *
+     * @param refreshToken token to be validated
+     */
+    void verifyExpiration(RefreshToken refreshToken);
 }
