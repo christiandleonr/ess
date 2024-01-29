@@ -16,6 +16,7 @@ public class User {
     private String password;
     private String email;
     private String phone;
+    private List<Role> roles;
     private Timestamp createdDate;
     private List<Link> links;
 
@@ -85,6 +86,14 @@ public class User {
         this.phone = phone;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -103,13 +112,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "id : " + this.id + " | "
+        return "User ( id : " + this.id + " | "
                 + "name : " + this.name + " | "
                 + "lastname : " + this.lastname + " | "
                 + "username : " + this.username + " | "
                 + "email : " + this.email + " | "
                 + "phone : " + this.phone + " | "
-                + "createdDate : " + this.createdDate;
+                + "roles : " + this.roles + " | "
+                + "createdDate : " + this.createdDate + " )";
     }
 
     /**
@@ -118,6 +128,11 @@ public class User {
      * @return equivalent user entity
      */
     public UserEntity toUserEntity() {
-        return UserMapper.INSTANCE.toUserEntity(this);
+        UserEntity userEntity = UserMapper.INSTANCE.toUserEntity(this);
+        userEntity.setRoles(
+                RoleMapper.INSTANCE.toListOfRoleEntities(this.roles)
+        );
+
+        return userEntity;
     }
 }

@@ -2,20 +2,26 @@ package com.easysplit.ess.iam.application;
 
 import com.easysplit.ess.iam.domain.contracts.RefreshTokenRepository;
 import com.easysplit.ess.iam.domain.contracts.RefreshTokenService;
+import com.easysplit.ess.iam.domain.models.IAMUserDetails;
 import com.easysplit.ess.iam.domain.models.RefreshToken;
+import com.easysplit.ess.user.domain.contracts.UserRepository;
+import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.Instant;
 
-public class IamServiceImpl implements RefreshTokenService {
+public class IamServiceImpl implements RefreshTokenService, UserDetailsService {
     private final RefreshTokenRepository refreshTokenRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public IamServiceImpl(RefreshTokenRepository refreshTokenRepository) {
+    public IamServiceImpl(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
         this.refreshTokenRepository = refreshTokenRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -40,4 +46,10 @@ public class IamServiceImpl implements RefreshTokenService {
     }
 
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.getUserByUsername(username, true /* throwException */).toUser();
+
+        return new IAMUserDetails(user);
+    }
 }

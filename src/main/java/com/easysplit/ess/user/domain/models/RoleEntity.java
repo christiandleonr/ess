@@ -24,4 +24,19 @@ public class RoleEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Role ( id : " + this.roleGuid + " | "
+                + "name : " + this.name  + " )";
+    }
+
+    /**
+     * Generates a role object from this entity class
+     *
+     * @return role object
+     */
+    private Role toRole() {
+        return RoleMapper.INSTANCE.toRole(this);
+    }
 }

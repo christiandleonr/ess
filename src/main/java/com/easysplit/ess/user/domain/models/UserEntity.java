@@ -103,11 +103,14 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "id : " + this.userGuid + " | "
+        return "User ( id : " + this.userGuid + " | "
                 + "name : " + this.name + " | "
                 + "lastname : " + this.lastname + " | "
                 + "username : " + this.username + " | "
-                + "createdDate : " + this.createdDate;
+                + "email : " + this.email + " | "
+                + "phone : " + this.phone + " | "
+                + "roles : " + this.roles + " | "
+                + "createdDate : " + this.createdDate + " )";
     }
 
     /**
@@ -116,6 +119,11 @@ public class UserEntity {
      * @return equivalent user
      */
     public User toUser() {
-        return UserMapper.INSTANCE.toUser(this);
+        User user = UserMapper.INSTANCE.toUser(this);
+        user.setRoles(
+            RoleMapper.INSTANCE.toListOfRoles(this.roles)
+        );
+        
+        return user;
     }
 }

@@ -70,7 +70,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
         user.setCreatedDate(createdDate);
 
         /**
-         * Handle user roles
+         * Handle user roles - TODO Think a better way of doing this
          */
         insertUserRole(new UserRoleEntity(userGuid, ES_USER_ROLEGUID));
         user.setRoles(getRoles(userGuid));
@@ -113,7 +113,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
     }
 
     @Override
-    public UserEntity getUserByUsername(String username) {
+    public UserEntity getUserByUsername(String username, boolean throwException) {
         UserEntity userEntity = null;
 
         try {
@@ -130,11 +130,20 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
             );
         }
 
+        if (throwException && userEntity == null) {
+            logger.debug(CLASS_NAME + ".getUser() - User with username " + username + " not found");
+            infrastructureHelper.throwNotFoundException(
+                    ErrorKeys.GET_USER_NOT_FOUND_TITLE,
+                    ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
+                    new Object[]{username} // TODO Work on error message to specify it was looked by username
+            );
+        }
+
         return userEntity;
     }
 
     @Override
-    public UserEntity getUserByEmail(String email) {
+    public UserEntity getUserByEmail(String email, boolean throwException) {
         UserEntity userEntity = null;
 
         try {
@@ -151,11 +160,20 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
             );
         }
 
+        if (throwException && userEntity == null) {
+            logger.debug(CLASS_NAME + ".getUser() - User with email " + email + " not found");
+            infrastructureHelper.throwNotFoundException(
+                    ErrorKeys.GET_USER_NOT_FOUND_TITLE,
+                    ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
+                    new Object[]{email} // TODO Work on error message to specify it was looked by email
+            );
+        }
+
         return userEntity;
     }
 
     @Override
-    public UserEntity getUserByPhone(String phone) {
+    public UserEntity getUserByPhone(String phone, boolean throwException) {
         UserEntity userEntity = null;
 
         try {
@@ -169,6 +187,15 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.CREATE_USER_BY_PHONE_MESSAGE,
                     new Object[] {phone},
                     e
+            );
+        }
+
+        if (throwException && userEntity == null) {
+            logger.debug(CLASS_NAME + ".getUser() - User with username " + phone + " not found");
+            infrastructureHelper.throwNotFoundException(
+                    ErrorKeys.GET_USER_NOT_FOUND_TITLE,
+                    ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
+                    new Object[]{phone} // TODO Work on error message to specify it was looked by phone
             );
         }
 

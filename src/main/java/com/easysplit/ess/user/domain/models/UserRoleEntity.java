@@ -29,4 +29,10 @@ public class UserRoleEntity {
     public void setRoleGuid(String roleGuid) {
         this.roleGuid = roleGuid;
     }
+
+    @Override
+    public String toString() {
+        return "User Role Relation ( user id : " + this.userGuid + " | "
+                + "role id : " + this.roleGuid  + " )";
+    }
 }
