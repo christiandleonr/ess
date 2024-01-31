@@ -6,6 +6,9 @@ import com.easysplit.shared.domain.models.Link;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Refresh token object to be serialized
+ */
 public class RefreshToken {
     private long id;
     private String token;
