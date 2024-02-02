@@ -28,21 +28,21 @@ public interface UserRepository {
      *
      * @param username username
      */
-    UserEntity getUserByUsername(String username);
+    UserEntity getUserByUsername(String username, boolean throwException);
 
     /**
      * Gets user by its email if exist
      *
      * @param email user email
      */
-    UserEntity getUserByEmail(String email);
+    UserEntity getUserByEmail(String email, boolean throwException);
 
     /**
      * Gets user by its phone number if exist
      *
      * @param phone user phone number
      */
-    UserEntity getUserByPhone(String phone);
+    UserEntity getUserByPhone(String phone, boolean throwException);
 
     /**
      * Deletes user by its guid

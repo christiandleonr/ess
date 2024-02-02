@@ -18,6 +18,7 @@ public interface UserMapper {
             @Mapping(source="username", target="username"),
             @Mapping(source="email", target="email"),
             @Mapping(source="phone", target="phone"),
+            @Mapping(target="roles", ignore = true),
             @Mapping(source="createdDate", target="createdDate"),
     })
     User toUser(UserEntity userEntity);
@@ -31,6 +32,7 @@ public interface UserMapper {
             @Mapping(source="username", target="username"),
             @Mapping(source="email", target="email"),
             @Mapping(source="phone", target="phone"),
+            @Mapping(target="roles", ignore = true),
             @Mapping(source="createdDate", target="createdDate"),
     })
     UserEntity toUserEntity(User user);

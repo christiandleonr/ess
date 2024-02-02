@@ -39,7 +39,7 @@ public class UserDatabaseValidator {
      * @param username user username
      */
     private void validateUsernameUniqueness(String username) {
-        UserEntity userEntity = userRepository.getUserByUsername(username);
+        UserEntity userEntity = userRepository.getUserByUsername(username, false /* throwException */);
         if (userEntity != null) {
             infrastructureHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
@@ -55,7 +55,7 @@ public class UserDatabaseValidator {
      * @param email user email
      */
     private void validateUserEmailUniqueness(String email) {
-        UserEntity userEntity = userRepository.getUserByEmail(email);
+        UserEntity userEntity = userRepository.getUserByEmail(email, false /* throwException */);
         if (userEntity != null) {
             infrastructureHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
@@ -71,7 +71,7 @@ public class UserDatabaseValidator {
      * @param phone user phone
      */
     private void validateUserPhoneUniqueness(String phone) {
-        UserEntity userEntity = userRepository.getUserByPhone(phone);
+        UserEntity userEntity = userRepository.getUserByPhone(phone, false /* throwException */);
         if (userEntity != null) {
             infrastructureHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,

@@ -80,10 +80,10 @@ public class Friendship {
 
     @Override
     public String toString() {
-        return "id : " + this.id + " | "
+        return "Friendship ( id : " + this.id + " | "
                 + "friend : " + this.friend + " | "
                 + "status : " + this.status + " | "
                 + "createdDate : " + this.createdDate + " | "
-                + "addedBy : " + this.addedBy;
+                + "addedBy : " + this.addedBy + " )";
     }
 }

@@ -69,10 +69,10 @@ public class FriendshipEntity {
 
     @Override
     public String toString() {
-        return "id : " + this.friendshipGuid + " | "
+        return "Friendship ( id : " + this.friendshipGuid + " | "
                 + "friend : " + this.friend + " | "
                 + "status : " + this.status + " | "
                 + "createdDate : " + this.createdDate + " | "
-                + "addedBy : " + this.addedBy;
+                + "addedBy : " + this.addedBy + " )";
     }
 }

@@ -1,6 +1,7 @@
 package com.easysplit.ess.user.domain.models;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * User object to be used for database operations
@@ -10,8 +11,10 @@ public class UserEntity {
     private String name;
     private String lastname;
     private String username;
+    private String password;
     private String email;
     private String phone;
+    private List<RoleEntity> roles;
     private Timestamp createdDate;
 
     public UserEntity() {}
@@ -58,6 +61,14 @@ public class UserEntity {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail(){
         return email;
     }
@@ -73,6 +84,15 @@ public class UserEntity {
     public void setPhone(String phone){
         this.phone = phone;
     }
+
+    public List<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntity> roles) {
+        this.roles = roles;
+    }
+
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -83,11 +103,14 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "id : " + this.userGuid + " | "
+        return "User ( id : " + this.userGuid + " | "
                 + "name : " + this.name + " | "
                 + "lastname : " + this.lastname + " | "
                 + "username : " + this.username + " | "
-                + "createdDate : " + this.createdDate;
+                + "email : " + this.email + " | "
+                + "phone : " + this.phone + " | "
+                + "roles : " + this.roles + " | "
+                + "createdDate : " + this.createdDate + " )";
     }
 
     /**
@@ -96,6 +119,11 @@ public class UserEntity {
      * @return equivalent user
      */
     public User toUser() {
-        return UserMapper.INSTANCE.toUser(this);
+        User user = UserMapper.INSTANCE.toUser(this);
+        user.setRoles(
+            RoleMapper.INSTANCE.toListOfRoles(this.roles)
+        );
+        
+        return user;
     }
 }

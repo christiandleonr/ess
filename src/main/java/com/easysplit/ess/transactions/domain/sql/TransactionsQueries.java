@@ -1,7 +1,5 @@
 package com.easysplit.ess.transactions.domain.sql;
 
-import com.easysplit.ess.transactions.domain.models.Debt;
-
 /**
  * Class that holds string variables with the queries for the <i>transactions</i> table
  */
