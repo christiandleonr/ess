@@ -38,7 +38,7 @@ public final class UserQueries {
             + PASSWORD_COLUMN + ", "
             + EMAIL_COLUMN + ", "
             + PHONE_COLUMN + ", "
-            + CREATE_DATE_COLUMN + " ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            + CREATE_DATE_COLUMN + " ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     /**
      * Gets user by id
@@ -47,6 +47,7 @@ public final class UserQueries {
             + NAME_COLUMN + ", "
             + LASTNAME_COLUMN + ", "
             + USERNAME_COLUMN + ", "
+            + PASSWORD_COLUMN + ", "
             + EMAIL_COLUMN + ", "
             + PHONE_COLUMN + ", "
             + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + USERGUID_COLUMN + " = ?";
@@ -58,6 +59,7 @@ public final class UserQueries {
             + NAME_COLUMN + ", "
             + LASTNAME_COLUMN + ", "
             + USERNAME_COLUMN + ", "
+            + PASSWORD_COLUMN + ", "
             + EMAIL_COLUMN + ", "
             + PHONE_COLUMN + ", "
             + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + USERNAME_COLUMN + " = ?";

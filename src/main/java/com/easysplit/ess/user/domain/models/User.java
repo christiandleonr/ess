@@ -1,6 +1,7 @@
 package com.easysplit.ess.user.domain.models;
 
 import com.easysplit.shared.domain.models.Link;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.sql.Timestamp;
 import java.util.List;

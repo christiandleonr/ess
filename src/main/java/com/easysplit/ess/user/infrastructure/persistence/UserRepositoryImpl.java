@@ -438,13 +438,20 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
 
         UserEntity userEntity = new UserEntity();
 
-        userEntity.setUserGuid(rs.getString(UserQueries.USERGUID_COLUMN.toLowerCase()));
+        String userGuid = rs.getString(UserQueries.USERGUID_COLUMN.toLowerCase());
+
+        userEntity.setUserGuid(userGuid);
         userEntity.setName(rs.getString(UserQueries.NAME_COLUMN.toLowerCase()));
         userEntity.setLastname(rs.getString(UserQueries.LASTNAME_COLUMN.toLowerCase()));
         userEntity.setUsername(rs.getString(UserQueries.USERNAME_COLUMN.toLowerCase()));
+        userEntity.setPassword(rs.getString(UserQueries.PASSWORD_COLUMN.toLowerCase()));
         userEntity.setEmail(rs.getString(UserQueries.EMAIL_COLUMN.toLowerCase()));
         userEntity.setPhone(rs.getString(UserQueries.PHONE_COLUMN.toLowerCase()));
         userEntity.setCreatedDate(rs.getTimestamp(UserQueries.CREATE_DATE_COLUMN.toLowerCase()));
+
+        userEntity.setRoles(
+            getRoles(userGuid)
+        );
 
         return userEntity;
     }

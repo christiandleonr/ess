@@ -39,6 +39,7 @@ public class IamController {
             }
         } catch (Exception e) {
             // TODO Work on exceptions
+            throw e;
         }
 
         return new ResponseEntity<>(token, HttpStatus.OK);

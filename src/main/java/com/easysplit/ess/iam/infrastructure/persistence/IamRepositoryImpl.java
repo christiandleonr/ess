@@ -14,12 +14,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.*;
 import java.util.Objects;
 import java.util.UUID;
 
+@Repository
 public class IamRepositoryImpl implements RefreshTokenRepository {
     private static final String CLASS_NAME = IamRepositoryImpl.class.getName();
     private final InfrastructureHelper infrastructureHelper;
