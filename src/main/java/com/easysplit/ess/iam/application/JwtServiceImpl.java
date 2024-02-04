@@ -19,6 +19,7 @@ import java.util.function.Function;
 public class JwtServiceImpl implements JwtService {
     public static final String SECRET = "357638792F423F4428472B4B6250655368566D597133743677397A2443264629";
     public static final long EXPIRATION_TIME = 1000 * 60 * 5; // 5 minutes
+    public static final long RT_EXPIRATION_TIME = 1000 * 60 * 60; // 60 minutes
 
     @Override
     public String extractUsername(String token) {
@@ -43,25 +44,27 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(String username){
+    public String generateToken(String username, boolean isRefreshToken){
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+
+        long expirationTime = isRefreshToken ? RT_EXPIRATION_TIME : EXPIRATION_TIME;
+        return createToken(claims, username, expirationTime);
     }
 
     /**
-     * Creates a token adding it claims and the username as subject
+     * Creates a token adding claims and the username as subject
      *
      * @param claims claims to be added
-     * @param username username
+     * @param username username used as subject
      * @return created token
      */
-    private String createToken(Map<String, Object> claims, String username) {
+    private String createToken(Map<String, Object> claims, String username, long expirationTime) {
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 

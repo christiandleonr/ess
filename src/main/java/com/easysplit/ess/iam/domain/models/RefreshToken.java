@@ -12,7 +12,6 @@ import java.util.List;
 public class RefreshToken {
     private long id;
     private String token;
-    private Timestamp expiryDate;
     private User user;
     private List<Link> links;
 
@@ -30,14 +29,6 @@ public class RefreshToken {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public Timestamp getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Timestamp expiryDate) {
-        this.expiryDate = expiryDate;
     }
 
     public User getUser() {
@@ -66,5 +57,12 @@ public class RefreshToken {
         refreshToken.setUser(this.user.toUserEntity());
 
         return refreshToken;
+    }
+
+    @Override
+    public String toString() {
+        return "RefreshToken ( id : " + this.id + " | "
+                + "token : " + this.token
+                + "user : " + this.user + " )";
     }
 }

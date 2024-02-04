@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 public class RefreshTokenEntity {
     private long id;
     private String token;
-    private Timestamp expiryDate;
     private UserEntity user;
 
     public long getId() {
@@ -27,14 +26,6 @@ public class RefreshTokenEntity {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public Timestamp getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Timestamp expiryDate) {
-        this.expiryDate = expiryDate;
     }
 
     public UserEntity getUser() {
@@ -55,5 +46,12 @@ public class RefreshTokenEntity {
         refreshToken.setUser(this.user.toUser());
 
         return refreshToken;
+    }
+
+    @Override
+    public String toString() {
+        return "RefreshToken ( id : " + this.id + " | "
+                + "token : " + this.token
+                + "user : " + this.user + " )";
     }
 }

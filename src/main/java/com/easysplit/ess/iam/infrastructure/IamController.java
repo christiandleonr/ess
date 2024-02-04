@@ -1,7 +1,10 @@
 package com.easysplit.ess.iam.infrastructure;
 
 import com.easysplit.ess.iam.domain.contracts.JwtService;
+import com.easysplit.ess.iam.domain.contracts.RefreshTokenService;
 import com.easysplit.ess.iam.domain.models.Auth;
+import com.easysplit.ess.iam.domain.models.RefreshToken;
+import com.easysplit.ess.iam.domain.models.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,24 +22,38 @@ import org.springframework.web.bind.annotation.RestController;
 public class IamController {
     private static final Logger logger = LoggerFactory.getLogger(IamController.class);
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
 
-    public IamController(AuthenticationManager authenticationManager, JwtService jwtService) {
+    public IamController(AuthenticationManager authenticationManager, RefreshTokenService refreshTokenService, JwtService jwtService) {
         this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping
-    public ResponseEntity<String> authenticate(@RequestBody Auth auth) {
-        String token = null;
+    public ResponseEntity<Token> authenticate(@RequestBody Auth auth) {
+        Token token = null;
 
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword())
             );
             if (authentication.isAuthenticated()) {
-                token = jwtService.generateToken(auth.getUsername());
+                token = refreshTokenService.buildEssToken(auth.getUsername());
             }
+        } catch (Exception e) {
+            // TODO Work on exceptions
+            throw e;
+        }
+
+        return new ResponseEntity<>(token, HttpStatus.OK);
+    }
+
+    @PostMapping("/refreshToken")
+    public ResponseEntity<Token> refreshToken(@RequestBody RefreshToken refreshToken) {
+        Token token = null;
+
+        try {
+            token = refreshTokenService.refreshToken(refreshToken);
         } catch (Exception e) {
             // TODO Work on exceptions
             throw e;

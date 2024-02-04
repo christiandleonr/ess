@@ -12,14 +12,12 @@ public interface RefreshTokenMapper {
     @Mappings({
             @Mapping(source="id", target="id"),
             @Mapping(source="token", target="token"),
-            @Mapping(source="expiryDate", target="expiryDate"),
     })
     RefreshTokenEntity toRefreshTokenEntity(RefreshToken refreshToken);
 
     @Mappings({
             @Mapping(source="id", target="id"),
             @Mapping(source="token", target="token"),
-            @Mapping(source="expiryDate", target="expiryDate"),
     })
     RefreshToken toRefreshToken(RefreshTokenEntity refreshToken);
 }
