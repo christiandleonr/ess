@@ -15,9 +15,10 @@ public interface FriendsService {
      * the data provided in the payload
      *
      * @param friendship user to be created
+     * @param addedById id of the user who is created the relation
      * @return created user
      */
-    Friendship addFriend(Friendship friendship);
+    Friendship addFriend(Friendship friendship, String addedById);
 
     /**
      * Lists all friends of a specific user from database

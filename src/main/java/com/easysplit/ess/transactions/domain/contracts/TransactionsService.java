@@ -11,9 +11,10 @@ public interface TransactionsService {
      * data validations
      *
      * @param transaction transaction to be created
+     * @param createdById id of the user who is creating the transaction
      * @return created transaction
      */
-    Transaction createNewTransaction(Transaction transaction);
+    Transaction createNewTransaction(Transaction transaction, String createdById);
 
     /**
      * Gets a Transaction by its guid

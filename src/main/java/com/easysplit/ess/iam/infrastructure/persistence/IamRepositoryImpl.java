@@ -5,6 +5,7 @@ import com.easysplit.ess.iam.domain.models.RefreshTokenEntity;
 import com.easysplit.ess.iam.domain.sql.RefreshTokenQueries;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.models.UserEntity;
+import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.NotFoundException;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
 import org.slf4j.Logger;
@@ -12,26 +13,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.*;
-import java.util.Objects;
-import java.util.UUID;
 
 @Repository
 public class IamRepositoryImpl implements RefreshTokenRepository {
     private static final String CLASS_NAME = IamRepositoryImpl.class.getName();
     private final UserRepository userRepository;
     private final JdbcTemplate jdbc;
+    private final InfrastructureHelper infrastructureHelper;
     private static final Logger logger = LoggerFactory.getLogger(IamRepositoryImpl.class);
 
     @Autowired
     public IamRepositoryImpl(UserRepository userRepository,
+                             InfrastructureHelper infrastructureHelper,
                              JdbcTemplate jdbc) {
         this.userRepository = userRepository;
+        this.infrastructureHelper = infrastructureHelper;
         this.jdbc = jdbc;
     }
 
@@ -41,7 +41,7 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
         RefreshTokenEntity refreshToken = null;
 
         try {
-            UserEntity user = userRepository.getUserByUsername(username, false /* throwException */);
+            UserEntity user = userRepository.getUserByUsername(username, true /* throwException */);
 
             PreparedStatementCreator preparedStatementCreator = connection -> {
                 PreparedStatement ps = connection.prepareStatement(
@@ -53,17 +53,22 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
                 return ps;
             };
 
+            deleteRefreshTokenByUser(user.getUserGuid());
             jdbc.update(preparedStatementCreator);
 
             refreshToken = new RefreshTokenEntity();
             refreshToken.setToken(jwtToken);
             refreshToken.setUser(user);
         } catch (NotFoundException e) {
-            // TODO Work on exceptions
             logger.error(CLASS_NAME + ".createRefreshToken() - Something went wrong while reading a resource", e);
+            throw e;
         } catch (Exception e) {
-            // TODO Work on exceptions
             logger.error(CLASS_NAME + ".createRefreshToken() - Something went wrong while inserting the refresh token", e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.AUTHENTICATION_ERROR_TITLE,
+                    ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
+                    null
+            );
         }
 
         return refreshToken;
@@ -78,16 +83,24 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
                     token
             );
         } catch (NotFoundException e) {
-            // TODO Work on exceptions
             logger.error(CLASS_NAME + ".getByToken() - Something went wrong while reading a resource", e);
+            throw e;
         } catch (Exception e) {
-            // TODO Work on exceptions
             logger.error(CLASS_NAME + ".getByToken() - Something went wrong while reading the refresh token with token: " + token, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.AUTHENTICATION_ERROR_TITLE,
+                    ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
+                    null
+            );
         }
 
         if (refreshTokenEntity == null) {
-            // TODO Work on exceptions, throw not found exception
             logger.debug(CLASS_NAME + ".getByToken() - token " + token + " not found");
+            infrastructureHelper.throwNotFoundException(
+                    ErrorKeys.REFRESH_TOKEN_NOT_FOUND_TITLE,
+                    ErrorKeys.REFRESH_TOKEN_NOT_FOUND_MESSAGE,
+                    new Object[] {token}
+            );
         }
 
         return refreshTokenEntity;
@@ -103,8 +116,30 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
         try {
             jdbc.update(RefreshTokenQueries.DELETE_REFRESH_TOKEN, token);
         } catch (Exception e) {
-            // TODO Work on exceptions
             logger.error(CLASS_NAME + ".deleteRefreshToken() - Something went wrong while deleting the refresh token with token: " + token, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.AUTHENTICATION_ERROR_TITLE,
+                    ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
+                    null
+            );
+        }
+
+        logger.info(CLASS_NAME + ".deleteRefreshToken() - rows deleted: " + rowsDeleted);
+    }
+
+    @Override
+    @Transactional
+    public void deleteRefreshTokenByUser(String userGuid) {
+        int rowsDeleted = 0;
+        try {
+            jdbc.update(RefreshTokenQueries.DELETE_REFRESH_TOKEN_BY_USER, userGuid);
+        } catch (Exception e) {
+            logger.error(CLASS_NAME + ".deleteRefreshTokenByUser() - Something went wrong while deleting the refresh token with user id: " + userGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.AUTHENTICATION_ERROR_TITLE,
+                    ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
+                    null
+            );
         }
 
         logger.info(CLASS_NAME + ".deleteRefreshToken() - rows deleted: " + rowsDeleted);

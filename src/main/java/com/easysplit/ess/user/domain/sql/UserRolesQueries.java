@@ -26,4 +26,6 @@ public class UserRolesQueries {
      */
     public static final String INSERT_USER_ROLE = "INSERT INTO " + TABLE_NAME
             + " ( " + USERGUID_COLUMN + " ," + ROLEGUID_COLUMN + " ) VALUES (?, ?)";
+
+    public static final String DELETE_USER_ROLES = "DELETE FROM " + TABLE_NAME + " WHERE " + USERGUID_COLUMN + " = ?";
 }

@@ -1,12 +1,10 @@
 package com.easysplit.ess.user.application;
 
 import com.easysplit.ess.groups.domain.contracts.GroupsRepository;
+import com.easysplit.ess.iam.domain.contracts.RefreshTokenRepository;
+import com.easysplit.ess.user.domain.contracts.*;
 import com.easysplit.ess.user.domain.models.Friendship;
 import com.easysplit.ess.user.domain.models.FriendshipEntity;
-import com.easysplit.ess.user.domain.contracts.FriendsRepository;
-import com.easysplit.ess.user.domain.contracts.FriendsService;
-import com.easysplit.ess.user.domain.contracts.UserRepository;
-import com.easysplit.ess.user.domain.contracts.UserService;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.models.UserEntity;
 import com.easysplit.ess.user.domain.models.UserMapper;
@@ -27,6 +25,8 @@ public class UserServiceImpl implements UserService, FriendsService {
     private final UserRepository userRepository;
     private final FriendsRepository friendsRepository;
     private final GroupsRepository groupsRepository;
+    private final RolesRepository rolesRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final UserValidator userValidator;
     private final FriendshipValidator friendshipValidator;
     private final UserDatabaseValidator userDatabaseValidator;
@@ -38,17 +38,21 @@ public class UserServiceImpl implements UserService, FriendsService {
     public UserServiceImpl(UserRepository userRepository,
                            FriendsRepository friendsRepository,
                            GroupsRepository groupsRepository,
+                           RolesRepository rolesRepository,
+                           RefreshTokenRepository refreshTokenRepository,
                            UserValidator userValidator,
                            FriendshipValidator friendshipValidator,
                            UserDatabaseValidator userDatabaseValidator,
                            FriendshipsDatabaseValidator friendshipsDatabaseValidator,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.rolesRepository = rolesRepository;
         this.userValidator = userValidator;
         this.friendshipValidator = friendshipValidator;
         this.userDatabaseValidator = userDatabaseValidator;
         this.friendsRepository = friendsRepository;
         this.groupsRepository = groupsRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
         this.friendshipsDatabaseValidator = friendshipsDatabaseValidator;
         this.passwordEncoder = passwordEncoder;
     }
@@ -78,20 +82,23 @@ public class UserServiceImpl implements UserService, FriendsService {
     public void deleteUser(String userGuid) {
         friendsRepository.deleteUserFriendships(userGuid);
         groupsRepository.deleteGroupMember(userGuid);
+        rolesRepository.deleteUserRoles(userGuid);
+        refreshTokenRepository.deleteRefreshTokenByUser(userGuid);
         userRepository.deleteUserById(userGuid);
     }
 
     @Override
-    public Friendship addFriend(Friendship friendship) {
+    public Friendship addFriend(Friendship friendship, String addedById) {
         friendshipValidator.validate(friendship);
 
         friendshipsDatabaseValidator.validateFriendshipNotExist(
                 friendship.getFriend().getId(),
-                friendship.getAddedBy().getId()
+                addedById
         );
 
         FriendshipEntity createdFriendship = friendsRepository.addFriend(
-                friendship.toFriendshipEntity()
+                friendship.toFriendshipEntity(),
+                addedById
         );
 
         return createdFriendship.toFriendship();

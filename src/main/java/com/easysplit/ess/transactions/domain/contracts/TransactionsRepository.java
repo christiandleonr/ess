@@ -13,9 +13,10 @@ public interface TransactionsRepository {
      * but it's always represented as a transaction between two user.
      *
      * @param transactionEntity transaction
+     * @param createdByGuid id of the user who is creating the transaction
      * @return transaction created
      */
-    TransactionEntity createTransaction(TransactionEntity transactionEntity);
+    TransactionEntity createTransaction(TransactionEntity transactionEntity, String createdByGuid);
 
     /**
      * Gets a transaction by is guid

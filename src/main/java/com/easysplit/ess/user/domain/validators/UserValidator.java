@@ -122,11 +122,10 @@ public class UserValidator {
      * @param password plain text password provided by user
      */
     private void validatePassword(String password) {
-        // TODO Change error messages
         if (EssUtils.isNullOrEmpty(password)) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
-                    ErrorKeys.CREATE_USER_EMPTYUSERNAME_MESSAGE,
+                    ErrorKeys.CREATE_USER_EMPTYPASSWORD_MESSAGE,
                     new Object[] {password}
             );
         }
@@ -134,7 +133,7 @@ public class UserValidator {
         if (password.length() > USER_PASSWORD_LENGTH_LIMIT) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
-                    ErrorKeys.CREATE_USER_USERNAMETOOLONG_MESSAGE,
+                    ErrorKeys.CREATE_USER_PASSWORDTOOLONG_MESSAGE,
                     new Object[] {USER_USERNAME_LENGTH_LIMIT}
             );
         }

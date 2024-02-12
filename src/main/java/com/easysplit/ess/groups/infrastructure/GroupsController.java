@@ -31,7 +31,8 @@ public class GroupsController {
     public ResponseEntity<Group> createGroup(@RequestBody Group group) {
         Group createdGroup = null;
         try {
-            createdGroup = groupsService.createGroup(group, group.getCreatedBy().getId());
+            String createdById = infrastructureHelper.getAuthenticatedUserId();
+            createdGroup = groupsService.createGroup(group, createdById);
 
             createdGroup.setLinks(infrastructureHelper.buildLinks(GROUPS_RESOURCE, createdGroup.getId()));
         } catch (NotFoundException e) {
@@ -49,7 +50,7 @@ public class GroupsController {
                     ErrorKeys.CREATE_GROUP_ERROR_TITLE,
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
                     new Object[] {group},
-                    e
+                    e.getCause()
             );
         }
 
@@ -72,7 +73,7 @@ public class GroupsController {
                     ErrorKeys.DELETE_GROUP_ERROR_TITLE,
                     ErrorKeys.DELETE_GROUP_ERROR_MESSAGE,
                     new Object[] {id},
-                    e
+                    e.getCause()
             );
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -98,7 +99,7 @@ public class GroupsController {
                     ErrorKeys.GET_USER_ERROR_TITLE,
                     ErrorKeys.GET_USER_ERROR_MESSAGE,
                     new Object[] {id},
-                    e
+                    e.getCause()
             );
         }
 

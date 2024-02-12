@@ -40,4 +40,10 @@ public class RefreshTokenQueries {
      */
     public static final String DELETE_REFRESH_TOKEN = "DELETE FROM " + TABLE_NAME
             + " WHERE " + TOKEN_COLUMN + " = ?";
+
+    /**
+     * Delete token by user
+     */
+    public static final String DELETE_REFRESH_TOKEN_BY_USER = "DELETE FROM " + TABLE_NAME
+            + " WHERE " + USERGUID_COLUMN + " = ?";
 }

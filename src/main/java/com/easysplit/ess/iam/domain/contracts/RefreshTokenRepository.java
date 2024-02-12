@@ -29,4 +29,11 @@ public interface RefreshTokenRepository {
      * @param token to be deleted
      */
     void deleteRefreshToken(String token);
+
+    /**
+     * Deletes a refresh token by the user id
+     *
+     * @param userGuid id of the user with a refresh token assigned
+     */
+    void deleteRefreshTokenByUser(String userGuid);
 }

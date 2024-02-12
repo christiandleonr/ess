@@ -26,6 +26,7 @@ public class TestUser {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
@@ -47,6 +48,7 @@ public class TestUser {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
@@ -70,6 +72,7 @@ public class TestUser {
         User user = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();

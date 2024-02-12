@@ -13,9 +13,10 @@ public interface FriendsRepository {
      * Creates a new friendship between 2 users
      *
      * @param friendship friendship to be created
+     * @param addedByGuid id of the user who is starting the relation
      * @return friendship
      */
-    FriendshipEntity addFriend(FriendshipEntity friendship);
+    FriendshipEntity addFriend(FriendshipEntity friendship, String addedByGuid);
 
     /**
      * Loads all friends of a specific user from database

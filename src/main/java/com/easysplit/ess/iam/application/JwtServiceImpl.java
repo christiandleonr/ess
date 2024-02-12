@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,10 @@ import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-    public static final String SECRET = "357638792F423F4428472B4B6250655368566D597133743677397A2443264629";
-    public static final long EXPIRATION_TIME = 1000 * 60 * 5; // 5 minutes
-    public static final long RT_EXPIRATION_TIME = 1000 * 60 * 60; // 60 minutes
+    @Value("${spring.security.jwt.secret}")
+    private String secret;
+    public static final long EXPIRATION_TIME = 1000 * 60 * 1; // 5 minutes
+    public static final long RT_EXPIRATION_TIME = 1000 * 60 * 2; // 10 minutes
 
     @Override
     public String extractUsername(String token) {
@@ -44,7 +46,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(String username, boolean isRefreshToken){
+    public String generateToken(String username, boolean isRefreshToken) {
         Map<String, Object> claims = new HashMap<>();
 
         long expirationTime = isRefreshToken ? RT_EXPIRATION_TIME : EXPIRATION_TIME;
@@ -99,7 +101,7 @@ public class JwtServiceImpl implements JwtService {
      * @return sign key
      */
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

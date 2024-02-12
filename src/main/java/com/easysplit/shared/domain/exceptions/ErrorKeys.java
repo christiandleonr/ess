@@ -29,6 +29,8 @@ public final class ErrorKeys {
 
     public static final String CREATE_USER_USERNAMETOOLONG_MESSAGE = "create.user.illegalArgument.usernameTooLong.message";
     public static final String CREATE_USER_EMPTYUSERNAME_MESSAGE = "create.user.illegalArgument.emptyUsername.message";
+    public static final String CREATE_USER_PASSWORDTOOLONG_MESSAGE = "create.user.illegalArgument.passwordTooLong.message";
+    public static final String CREATE_USER_EMPTYPASSWORD_MESSAGE = "create.user.illegalArgument.emptyPassword.message";
     public static final String CREATE_USER_EMAILTOOLONG_MESSAGE = "create.user.illegalArgument.emailTooLong.message";
     public static final String CREATE_USER_EMPTYEMAIL_MESSAGE = "create.user.illegalArgument.emptyEmail.message";
     public static final String CREATE_USER_INVALIDEMAILFORMAT_MESSAGE="create.user.illegalArgument.invalidEmailFormat.message";
@@ -160,5 +162,28 @@ public final class ErrorKeys {
     public static final String GET_DEBT_NOT_FOUND_MESSAGE = "get.debt.notFound.message";
     public static final String GET_DEBT_ERROR_TITLE = "get.debt.error.title";
     public static final String GET_DEBT_ERROR_MESSAGE = "get.debt.error.message";
+
+    /**
+     * Roles
+     */
+    public static final String ASSIGN_ROLES_ERROR_TILE = "assign.roles.error.title";
+    public static final String ASSIGN_ROLES_ERROR_MESSAGE = "assign.roles.error.message";
+    public static final String LIST_ROLES_ERROR_TILE = "list.roles.error.title";
+    public static final String LIST_ROLES_ERROR_MESSAGE = "list.roles.error.message";
+    public static final String DELETE_ROLES_ERROR_TILE = "delete.roles.error.title";
+    public static final String DELETE_ROLES_ERROR_MESSAGE = "delete.roles.error.message";
+
+    /**
+     * IAM
+     */
+    public static final String AUTHENTICATION_ERROR_TITLE = "authentication.error.title";
+    public static final String AUTHENTICATION_ERROR_MESSAGE = "authentication.error.message";
+    public static final String AUTHENTICATION_ILLEGALARGUMENT_TITLE = "authentication.illegalArgument.title";
+    public static final String AUTHENTICATION_INVALID_USERID_MESSAGE = "authentication.invalid.userId.message";
+    public static final String UNAUTHORIZED_EXCEPTION_TITLE = "unauthorizedException.title";
+    public static final String REFRESH_TOKEN_NOT_FOUND_TITLE = "refreshToken.notFound.title";
+    public static final String REFRESH_TOKEN_NOT_FOUND_MESSAGE = "refreshToken.notFound.message";
+    public static final String ACCESS_TOKEN_EXPIRED_MESSAGE = "accessToken.expired.message";
+    public static final String REFRESH_TOKEN_EXPIRED_MESSAGE = "refreshToken.expired.message";
 
 }

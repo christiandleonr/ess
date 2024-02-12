@@ -8,14 +8,14 @@ import com.easysplit.ess.iam.domain.models.RefreshToken;
 import com.easysplit.ess.iam.domain.models.Token;
 import com.easysplit.ess.user.domain.contracts.UserRepository;
 import com.easysplit.ess.user.domain.models.User;
-import com.easysplit.shared.domain.exceptions.UnauthorizedException;
+import com.easysplit.shared.domain.exceptions.ErrorKeys;
+import com.easysplit.shared.domain.helpers.DomainHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Service
@@ -23,12 +23,17 @@ public class IamServiceImpl implements RefreshTokenService, UserDetailsService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final DomainHelper domainHelper;
 
     @Autowired
-    public IamServiceImpl(JwtService jwtService, RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
+    public IamServiceImpl(JwtService jwtService,
+                          RefreshTokenRepository refreshTokenRepository,
+                          UserRepository userRepository,
+                          DomainHelper domainHelper) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.domainHelper = domainHelper;
     }
 
     @Override
@@ -63,7 +68,11 @@ public class IamServiceImpl implements RefreshTokenService, UserDetailsService {
 
         if (expiryDate.before(currentDate)) {
             refreshTokenRepository.deleteRefreshToken(refreshToken.getToken());
-            throw new UnauthorizedException(); // TODO Work on exceptions
+            domainHelper.throwUnauthorizedException(
+                    ErrorKeys.UNAUTHORIZED_EXCEPTION_TITLE,
+                    ErrorKeys.REFRESH_TOKEN_EXPIRED_MESSAGE,
+                    new Object[] {refreshToken.getToken()}
+            );
         }
     }
 
