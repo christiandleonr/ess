@@ -64,7 +64,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
                     new Object[]{ group },
-                    e
+                    e.getCause()
             );
         }
 
@@ -94,7 +94,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     ErrorKeys.DELETE_GROUP_ERROR_TITLE,
                     ErrorKeys.DELETE_GROUP_ERROR_MESSAGE,
                     new Object[] {groupGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -119,7 +119,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     ErrorKeys.GET_GROUP_ERROR_TITLE,
                     ErrorKeys.GET_GROUP_ERROR_MESSAGE,
                     new Object[] {groupGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -179,7 +179,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     ErrorKeys.GET_GROUP_ERROR_TITLE,
                     ErrorKeys.GET_GROUP_ERROR_MESSAGE,
                     new Object[] {groupGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -200,7 +200,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     ErrorKeys.DELETE_GROUP_MEMBER_ERROR_TITLE,
                     ErrorKeys.DELETE_GROUP_MEMBER_ERROR_MESSAGE,
                     new Object[]{ userGuid },
-                    e
+                    e.getCause()
             );
         }
 
@@ -219,7 +219,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     ErrorKeys.DELETE_ALL_GROUP_MEMBER_ERROR_TITLE,
                     ErrorKeys.DELETE_ALL_GROUP_MEMBER_ERROR_MESSAGE,
                     new Object[]{ groupGuid },
-                    e
+                    e.getCause()
             );
         }
 
@@ -248,7 +248,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     ErrorKeys.CREATE_GROUP_ERROR_TITLE,
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
                     new Object[]{ groupMember },
-                    e
+                    e.getCause()
             );
         }
 

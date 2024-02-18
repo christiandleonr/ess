@@ -116,13 +116,13 @@ public class GroupEntity {
 
     @Override
     public String toString() {
-        return "id : " + this.groupGuid + " | "
+        return "Group ( id : " + this.groupGuid + " | "
                 + "name : " + this.name + " | "
                 + "description : " + this.description + " | "
                 + "members : " + this.members + " | "
                 + "createdBy : " + this.createdBy + " | "
                 + "createdDate : " + this.createdDate + " | "
                 + "updatedBy : " + this.updatedBy + " | "
-                + "updatedDate : " + this.updatedDate;
+                + "updatedDate : " + this.updatedDate + " )";
     }
 }

@@ -9,6 +9,11 @@ public class Auth {
 
     public Auth() {}
 
+    public Auth(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -23,5 +28,11 @@ public class Auth {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Auth ( username : " + this.username + " | "
+                + "password : " + this.password + " )";
     }
 }

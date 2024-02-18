@@ -9,10 +9,11 @@ public interface RefreshTokenRepository {
     /**
      * Inserts a new refresh token to be validated on authentication
      *
-     * @param refreshToken refresh token object
+     * @param username
+     * @param jwtToken JWT token with user data
      * @return created refresh token
      */
-    RefreshTokenEntity createRefreshToken(RefreshTokenEntity refreshToken);
+    RefreshTokenEntity createRefreshToken(String username, String jwtToken);
 
     /**
      * Loads the refresh token details based on the actual token
@@ -28,4 +29,11 @@ public interface RefreshTokenRepository {
      * @param token to be deleted
      */
     void deleteRefreshToken(String token);
+
+    /**
+     * Deletes a refresh token by the user id
+     *
+     * @param userGuid id of the user with a refresh token assigned
+     */
+    void deleteRefreshTokenByUser(String userGuid);
 }

@@ -28,11 +28,18 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     @Override
     @Transactional
-    public Transaction createNewTransaction(Transaction transaction) {
+    public Transaction createNewTransaction(Transaction transaction, String createdById) {
         transactionsValidator.validate(transaction);
 
-        TransactionEntity createdTransaction = transactionsRepository.createTransaction(transaction.toTransactionEntity());
-        DebtEntity createdDebt = debtsRepository.insertNewDebt(createdTransaction.getDebt(), createdTransaction.getTransactionGuid(), createdTransaction.getCreatedBy());
+        TransactionEntity createdTransaction = transactionsRepository.createTransaction(
+                transaction.toTransactionEntity(),
+                createdById
+        );
+        DebtEntity createdDebt = debtsRepository.insertNewDebt(
+                createdTransaction.getDebt(),
+                createdTransaction.getTransactionGuid(),
+                createdTransaction.getCreatedBy()
+        );
 
         createdTransaction.setDebt(createdDebt);
 

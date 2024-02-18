@@ -1,5 +1,8 @@
 package com.easysplit.ess.shared.utils;
 
+import com.easysplit.ess.iam.domain.models.Token;
+import org.springframework.http.HttpHeaders;
+
 import java.time.Instant;
 import java.util.Random;
 
@@ -55,5 +58,18 @@ public class TestUtils {
         }
 
         return randomString.toString();
+    }
+
+    /**
+     * Builds http headers with authentication details using the token provided
+     *
+     * @param token token to be used for authentication
+     * @return http headers
+     */
+    public static HttpHeaders buildAuthHeader(Token token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token.getToken());
+
+        return headers;
     }
 }

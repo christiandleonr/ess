@@ -114,8 +114,9 @@ public class TransactionEntity {
 
     @Override
     public String toString() {
-        return "transactionGuid : " + this.transactionGuid + " | "
+        return "Transaction ( id : " + this.transactionGuid + " | "
                 + "name : " + this.name + " | "
+                + "currency : " + this.currency + " | "
                 + "debt : " + this.debt + " | "
                 + "group : " + this.group + " | "
                 + "creditor : " + this.creditor + " | "
@@ -123,7 +124,7 @@ public class TransactionEntity {
                 + "createdBy : " + this.createdBy + " | "
                 + "createdDate : " + this.createdDate + " | "
                 + "updatedBy : " + this.updatedBy + " | "
-                + "updatedDate : " + this.updatedDate;
+                + "updatedDate : " + this.updatedDate + " )";
     }
 
     /**

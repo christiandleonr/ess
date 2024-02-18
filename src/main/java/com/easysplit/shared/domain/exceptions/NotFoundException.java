@@ -7,9 +7,7 @@ public class NotFoundException extends RuntimeException {
     private String errorTitle;
     private String errorMessage;
 
-    public NotFoundException() {
-
-    }
+    public NotFoundException() {}
 
     public NotFoundException(String errorTitle, String errorMessage) {
         super(errorMessage);

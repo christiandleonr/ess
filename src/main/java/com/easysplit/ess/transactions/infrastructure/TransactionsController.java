@@ -31,7 +31,8 @@ public class TransactionsController {
     public ResponseEntity<Transaction> createTransaction(@RequestBody Transaction transaction) {
         Transaction createdTransaction = null;
         try {
-            createdTransaction = transactionsService.createNewTransaction(transaction);
+            String createdById = infrastructureHelper.getAuthenticatedUserId();
+            createdTransaction = transactionsService.createNewTransaction(transaction, createdById);
 
             createdTransaction.setLinks(infrastructureHelper.buildLinks(TRANSACTIONS_RESOURCE, createdTransaction.getId()));
         } catch (NotFoundException e) {
@@ -49,7 +50,7 @@ public class TransactionsController {
                     ErrorKeys.CREATE_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.CREATE_TRANSACTION_ERROR_MESSAGE,
                     new Object[] {transaction},
-                    e
+                    e.getCause()
             );
         }
 
@@ -76,7 +77,7 @@ public class TransactionsController {
                     ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
                     new Object[] {id},
-                    e
+                    e.getCause()
             );
         }
 

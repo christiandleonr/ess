@@ -1,5 +1,6 @@
 package com.easysplit.ess.iam.domain.contracts;
 
+import com.easysplit.ess.iam.domain.models.Token;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -48,7 +49,8 @@ public interface JwtService {
      * Generates a token with the given username
      *
      * @param username username to encrypt into the token
+     * @param isRefreshToken true is the token being generated is a refresh token
      * @return token
      */
-    String generateToken(String username);
+    String generateToken(String username, boolean isRefreshToken);
 }

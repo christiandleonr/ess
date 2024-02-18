@@ -23,11 +23,12 @@ public class User {
 
     public User() {}
 
-    public User(String id, String name, String lastname, String username, String email, String phone, Timestamp createdDate) {
+    public User(String id, String name, String lastname, String username, String password, String email, String phone, Timestamp createdDate) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.username = username;
+        this.password = password;
         this.email = email;
         this.phone = phone;
         this.createdDate = createdDate;

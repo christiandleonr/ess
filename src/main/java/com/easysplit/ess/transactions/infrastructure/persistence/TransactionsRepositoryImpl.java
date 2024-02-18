@@ -48,7 +48,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
 
     @Override
     @Transactional
-    public TransactionEntity createTransaction(TransactionEntity transaction) {
+    public TransactionEntity createTransaction(TransactionEntity transaction, String createdByGuid) {
         String transactionGuid = UUID.randomUUID().toString();
         Timestamp createdDate = infrastructureHelper.getCurrentDate();
 
@@ -60,7 +60,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
             // Throws a NotFoundException if a user or group does not exist
             creditor = userRepository.getUser(transaction.getCreditor().getUserGuid());
             debtor = userRepository.getUser(transaction.getDebtor().getUserGuid());
-            createdBy = userRepository.getUser(transaction.getCreatedBy().getUserGuid());
+            createdBy = userRepository.getUser(createdByGuid);
 
             jdbc.update(TransactionsQueries.INSERT_TRANSACTION,
                     transactionGuid,
@@ -82,7 +82,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     ErrorKeys.CREATE_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.CREATE_TRANSACTION_ERROR_MESSAGE,
                     new Object[]{ transaction },
-                    e
+                    e.getCause()
             );
         }
 
@@ -131,7 +131,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     ErrorKeys.INSERT_NEW_DEBT_ERROR_TITLE,
                     ErrorKeys.INSERT_NEW_DEBT_ERROR_MESSAGE,
                     new Object[]{ debtGuid },
-                    e
+                    e.getCause()
             );
         }
 
@@ -158,7 +158,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     ErrorKeys.INSERT_NEW_DEBT_ERROR_TITLE,
                     ErrorKeys.READ_LAST_REVISION_ERROR_MESSAGE,
                     new Object[]{ debtGuid },
-                    e
+                    e.getCause()
             );
         }
 
@@ -183,7 +183,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
                     new Object[] {transactionGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -208,7 +208,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     ErrorKeys.GET_DEBT_ERROR_TITLE,
                     ErrorKeys.GET_DEBT_ERROR_MESSAGE,
                     new Object[] {transactionGuid},
-                    e
+                    e.getCause()
             );
         }
 

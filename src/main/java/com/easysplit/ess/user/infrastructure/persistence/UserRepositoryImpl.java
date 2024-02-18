@@ -62,7 +62,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_ERROR_MESSAGE,
                     new Object[]{user},
-                    e
+                    e.getCause()
             );
         }
 
@@ -96,7 +96,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.GET_USER_ERROR_TITLE,
                     ErrorKeys.GET_USER_ERROR_MESSAGE,
                     new Object[] {userGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -126,7 +126,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_BY_USERNAME_MESSAGE,
                     new Object[] {username},
-                    e
+                    e.getCause()
             );
         }
 
@@ -156,7 +156,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_BY_EMAIL_MESSAGE,
                     new Object[] {email},
-                    e
+                    e.getCause()
             );
         }
 
@@ -186,7 +186,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_BY_PHONE_MESSAGE,
                     new Object[] {phone},
-                    e
+                    e.getCause()
             );
         }
 
@@ -217,7 +217,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.DELETE_USER_ERROR_TITLE,
                     ErrorKeys.DELETE_USER_ERROR_MESSAGE,
                     new Object[] {userGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -233,7 +233,11 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     userRoleEntity.getRoleGuid()
             );
         } catch (Exception e) {
-            // TODO Work on exceptions
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.ASSIGN_ROLES_ERROR_TILE,
+                    ErrorKeys.ASSIGN_ROLES_ERROR_MESSAGE,
+                    null
+            );
         }
     }
 
@@ -245,21 +249,42 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     this::toRoles,
                     userGuid);
         } catch (Exception e) {
-            // TODO Work on exceptions
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_ROLES_ERROR_TILE,
+                    ErrorKeys.DELETE_ROLES_ERROR_MESSAGE,
+                    null
+            );
         }
 
         return roles;
     }
 
     @Override
+    public void deleteUserRoles(String userGuid) {
+        int rowsDeleted = 0;
+        try {
+            rowsDeleted = jdbc.update(UserRolesQueries.DELETE_USER_ROLES, userGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_USER_ERROR_TITLE,
+                    ErrorKeys.DELETE_USER_ERROR_MESSAGE,
+                    new Object[] {userGuid},
+                    e.getCause()
+            );
+        }
+
+        logger.info(CLASS_NAME + ".deleteUserFriendships() - User friendships deleted: " + rowsDeleted);
+    }
+
+    @Override
     @Transactional
-    public FriendshipEntity addFriend(FriendshipEntity friendship) throws InternalServerErrorException {
+    public FriendshipEntity addFriend(FriendshipEntity friendship, String addedByGuid) throws InternalServerErrorException {
         String friendshipGuid = UUID.randomUUID().toString();
         Timestamp createdDate = infrastructureHelper.getCurrentDate();
 
         // Throws NotFoundException if any of both users is not found
         UserEntity friend = getUser(friendship.getFriend().getUserGuid());
-        UserEntity addedBy = getUser(friendship.getAddedBy().getUserGuid());
+        UserEntity addedBy = getUser(addedByGuid);
 
         try {
             jdbc.update(FriendshipsQueries.CREATE_FRIENDSHIP,
@@ -267,7 +292,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     friend.getUserGuid(),
                     FriendshipStatus.PENDING.getValue(),
                     createdDate,
-                    addedBy.getUserGuid() // TODO change this to get the created by from authentication
+                    addedByGuid
             );
         } catch (Exception e) {
             logger.error(CLASS_NAME + ".createFriendship() - Something went wrong while creating the friendship: " + friendship, e);
@@ -275,7 +300,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_MESSAGE,
                     new Object[]{ friendship },
-                    e
+                    e.getCause()
             );
         }
 
@@ -310,7 +335,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
                     ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,
                     new Object[] {userGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -340,7 +365,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
                     ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,
                     new Object[] {userGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -361,7 +386,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.DELETE_USER_ERROR_TITLE,
                     ErrorKeys.DELETE_USER_ERROR_MESSAGE,
                     new Object[] {userGuid},
-                    e
+                    e.getCause()
             );
         }
 
@@ -387,7 +412,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     ErrorKeys.LOAD_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.LOAD_FRIENDSHIP_ERROR_MESSAGE,
                     new Object[] {friend, addedBy},
-                    e
+                    e.getCause()
             );
         }
 

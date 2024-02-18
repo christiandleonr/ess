@@ -79,13 +79,13 @@ public class DebtEntity {
 
     @Override
     public String toString() {
-        return "debtGuid : " + this.debtGuid + " | "
+        return "Debt ( id : " + this.debtGuid + " | "
                 + "totalAmount : " + this.totalAmount + " | "
                 + "debt : " + this.debt + " | "
                 + "debtSettled : " + this.debtSettled + " | "
                 + "revision : " + this.revision + " | "
                 + "createdBy : " + this.createdBy + " | "
-                + "createdDate : " + this.createdDate;
+                + "createdDate : " + this.createdDate + " )";
     }
 
     /**

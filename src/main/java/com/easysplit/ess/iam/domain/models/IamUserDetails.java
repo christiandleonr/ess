@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class IAMUserDetails extends User implements UserDetails {
+public class IamUserDetails extends User implements UserDetails {
+    private final String id;
     private final String username;
     private final String password;
     Collection<? extends GrantedAuthority> authorities;
 
-    public IAMUserDetails(User user) {
+    public IamUserDetails(User user) {
+        this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
 
@@ -31,6 +33,11 @@ public class IAMUserDetails extends User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override
@@ -61,5 +68,11 @@ public class IAMUserDetails extends User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "IamUserDetails ( username : " + this.username + " | "
+                + "password : " + this.password + " )";
     }
 }

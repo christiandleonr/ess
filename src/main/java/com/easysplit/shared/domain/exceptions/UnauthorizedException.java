@@ -7,9 +7,7 @@ public class UnauthorizedException extends RuntimeException {
     private String errorTitle;
     private String errorMessage;
 
-    public UnauthorizedException() {
-
-    }
+    public UnauthorizedException() {}
 
     public UnauthorizedException(String errorTitle, String errorMessage) {
         super(errorMessage);

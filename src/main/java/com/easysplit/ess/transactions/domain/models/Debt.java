@@ -87,6 +87,17 @@ public class Debt {
         this.links = links;
     }
 
+    @Override
+    public String toString() {
+        return "Debt ( id : " + this.id + " | "
+                + "totalAmount : " + this.totalAmount + " | "
+                + "debt : " + this.debt + " | "
+                + "debtSettled : " + this.debtSettled + " | "
+                + "revision : " + this.revision + " | "
+                + "createdBy : " + this.createdBy + " | "
+                + "createdDate : " + this.createdDate + " )";
+    }
+
     /**
      * Generates a debt entity from this class
      *

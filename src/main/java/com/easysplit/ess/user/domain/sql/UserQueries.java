@@ -71,6 +71,7 @@ public final class UserQueries {
             + NAME_COLUMN + ", "
             + LASTNAME_COLUMN + ", "
             + USERNAME_COLUMN + ", "
+            + PASSWORD_COLUMN + ", "
             + EMAIL_COLUMN + ", "
             + PHONE_COLUMN + ", "
             + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + EMAIL_COLUMN + " = ?";
@@ -82,6 +83,7 @@ public final class UserQueries {
             + NAME_COLUMN + ", "
             + LASTNAME_COLUMN + ", "
             + USERNAME_COLUMN + ", "
+            + PASSWORD_COLUMN + ", "
             + EMAIL_COLUMN + ", "
             + PHONE_COLUMN + ", "
             + CREATE_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + PHONE_COLUMN + " = ?";

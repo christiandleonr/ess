@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -56,7 +57,7 @@ public class UserController {
                     ErrorKeys.GET_USER_ERROR_TITLE,
                     ErrorKeys.GET_USER_ERROR_MESSAGE,
                     new Object[] {id},
-                    e
+                    e.getCause()
             );
         }
 
@@ -82,7 +83,7 @@ public class UserController {
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_ERROR_MESSAGE,
                     new Object[] {user},
-                    e
+                    e.getCause()
             );
         }
 
@@ -105,7 +106,7 @@ public class UserController {
                     ErrorKeys.DELETE_USER_ERROR_TITLE,
                     ErrorKeys.DELETE_USER_ERROR_MESSAGE,
                     new Object[] {id},
-                    e
+                    e.getCause()
             );
         }
 
@@ -113,10 +114,13 @@ public class UserController {
     }
 
     @PostMapping("/{id}/friends")
-    public ResponseEntity<Friendship> addFriend(@RequestBody Friendship friendship) {
+    public ResponseEntity<Friendship> addFriend(Authentication auth, @RequestBody Friendship friendship) {
         Friendship createdFriendship = null;
         try {
-            createdFriendship = friendsService.addFriend(friendship);
+            createdFriendship = friendsService.addFriend(
+                    friendship,
+                    infrastructureHelper.getAuthenticatedUserId()
+            );
 
             createdFriendship.setLinks(
                     infrastructureHelper.buildLinks(USERS_RESOURCE, createdFriendship.getId())
@@ -136,7 +140,7 @@ public class UserController {
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_MESSAGE,
                     new Object[]{ friendship },
-                    e
+                    e.getCause()
             );
         }
 
@@ -162,7 +166,7 @@ public class UserController {
                     ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
                     ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,
                     new Object[]{ userId },
-                    e
+                    e.getCause()
             );
         }
 

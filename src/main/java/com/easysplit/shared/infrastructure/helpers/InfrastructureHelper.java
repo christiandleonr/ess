@@ -1,11 +1,16 @@
 package com.easysplit.shared.infrastructure.helpers;
 
+import com.easysplit.ess.iam.domain.models.IamUserDetails;
+import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.domain.exceptions.NotFoundException;
 import com.easysplit.shared.domain.models.Link;
+import com.easysplit.shared.utils.EssUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -185,5 +190,30 @@ public class InfrastructureHelper {
         String host = request.getHeader(HOST_KEY);
 
         return "http://" + host + "/api" + resource + "/" + resourceId;
+    }
+
+    /**
+     * Use the current security context to get the id of the authenticated user
+     */
+    public String getAuthenticatedUserId() {
+        String userId = null;
+
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof IamUserDetails) {
+            userId = ((IamUserDetails) authentication.getPrincipal()).getId();
+        }
+
+        if (EssUtils.isNullOrEmpty(userId)) {
+            throwIllegalArgumentException(
+                    ErrorKeys.AUTHENTICATION_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.AUTHENTICATION_INVALID_USERID_MESSAGE,
+                    null
+            );
+        }
+
+        return userId;
     }
 }

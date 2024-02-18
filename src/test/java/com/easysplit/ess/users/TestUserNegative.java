@@ -253,6 +253,7 @@ public class TestUserNegative {
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
                 .setEmail(uniqueString + "@gmail.com")
+                .setPassword("Password")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
 
@@ -286,6 +287,7 @@ public class TestUserNegative {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
 
@@ -310,6 +312,7 @@ public class TestUserNegative {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail("")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
@@ -335,6 +338,7 @@ public class TestUserNegative {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(TestUtils.generateString(UserValidator.USER_EMAIL_LENGTH_LIMIT + 1) + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
@@ -360,6 +364,7 @@ public class TestUserNegative {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail("INVALID")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
@@ -386,6 +391,7 @@ public class TestUserNegative {
         User user = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
@@ -396,6 +402,7 @@ public class TestUserNegative {
         User invalidUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(user.getEmail())
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
@@ -421,6 +428,7 @@ public class TestUserNegative {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .build();
 
@@ -445,6 +453,7 @@ public class TestUserNegative {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone("")
                 .build();
@@ -470,6 +479,7 @@ public class TestUserNegative {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone("66778484709")
                 .build();
@@ -495,6 +505,7 @@ public class TestUserNegative {
         User expectedUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone("INVALID")
                 .build();
@@ -520,6 +531,7 @@ public class TestUserNegative {
         User user = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
                 .setUsername("Username-" + uniqueString)
+                .setPassword("Password")
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();

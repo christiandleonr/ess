@@ -121,6 +121,21 @@ public class Transaction {
         this.links = links;
     }
 
+    @Override
+    public String toString() {
+        return "Transaction ( id : " + this.id + " | "
+                + "name : " + this.name + " | "
+                + "currency : " + this.currency + " | "
+                + "debt : " + this.debt + " | "
+                + "group : " + this.group + " | "
+                + "creditor : " + this.creditor + " | "
+                + "debtor : " + this.debtor + " | "
+                + "createdBy : " + this.createdBy + " | "
+                + "createdDate : " + this.createdDate + " | "
+                + "updatedBy : " + this.updatedBy + " | "
+                + "updatedDate : " + this.updatedDate + " )";
+    }
+
     /**
      * Generates a transaction entity from this class
      *

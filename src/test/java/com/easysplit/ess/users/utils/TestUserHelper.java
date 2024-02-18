@@ -5,23 +5,25 @@ import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.models.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TestUserHelper {
     private final String USER_PATH = "/api/users";
+    private final String CREATE_USER_PATH = USER_PATH + "/create";
     @Autowired
     private TestRESTHelper testRestHelper;
     @Autowired
     private MessageSource messageSource;
 
     public User createUser(User user, HttpStatus statusCode) {
-        return (User) this.testRestHelper.post(USER_PATH, user, statusCode);
+        return (User) this.testRestHelper.postNoAuth(CREATE_USER_PATH, user, User.class, statusCode);
     }
 
     public ErrorResponse failCreateUser(User user, HttpStatus statusCode) {
-        return this.testRestHelper.failPost(USER_PATH, user, statusCode);
+        return this.testRestHelper.failPost(CREATE_USER_PATH, user, statusCode);
     }
 
     public User getUser(String id, Class<?> responseClass, HttpStatus status) {
@@ -30,6 +32,10 @@ public class TestUserHelper {
 
     public ErrorResponse failGet(String id, HttpStatus statusCode) {
         return this.testRestHelper.failGet(USER_PATH + "/" + id, statusCode);
+    }
+
+    public ErrorResponse failGet(String id, HttpStatus statusCode, HttpHeaders headers) {
+        return this.testRestHelper.failGet(USER_PATH + "/" + id, statusCode, headers);
     }
 
     public void deleteUser(String id) {

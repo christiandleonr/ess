@@ -24,4 +24,11 @@ public interface RolesRepository {
      * @return list of roles
      */
     List<RoleEntity> getRoles(String userGuid);
+
+    /**
+     * Delete the relation between a user and its roles
+     *
+     * @param userGuid user id
+     */
+    void deleteUserRoles(String userGuid);
 }
