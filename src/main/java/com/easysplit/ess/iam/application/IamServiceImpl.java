@@ -37,11 +37,11 @@ public class IamServiceImpl implements RefreshTokenService, UserDetailsService {
     }
 
     @Override
-    public RefreshToken createRefreshToken(String username) {
-        String refreshToken = jwtService.generateToken(username, true /* isRefreshToken */);
+    public RefreshToken createRefreshToken(String email) {
+        String refreshToken = jwtService.generateToken(email, true /* isRefreshToken */);
 
         return refreshTokenRepository.createRefreshToken(
-                username,
+                email,
                 refreshToken
         ).toRefreshToken();
     }
@@ -77,9 +77,9 @@ public class IamServiceImpl implements RefreshTokenService, UserDetailsService {
     }
 
     @Override
-    public Token buildEssToken(String username) {
-        RefreshToken refreshToken = createRefreshToken(username);
-        return buildEssToken(username, refreshToken.getToken());
+    public Token buildEssToken(String email) {
+        RefreshToken refreshToken = createRefreshToken(email);
+        return buildEssToken(email, refreshToken.getToken());
     }
 
     @Override
@@ -95,8 +95,8 @@ public class IamServiceImpl implements RefreshTokenService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.getUserByUsername(username, true /* throwException */).toUser();
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.getUserByEmail(email, true /* throwException */).toUser();
 
         return new IamUserDetails(user);
     }

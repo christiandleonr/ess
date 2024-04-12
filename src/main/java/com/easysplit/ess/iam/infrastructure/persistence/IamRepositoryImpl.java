@@ -37,11 +37,11 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
 
     @Override
     @Transactional
-    public RefreshTokenEntity createRefreshToken(String username, String jwtToken) {
+    public RefreshTokenEntity createRefreshToken(String email, String jwtToken) {
         RefreshTokenEntity refreshToken = null;
 
         try {
-            UserEntity user = userRepository.getUserByUsername(username, true /* throwException */);
+            UserEntity user = userRepository.getUserByEmail(email, true /* throwException */);
 
             PreparedStatementCreator preparedStatementCreator = connection -> {
                 PreparedStatement ps = connection.prepareStatement(

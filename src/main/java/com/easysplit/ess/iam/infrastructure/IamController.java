@@ -42,13 +42,13 @@ public class IamController {
 
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword())
+                    new UsernamePasswordAuthenticationToken(auth.getEmail(), auth.getPassword())
             );
             if (authentication.isAuthenticated()) {
-                token = refreshTokenService.buildEssToken(auth.getUsername());
+                token = refreshTokenService.buildEssToken(auth.getEmail());
             }
         } catch (NotFoundException e) {
-            logger.error(CLASS_NAME + ".authenticate() - Something went wrong while reading the user with username " + auth.getUsername(), e);
+            logger.error(CLASS_NAME + ".authenticate() - Something went wrong while reading the user with email " + auth.getEmail(), e);
             throw e;
         } catch (InternalServerErrorException e) {
             logger.error(CLASS_NAME + ".authenticate() - Something went wrong while authenticating the user", e);

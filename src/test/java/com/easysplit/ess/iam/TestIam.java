@@ -35,7 +35,7 @@ public class TestIam {
                 .build();
         user = testUserHelper.createUser(user, HttpStatus.CREATED);
 
-        Auth auth = new Auth(user.getUsername(), "Password");
+        Auth auth = new Auth(user.getEmail(), "Password");
         Token token = testIamHelper.authenticate(auth, HttpStatus.OK);
 
         new TokenAsserter(token).assertToken();
@@ -57,7 +57,7 @@ public class TestIam {
                 .build();
         user = testUserHelper.createUser(user, HttpStatus.CREATED);
 
-        Auth auth = new Auth(user.getUsername(), "Password");
+        Auth auth = new Auth(user.getEmail(), "Password");
         Token token = testIamHelper.authenticate(auth, HttpStatus.OK);
 
         RefreshToken refreshToken = new RefreshToken();

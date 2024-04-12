@@ -12,12 +12,12 @@ import java.util.function.Function;
  */
 public interface JwtService {
     /**
-     * Extract the username from a previously created token
+     * Extract the email from a previously created token
      *
      * @param token token provided by user
-     * @return username
+     * @return email
      */
-    String extractUsername(String token);
+    String extractEmail(String token);
 
     /**
      * Extracts the claims from a given token
@@ -46,11 +46,11 @@ public interface JwtService {
     Boolean validateToken(String token, UserDetails userDetails);
 
     /**
-     * Generates a token with the given username
+     * Generates a token with the given email
      *
-     * @param username username to encrypt into the token
+     * @param email email to encrypt into the token
      * @param isRefreshToken true is the token being generated is a refresh token
      * @return token
      */
-    String generateToken(String username, boolean isRefreshToken);
+    String generateToken(String email, boolean isRefreshToken);
 }
