@@ -93,30 +93,6 @@ public class TestUserNegative {
     }
 
     /**
-     * Attempts to create a user with a null lastname, null lastnames are invalid,
-     * and we should get the proper error message
-     */
-    @Test
-    public void testCreateUserNullLastName() {
-        String uniqueString = TestUtils.generateUniqueString();
-
-        UserBuilder userBuilder = new UserBuilder();
-        User expectedUser = userBuilder.setName("Name-" + uniqueString)
-                .setUsername("Username-" + uniqueString)
-                .setEmail(uniqueString + "@gmail.com")
-                .setPhone(TestUtils.generate10DigitNumber() + "")
-                .build();
-
-        ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYLASTNAME_MESSAGE, null)
-        );
-
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
-        new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
-    }
-
-    /**
      * Attempts to create a user with an empty lastname, empty lastnames are invalid,
      * and we should get the proper error message
      */
@@ -160,30 +136,6 @@ public class TestUserNegative {
         ErrorResponse expectedErrorResponse = new ErrorResponse(
                 testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
                 testUserHelper.getMessage(ErrorKeys.CREATE_USER_LASTNAMETOOLONG_MESSAGE, new Object[]{ UserValidator.USER_LASTNAME_LENGTH_LIMIT })
-        );
-
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
-        new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
-    }
-
-    /**
-     * Attempts to create a user with a null username, null usernames are invalid,
-     * and we should get the proper error message
-     */
-    @Test
-    public void testCreateUserNullUsername() {
-        String uniqueString = TestUtils.generateUniqueString();
-
-        UserBuilder userBuilder = new UserBuilder();
-        User expectedUser = userBuilder.setName("Name-" + uniqueString)
-                .setLastname("Lastname-" + uniqueString)
-                .setEmail(uniqueString + "@gmail.com")
-                .setPhone(TestUtils.generate10DigitNumber() + "")
-                .build();
-
-        ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYUSERNAME_MESSAGE, null)
         );
 
         ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);

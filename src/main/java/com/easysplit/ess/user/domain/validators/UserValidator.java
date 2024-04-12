@@ -76,11 +76,15 @@ public class UserValidator {
      * the number of characters cannot exceed 100.
      */
     private void validateLastname(String lastname) {
-        if (EssUtils.isNullOrEmpty(lastname)) {
+        if (lastname == null) {
+            return; // Allow empty lastname
+        }
+
+        if (lastname.isEmpty()) {
             domainHelper.throwIllegalArgumentException(
-                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
-                    ErrorKeys.CREATE_USER_EMPTYLASTNAME_MESSAGE,
-                    new Object[] {lastname}
+                ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                ErrorKeys.CREATE_USER_EMPTYLASTNAME_MESSAGE,
+                new Object[] {lastname}
             );
         }
 
@@ -98,11 +102,15 @@ public class UserValidator {
      * the number of characters cannot exceed 50.
      */
     private void validateUsername(String username) {
-        if (EssUtils.isNullOrEmpty(username)) {
+        if (username == null) {
+            return; // Allow null username
+        }
+
+        if (username.isEmpty()) {
             domainHelper.throwIllegalArgumentException(
-                    ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
-                    ErrorKeys.CREATE_USER_EMPTYUSERNAME_MESSAGE,
-                    new Object[] {username}
+                ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE,
+                ErrorKeys.CREATE_USER_EMPTYUSERNAME_MESSAGE,
+                new Object[] {username}
             );
         }
 
