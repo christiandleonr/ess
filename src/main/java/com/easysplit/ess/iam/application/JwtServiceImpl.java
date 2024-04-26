@@ -21,7 +21,7 @@ public class JwtServiceImpl implements JwtService {
     @Value("${spring.security.jwt.secret}")
     private String secret;
     public static final long EXPIRATION_TIME = 1000 * 60 * 5; // 5 minutes
-    public static final long RT_EXPIRATION_TIME = 1000 * 60 * 10; // 10 minutes
+    public static final long RT_EXPIRATION_TIME = 1000 * 60 * 1; // 10 minutes
 
     @Override
     public String extractEmail(String token) {
