@@ -10,10 +10,10 @@ public interface RefreshTokenService {
     /**
      * Creates a new refresh token to be validated on authentication
      *
-     * @param username
+     * @param email
      * @return created refresh token
      */
-    RefreshToken createRefreshToken(String username);
+    RefreshToken createRefreshToken(String email);
 
     /**
      * Refreshes the access token if the refresh token has not expired yet.
@@ -40,19 +40,19 @@ public interface RefreshTokenService {
 
     /**
      * Generates a custom ESS token, composed by an access token and a refresh token.
-     * This method creates a new refresh token with the username encrypted
+     * This method creates a new refresh token with the user email encrypted
      *
-     * @param username authenticated user
+     * @param email authenticated user
      * @return ESS token
      */
-    Token buildEssToken(String username);
+    Token buildEssToken(String email);
 
     /**
      * Generates a custom ESS token, composed by an access token and a refresh token
      *
-     * @param username authenticated user
+     * @param email email of the authenticated user
      * @param refreshToken
      * @return ESS token
      */
-    Token buildEssToken(String username, String refreshToken);
+    Token buildEssToken(String email, String refreshToken);
 }

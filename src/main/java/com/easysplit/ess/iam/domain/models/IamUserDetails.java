@@ -12,13 +12,13 @@ import java.util.List;
 
 public class IamUserDetails extends User implements UserDetails {
     private final String id;
-    private final String username;
+    private final String email;
     private final String password;
     Collection<? extends GrantedAuthority> authorities;
 
     public IamUserDetails(User user) {
         this.id = user.getId();
-        this.username = user.getUsername();
+        this.email = user.getEmail();
         this.password = user.getPassword();
 
         List<GrantedAuthority> auths = new ArrayList<>();
@@ -42,7 +42,7 @@ public class IamUserDetails extends User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class IamUserDetails extends User implements UserDetails {
 
     @Override
     public String toString() {
-        return "IamUserDetails ( username : " + this.username + " | "
+        return "IamUserDetails ( email : " + this.email + " | "
                 + "password : " + this.password + " )";
     }
 }

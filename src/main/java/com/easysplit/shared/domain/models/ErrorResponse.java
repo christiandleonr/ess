@@ -1,8 +1,11 @@
 package com.easysplit.shared.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * Object to be serialized and used as response when any exception is thrown
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse  {
     private String errorTitle;
     private String errorMessage;

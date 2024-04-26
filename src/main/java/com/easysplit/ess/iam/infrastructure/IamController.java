@@ -9,11 +9,13 @@ import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.InternalServerErrorException;
 import com.easysplit.shared.domain.exceptions.NotFoundException;
 import com.easysplit.shared.infrastructure.helpers.InfrastructureHelper;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,13 +44,16 @@ public class IamController {
 
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword())
+                    new UsernamePasswordAuthenticationToken(auth.getEmail(), auth.getPassword())
             );
             if (authentication.isAuthenticated()) {
-                token = refreshTokenService.buildEssToken(auth.getUsername());
+                token = refreshTokenService.buildEssToken(auth.getEmail());
             }
+        } catch (BadCredentialsException e) {
+            logger.error(CLASS_NAME + ".authenticate() - Bad credentials for user with email " + auth.getEmail(), e);
+            throw e;
         } catch (NotFoundException e) {
-            logger.error(CLASS_NAME + ".authenticate() - Something went wrong while reading the user with username " + auth.getUsername(), e);
+            logger.error(CLASS_NAME + ".authenticate() - Something went wrong while reading the user with email " + auth.getEmail(), e);
             throw e;
         } catch (InternalServerErrorException e) {
             logger.error(CLASS_NAME + ".authenticate() - Something went wrong while authenticating the user", e);
@@ -74,6 +79,9 @@ public class IamController {
             token = refreshTokenService.refreshToken(refreshToken);
         } catch (NotFoundException e) {
             logger.error(CLASS_NAME + ".refreshToken() - Something went wrong while reading the refresh token with token " + refreshToken.getToken(), e);
+            throw e;
+        } catch (ExpiredJwtException e) {
+            logger.error(CLASS_NAME + ".refreshToken() - Token expired " + refreshToken.getToken(), e);
             throw e;
         } catch (InternalServerErrorException e) {
             logger.error(CLASS_NAME + ".refreshToken() - Something went wrong while refreshing the token", e);

@@ -9,11 +9,11 @@ public interface RefreshTokenRepository {
     /**
      * Inserts a new refresh token to be validated on authentication
      *
-     * @param username
+     * @param email
      * @param jwtToken JWT token with user data
      * @return created refresh token
      */
-    RefreshTokenEntity createRefreshToken(String username, String jwtToken);
+    RefreshTokenEntity createRefreshToken(String email, String jwtToken);
 
     /**
      * Loads the refresh token details based on the actual token
