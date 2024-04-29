@@ -7,9 +7,13 @@ import com.easysplit.ess.transactions.domain.models.DebtEntity;
 import com.easysplit.ess.transactions.domain.models.Transaction;
 import com.easysplit.ess.transactions.domain.models.TransactionEntity;
 import com.easysplit.ess.transactions.domain.validators.TransactionsValidator;
+import com.easysplit.shared.utils.EssUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TransactionsServiceImpl implements TransactionsService {
@@ -46,6 +50,13 @@ public class TransactionsServiceImpl implements TransactionsService {
         return createdTransaction.toTransaction();
     }
 
+    @Override
+    public void bulkCreateTransaction(List<Transaction> transactions, String groupId, String createdById) {
+        transactionsValidator.validate(transactions);
+        transactionsRepository.bulkCreateTransaction(toTransactionEntities(transactions), groupId, createdById);
+    }
+
+    @Override
     public Transaction getTransaction(String transactionGuid){
 
         TransactionEntity transaction = transactionsRepository.getTransaction(transactionGuid);
@@ -56,4 +67,17 @@ public class TransactionsServiceImpl implements TransactionsService {
         return transaction.toTransaction();
     }
 
+    private List<TransactionEntity> toTransactionEntities(List<Transaction> transactions) {
+        List<TransactionEntity> transactionEntities = new ArrayList<>();
+
+        if (EssUtils.isNullOrEmpty(transactions)) {
+            return transactionEntities;
+        }
+
+        for (Transaction transaction: transactions) {
+            transactionEntities.add(transaction.toTransactionEntity());
+        }
+
+        return transactionEntities;
+    }
 }

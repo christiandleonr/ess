@@ -148,6 +148,16 @@ public final class ErrorKeys {
     public static final String READ_LAST_REVISION_ERROR_MESSAGE = "read.last.revision.error.message";
 
     /**
+     * Bulk create transactions
+     */
+    public static final String BULK_CREATE_TRANSACTION_ERROR_TITLE = "bulk.create.transaction.error.title";
+    public static final String BULK_CREATE_TRANSACTION_ERROR_MESSAGE = "bulk.create.transaction.error.message";
+    public static final String BULK_CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE = "bulk.create.transaction.illegalArgument.title";
+    public static final String BULK_CREATE_TRANSACTION_ILLEGALARGUMENT_EMPTY_TRANSACTION_LIST = "bulk.create.transaction.illegalArgument.nullOrEmpty.transactionList.message";
+    public static final String BULK_INSERT_NEW_DEBT_ERROR_TITLE = "bulk.insert.new.debt.error.title";
+    public static final String BULK_INSERT_NEW_DEBT_ERROR_MESSAGE = "bulk.insert.new.debt.error.message";
+
+    /**
      * Get transaction
      */
     public static final String GET_TRANSACTION_NOT_FOUND_TITLE = "get.transaction.notFound.title";

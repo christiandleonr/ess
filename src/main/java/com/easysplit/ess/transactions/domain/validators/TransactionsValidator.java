@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Class that contains utility methods to be used for pure data validation
@@ -29,6 +30,7 @@ public class TransactionsValidator {
     }
 
     /**
+     * All transaction must comply with the following requirements:
      * Validates if a transaction is valid to be created.
      * The name cannot be null, empty nor exceed 150 characters.
      * The currency cannot be null, empty nor exceed 3 characters and must be part of the valid currency codes.
@@ -37,6 +39,34 @@ public class TransactionsValidator {
      * The group object must have valid values for the <i>id</i> field.
      * Fields <i>creditor</i>, <i>debtor</i> and <i>createdBy</i> must have valid values for the
      * field <i>id</i>
+     *
+     * @param transactions list of transaction to be validated
+     */
+    public void validate(List<Transaction> transactions) {
+        if (EssUtils.isNullOrEmpty(transactions)) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.BULK_CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.BULK_CREATE_TRANSACTION_ILLEGALARGUMENT_EMPTY_TRANSACTION_LIST,
+                    null
+            );
+        }
+
+        for(Transaction transaction: transactions) {
+            validate(transaction);
+        }
+    }
+
+    /**
+     * Validates if a transaction is valid to be created.
+     * The name cannot be null, empty nor exceed 150 characters.
+     * The currency cannot be null, empty nor exceed 3 characters and must be part of the valid currency codes.
+     * The debt object must contain valid values for the fields <i>totalAmount</i>,
+     * <i>debt</i> and <i>createdBy</i>.
+     * The group object must have valid values for the <i>id</i> field.
+     * Fields <i>creditor</i>, <i>debtor</i> and <i>createdBy</i> must have valid values for the
+     * field <i>id</i>
+     *
+     * @param transaction transaction to be validated
      */
     public void validate(Transaction transaction) {
         if (transaction == null) {
