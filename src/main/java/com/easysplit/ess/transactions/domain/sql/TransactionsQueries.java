@@ -20,6 +20,7 @@ public final class TransactionsQueries {
      */
     public static final String TABLE_NAME = ESS_SCHEMA + "TRANSACTIONS";
     public static final String TRANSACTIONGUID_COLUMN = "TRANSACTIONGUID";
+    public static final String TRANSACTIONSETGUID_COLUMN = "TRANSACTIONSETGUID";
     public static final String NAME_COLUMN = "NAME";
     public static final String CURRENCY_COLUMN = "CURRENCY";
     public static final String GROUPGUID_COLUMN = "GROUPGUID";
@@ -34,6 +35,7 @@ public final class TransactionsQueries {
      * Inserts a new transaction
      */
     public static final String INSERT_TRANSACTION = "INSERT INTO " + TABLE_NAME + " ( " + TRANSACTIONGUID_COLUMN + ", "
+            + TRANSACTIONSETGUID_COLUMN + ", "
             + NAME_COLUMN + ", "
             + CURRENCY_COLUMN + ", "
             + GROUPGUID_COLUMN + ", "

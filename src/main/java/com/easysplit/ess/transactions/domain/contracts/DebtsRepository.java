@@ -3,6 +3,9 @@ package com.easysplit.ess.transactions.domain.contracts;
 import com.easysplit.ess.transactions.domain.models.DebtEntity;
 import com.easysplit.ess.user.domain.models.UserEntity;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 /**
  * Class that handle the database operations for the debts resource
  */
@@ -19,12 +22,20 @@ public interface DebtsRepository {
     DebtEntity insertNewDebt(DebtEntity debt, String transactionGuid, UserEntity createdBy);
 
     /**
+     * Takes a list of debts and performs a bulk insert, this method is only for new debts meaning that it creates the
+     * first revision of the debts passed
+     *
+     * @param debts list of debts to be inserted
+     * @param createdBy user who started the transaction
+     * @param createdDate data in which the transaction is created
+     */
+    void bulkCreateDebts(List<DebtEntity> debts, UserEntity createdBy, Timestamp createdDate);
+
+    /**
      * Get the last revision for a specific debt
      *
      * @param debtGuid debt we want to look for
      * @return last revision of the debt
      */
     int getLastRevision(String debtGuid);
-
-
 }
