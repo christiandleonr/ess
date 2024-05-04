@@ -60,10 +60,10 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
             refreshToken.setToken(jwtToken);
             refreshToken.setUser(user);
         } catch (NotFoundException e) {
-            logger.error(CLASS_NAME + ".createRefreshToken() - Something went wrong while reading a resource", e);
+            logger.error("{}.createRefreshToken() - Something went wrong while reading a resource", CLASS_NAME, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createRefreshToken() - Something went wrong while inserting the refresh token", e);
+            logger.error("{}.createRefreshToken() - Something went wrong while inserting the refresh token", CLASS_NAME, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.AUTHENTICATION_ERROR_TITLE,
                     ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
@@ -83,10 +83,10 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
                     token
             );
         } catch (NotFoundException e) {
-            logger.error(CLASS_NAME + ".getByToken() - Something went wrong while reading a resource", e);
+            logger.error("{}.getByToken() - Something went wrong while reading a resource", CLASS_NAME, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getByToken() - Something went wrong while reading the refresh token with token: " + token, e);
+            logger.error("{}.getByToken() - Something went wrong while reading the refresh token with token: {}", CLASS_NAME, token, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.AUTHENTICATION_ERROR_TITLE,
                     ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
@@ -95,7 +95,7 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
         }
 
         if (refreshTokenEntity == null) {
-            logger.debug(CLASS_NAME + ".getByToken() - token " + token + " not found");
+            logger.debug("{}.getByToken() - token {} not found", CLASS_NAME, token);
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.REFRESH_TOKEN_NOT_FOUND_TITLE,
                     ErrorKeys.REFRESH_TOKEN_NOT_FOUND_MESSAGE,
@@ -116,7 +116,7 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
         try {
             jdbc.update(RefreshTokenQueries.DELETE_REFRESH_TOKEN, token);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".deleteRefreshToken() - Something went wrong while deleting the refresh token with token: " + token, e);
+            logger.error("{}.deleteRefreshToken() - Something went wrong while deleting the refresh token with token: {}", CLASS_NAME, token, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.AUTHENTICATION_ERROR_TITLE,
                     ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
@@ -124,7 +124,7 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
             );
         }
 
-        logger.info(CLASS_NAME + ".deleteRefreshToken() - rows deleted: " + rowsDeleted);
+        logger.info("{}.deleteRefreshToken() - rows deleted: {}", CLASS_NAME, rowsDeleted);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
         try {
             jdbc.update(RefreshTokenQueries.DELETE_REFRESH_TOKEN_BY_USER, userGuid);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".deleteRefreshTokenByUser() - Something went wrong while deleting the refresh token with user id: " + userGuid, e);
+            logger.error("{}.deleteRefreshTokenByUser() - Something went wrong while deleting the refresh token with user id: {}", CLASS_NAME, userGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.AUTHENTICATION_ERROR_TITLE,
                     ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
@@ -142,7 +142,7 @@ public class IamRepositoryImpl implements RefreshTokenRepository {
             );
         }
 
-        logger.info(CLASS_NAME + ".deleteRefreshToken() - rows deleted: " + rowsDeleted);
+        logger.info("{}.deleteRefreshTokenByUser() - rows deleted: {}", CLASS_NAME, rowsDeleted);
     }
 
     private RefreshTokenEntity toRefreshTokenEntity(ResultSet rs) throws SQLException {

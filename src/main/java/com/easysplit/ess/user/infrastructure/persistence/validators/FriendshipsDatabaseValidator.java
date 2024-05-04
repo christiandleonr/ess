@@ -30,7 +30,7 @@ public class FriendshipsDatabaseValidator {
      */
     public void validateFriendshipNotExist(String friend, String addedBy) {
         if (EssUtils.isNullOrEmpty(friend) || EssUtils.isNullOrEmpty(addedBy)) {
-            logger.info(CLASS_NAME + ".validateFriendshipNotExist() - Either the friend id or added by id are null");
+            logger.info("{}.validateFriendshipNotExist() - Either the friend id or added by id are null", CLASS_NAME);
             return;
         }
 

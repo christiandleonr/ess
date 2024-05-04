@@ -21,15 +21,6 @@ public interface TransactionsRepository {
     TransactionEntity createTransaction(TransactionEntity transactionEntity, String createdByGuid);
 
     /**
-     * Takes a list of transactions and perform a bulk insert.
-     *
-     * @param transactions transactions to be created
-     * @param groupGuid group to which the transaction belong
-     * @param createdByGuid user who started the transaction
-     */
-    void bulkCreateTransaction(List<TransactionEntity> transactions, String groupGuid, String createdByGuid);
-
-    /**
      * Gets a transaction by is guid
      *
      * @param transactionGuid transaction id

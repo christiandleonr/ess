@@ -57,7 +57,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     user.getPhone(),
                     createdDate);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createUser() - Something went wrong while creating the user: " + user, e);
+            logger.error("{}.createUser() - Something went wrong while creating the user: {}", CLASS_NAME, user, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_ERROR_MESSAGE,
@@ -91,7 +91,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     this::toUserEntity,
                     userGuid);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with id: " + userGuid, e);
+            logger.error("{}.getUser() - Something went wrong while reading the user with id: {}", CLASS_NAME, userGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_USER_ERROR_TITLE,
                     ErrorKeys.GET_USER_ERROR_MESSAGE,
@@ -101,7 +101,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
         }
 
         if (userEntity == null) {
-            logger.debug(CLASS_NAME + ".getUser() - User with id " + userGuid + " not found");
+            logger.debug("{}.getUser() - User with id {} not found", CLASS_NAME, userGuid);
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.GET_USER_NOT_FOUND_TITLE,
                     ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
@@ -121,7 +121,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     this::toUserEntity,
                     username);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with username: " + username, e);
+            logger.error("{}.getUserByUsername() - Something went wrong while reading the user with username: {}", CLASS_NAME, username, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_BY_USERNAME_MESSAGE,
@@ -131,7 +131,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
         }
 
         if (throwException && userEntity == null) {
-            logger.debug(CLASS_NAME + ".getUser() - User with username " + username + " not found");
+            logger.debug("{}.getUserByUsername() - User with username {} not found", CLASS_NAME, username);
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.GET_USER_NOT_FOUND_TITLE,
                     ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
@@ -151,7 +151,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     this::toUserEntity,
                     email);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with email: " + email, e);
+            logger.error("{}.getUser() - Something went wrong while reading the user with email: {}", CLASS_NAME, email, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_BY_EMAIL_MESSAGE,
@@ -161,7 +161,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
         }
 
         if (throwException && userEntity == null) {
-            logger.debug(CLASS_NAME + ".getUser() - User with email " + email + " not found");
+            logger.debug("{}.getUser() - User with email {} not found", CLASS_NAME, email);
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.GET_USER_NOT_FOUND_TITLE,
                     ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
@@ -181,7 +181,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     this::toUserEntity,
                     phone);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with phone: " + phone, e);
+            logger.error("{}.getUser() - Something went wrong while reading the user with phone: {}", CLASS_NAME, phone, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_BY_PHONE_MESSAGE,
@@ -191,7 +191,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
         }
 
         if (throwException && userEntity == null) {
-            logger.debug(CLASS_NAME + ".getUser() - User with username " + phone + " not found");
+            logger.debug("{}.getUser() - User with username {} not found", CLASS_NAME, phone);
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.GET_USER_NOT_FOUND_TITLE,
                     ErrorKeys.GET_USER_NOT_FOUND_MESSAGE,
@@ -212,7 +212,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
         try {
             rowsDeleted = jdbc.update(UserQueries.DELETE_USER_BY_ID, userGuid);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".deleteRefreshToken() - Something went wrong while deleting the user with id: " + userGuid, e);
+            logger.error("{}.deleteRefreshToken() - Something went wrong while deleting the user with id: {}", CLASS_NAME, userGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.DELETE_USER_ERROR_TITLE,
                     ErrorKeys.DELETE_USER_ERROR_MESSAGE,
@@ -221,7 +221,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
             );
         }
 
-        logger.info(CLASS_NAME + ".deleteUserById() - Users deleted: " + rowsDeleted);
+        logger.info("{}.deleteUserById() - Users deleted: {}", CLASS_NAME, rowsDeleted);
     }
 
     @Override
@@ -273,7 +273,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
             );
         }
 
-        logger.info(CLASS_NAME + ".deleteUserFriendships() - User friendships deleted: " + rowsDeleted);
+        logger.info("{}.deleteUserRoles() - User friendships deleted: {}", CLASS_NAME, rowsDeleted);
     }
 
     @Override
@@ -295,7 +295,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     addedByGuid
             );
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createFriendship() - Something went wrong while creating the friendship: " + friendship, e);
+            logger.error("{}.createFriendship() - Something went wrong while creating the friendship: {}", CLASS_NAME, friendship, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_MESSAGE,
@@ -330,7 +330,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                 friends.add(getUser(friendId));
             }
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".loadFriends() - Something went wrong while reading the user's friends for user with id: " + userGuid, e);
+            logger.error("{}.loadFriends() - Something went wrong while reading the user's friends for user with id: {}", CLASS_NAME, userGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
                     ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,
@@ -360,7 +360,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                         return rs.getInt(1);
                     });
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".countFriends() - Something went wrong while the user's friends for user with id: " + userGuid, e);
+            logger.error("{}.countFriends() - Something went wrong while the user's friends for user with id: {}", CLASS_NAME, userGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
                     ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,
@@ -390,7 +390,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
             );
         }
 
-        logger.info(CLASS_NAME + ".deleteUserFriendships() - User friendships deleted: " + rowsDeleted);
+        logger.info("{}.deleteUserFriendships() - User friendships deleted: {}", CLASS_NAME, rowsDeleted);
     }
 
     @Override
@@ -406,8 +406,7 @@ public class UserRepositoryImpl implements UserRepository, RolesRepository, Frie
                     this::toFriendshipEntity,
                     friend, addedBy);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".loadFriendship() - Something went wrong while loading the friendship details with friend: "
-                    + friend + " and addedBy: " + addedBy, e);
+            logger.error("{}.loadFriendship() - Something went wrong while loading the friendship details with friend: {} and addedBy: {}", CLASS_NAME, friend, addedBy, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.LOAD_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.LOAD_FRIENDSHIP_ERROR_MESSAGE,

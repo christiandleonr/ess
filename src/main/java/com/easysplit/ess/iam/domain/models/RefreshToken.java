@@ -3,7 +3,6 @@ package com.easysplit.ess.iam.domain.models;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.models.Link;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**

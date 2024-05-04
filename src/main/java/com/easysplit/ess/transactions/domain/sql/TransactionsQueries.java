@@ -1,5 +1,7 @@
 package com.easysplit.ess.transactions.domain.sql;
 
+import com.easysplit.ess.user.domain.models.FriendshipStatus;
+
 /**
  * Class that holds string variables with the queries for the <i>transactions</i> table
  */
@@ -60,4 +62,24 @@ public final class TransactionsQueries {
             + UPDATED_BY_COLUMN + ", "
             + UPDATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + TRANSACTIONGUID_COLUMN + " = ?";
 
+    /**
+     * Count transactions by group
+     */
+    public static final String COUNT_TRANSACTIONS_BY_GROUP = "SELECT COUNT(*) FROM " + TABLE_NAME
+            + " WHERE ? IN (" + GROUPGUID_COLUMN + ")";
+
+    /**
+     * Load transactions by group
+     */
+    public static final String LOAD_TRANSACTIONS_BY_GROUP = "SELECT " + TRANSACTIONGUID_COLUMN + ", "
+            + NAME_COLUMN + ", "
+            + CURRENCY_COLUMN + ", "
+            + GROUPGUID_COLUMN + ", "
+            + CREDITOR_COLUMN + ", "
+            + DEBTOR_COLUMN + ", "
+            + CREATED_BY_COLUMN + ", "
+            + CREATED_DATE_COLUMN + ", "
+            + UPDATED_BY_COLUMN + ", "
+            + UPDATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + GROUPGUID_COLUMN + " = ? "
+            + "ORDER BY " + CREATED_DATE_COLUMN + " LIMIT ? OFFSET ?";
 }

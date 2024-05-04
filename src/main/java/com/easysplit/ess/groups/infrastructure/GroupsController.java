@@ -36,16 +36,16 @@ public class GroupsController {
 
             createdGroup.setLinks(infrastructureHelper.buildLinks(GROUPS_RESOURCE, createdGroup.getId()));
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".createGroup() - Resource not found for group: " + group);
+            logger.debug("{}.createGroup() - Resource not found for group: {}", CLASS_NAME, group);
             throw e;
         } catch (IllegalArgumentException e) {
-            logger.debug(CLASS_NAME + ".createGroup() - Invalid data for group: " + group);
+            logger.debug("{}.createGroup() - Invalid data for group: {}", CLASS_NAME, group);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".createGroup() - Something went wrong while creating the group: " + group, e);
+            logger.error("{}.createGroup() - Something went wrong while creating the group: {}", CLASS_NAME, group, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createGroup() - Something went wrong while creating the group: " + group, e);
+            logger.error("{}.createGroup() - Something went wrong while creating the group: {}", CLASS_NAME, group, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_GROUP_ERROR_TITLE,
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
@@ -62,13 +62,13 @@ public class GroupsController {
         try{
             groupsService.deleteGroup(id);
         }catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".deleteGroup() - group with id " + id + " not found");
+            logger.debug("{}.deleteGroup() - group with id {} not found", CLASS_NAME, id);
             throw e;
         }catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".deleteGroup() - Something went wrong while deleting the group with id " + id, e);
+            logger.error("{}.deleteGroup() - Something went wrong while deleting the group with id {}", CLASS_NAME, id, e);
             throw e;
         }catch (Exception e) {
-            logger.error(CLASS_NAME + ".deleteGroup() - Something went wrong while deleting the group with id " + id, e);
+            logger.error("{}.deleteGroup() - Something went wrong while deleting the group with id {}", CLASS_NAME, id, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.DELETE_GROUP_ERROR_TITLE,
                     ErrorKeys.DELETE_GROUP_ERROR_MESSAGE,
@@ -87,13 +87,13 @@ public class GroupsController {
 
             group.setLinks(infrastructureHelper.buildLinks(GROUPS_RESOURCE, id));
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".getGroup() - Group with id " + id + " not found");
+            logger.debug("{}.getGroup() - Group with id {} not found", CLASS_NAME, id);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".getGroup() - Something went wrong while reading the group with id " + id, e);
+            logger.error("{}.getGroup() - Something went wrong while reading the group with id {}", CLASS_NAME, id, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getGroup() - Something went wrong while reading the group with id " + id, e);
+            logger.error("{}.getGroup() - Something went wrong while reading the group with id {}", CLASS_NAME, id, e);
 
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_USER_ERROR_TITLE,

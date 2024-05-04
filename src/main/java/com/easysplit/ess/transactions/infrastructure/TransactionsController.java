@@ -36,16 +36,16 @@ public class TransactionsController {
 
             createdTransaction.setLinks(infrastructureHelper.buildLinks(TRANSACTIONS_RESOURCE, createdTransaction.getId()));
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".createTransaction() - Resource not found for transaction: " + transaction);
+            logger.debug("{}.createTransaction() - Resource not found for transaction: {}", CLASS_NAME, transaction);
             throw e;
         } catch (IllegalArgumentException e) {
-            logger.debug(CLASS_NAME + ".createTransaction() - Invalid data for transaction: " + transaction);
+            logger.debug("{}.createTransaction() - Invalid data for transaction: {}", CLASS_NAME, transaction);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".createTransaction() - Something went wrong while creating the transaction: " + transaction, e);
+            logger.error("{}.createTransaction() - Something went wrong while creating the transaction: {}", CLASS_NAME, transaction, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createTransaction() - Something went wrong while creating the transaction: " + transaction, e);
+            logger.error("{}.createTransaction() - Something went wrong while creating the transaction: {}", CLASS_NAME, transaction, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.CREATE_TRANSACTION_ERROR_MESSAGE,
@@ -65,13 +65,13 @@ public class TransactionsController {
 
             transaction.setLinks(infrastructureHelper.buildLinks(TRANSACTIONS_RESOURCE, id));
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + " .getTransaction() - Transaction with id " + id + " not found");
+            logger.debug("{} .getTransaction() - Transaction with id {} not found", CLASS_NAME, id);
             throw e;
         } catch (InternalServerErrorException e){
-            logger.error(CLASS_NAME + " .getTransaction() - Something went wrong while reading the user with id " + id, e);
+            logger.error("{} .getTransaction() - Something went wrong while reading the user with id {}", CLASS_NAME, id, e);
             throw e;
         } catch (Exception e){
-            logger.error(CLASS_NAME + " .getTransaction() - Something went wrong while reading the user with id " + id, e);
+            logger.error("{} .getTransaction() - Something went wrong while reading the user with id {}", CLASS_NAME, id, e);
 
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_TRANSACTION_ERROR_TITLE,

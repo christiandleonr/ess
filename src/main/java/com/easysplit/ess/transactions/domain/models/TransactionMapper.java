@@ -1,7 +1,5 @@
 package com.easysplit.ess.transactions.domain.models;
 
-import com.easysplit.ess.user.domain.models.User;
-import com.easysplit.ess.user.domain.models.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -28,6 +26,8 @@ public interface TransactionMapper {
     })
     TransactionEntity toTransactionEntity(Transaction transaction);
 
+    List<TransactionEntity> toListOfTransactionEntities(List<Transaction> transactions);
+
     @Mappings({
             @Mapping(source="transactionGuid", target="id"),
             @Mapping(source="name", target="name"),
@@ -42,4 +42,6 @@ public interface TransactionMapper {
             @Mapping(source="updatedDate", target="updatedDate"),
     })
     Transaction toTransaction(TransactionEntity transactionEntity);
+
+    List<Transaction> toListOfTransactions(List<TransactionEntity> transactionEntities);
 }

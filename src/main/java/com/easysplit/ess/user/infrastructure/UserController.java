@@ -45,13 +45,13 @@ public class UserController {
 
             user.setLinks(infrastructureHelper.buildLinks(USERS_RESOURCE, id));
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".getUser() - User with id " + id + " not found");
+            logger.debug("{}.getUser() - User with id {} not found", CLASS_NAME, id);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with id " + id, e);
+            logger.error("{}.getUser() - Something went wrong while reading the user with id {}", CLASS_NAME, id, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getUser() - Something went wrong while reading the user with id " + id, e);
+            logger.error("{}.getUser() - Something went wrong while reading the user with id {}", CLASS_NAME, id, e);
 
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_USER_ERROR_TITLE,
@@ -72,13 +72,13 @@ public class UserController {
 
             createdUser.setLinks(infrastructureHelper.buildLinks(USERS_RESOURCE, createdUser.getId()));
         } catch (IllegalArgumentException e) {
-            logger.debug(CLASS_NAME + ".createUser() - Invalid data for user: " + user);
+            logger.debug("{}.createUser() - Invalid data for user: {}", CLASS_NAME, user);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".createUser() - Something went wrong while creating the user: " + user, e);
+            logger.error("{}.createUser() - Something went wrong while creating the user: {}", CLASS_NAME, user, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createUser() - Something went wrong while creating the user: " + user, e);
+            logger.error("{}.createUser() - Something went wrong while creating the user: {}", CLASS_NAME, user, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_USER_ERROR_TITLE,
                     ErrorKeys.CREATE_USER_ERROR_MESSAGE,
@@ -95,13 +95,13 @@ public class UserController {
         try {
             userService.deleteUser(id);
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".deleteUser() - User with id " + id + " not found");
+            logger.debug("{}.deleteUser() - User with id {} not found", CLASS_NAME, id);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".deleteUser() - Something went wrong while deleting the user with id " + id, e);
+            logger.error("{}.deleteUser() - Something went wrong while deleting the user with id {}", CLASS_NAME, id, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".deleteUser() - Something went wrong while deleting the user with id " + id, e);
+            logger.error("{}.deleteUser() - Something went wrong while deleting the user with id {}", CLASS_NAME, id, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.DELETE_USER_ERROR_TITLE,
                     ErrorKeys.DELETE_USER_ERROR_MESSAGE,
@@ -126,16 +126,16 @@ public class UserController {
                     infrastructureHelper.buildLinks(USERS_RESOURCE, createdFriendship.getId())
             );
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".addFriend() - A user from the friendship: " + friendship + " was not found");
+            logger.debug("{}.addFriend() - A user from the friendship: {} was not found", CLASS_NAME, friendship);
             throw e;
         } catch (IllegalArgumentException e) {
-            logger.debug(CLASS_NAME + ".addFriend() - Illegal argument exception, most likely the friendship already exist");
+            logger.debug("{}.addFriend() - Illegal argument exception, most likely the friendship already exist", CLASS_NAME);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".addFriend() - Something went wrong while creating the friendship: " + friendship, e);
+            logger.error("{}.addFriend() - Something went wrong while creating the friendship: {}", CLASS_NAME, friendship, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".addFriend() - Something went wrong while creating the friendship: " + friendship, e);
+            logger.error("{}.addFriend() - Something went wrong while creating the friendship: {}", CLASS_NAME, friendship, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_TITLE,
                     ErrorKeys.CREATE_FRIENDSHIP_ERROR_MESSAGE,
@@ -158,10 +158,10 @@ public class UserController {
 
             // TODO Work on links
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".listFriends() - Something went wrong while reading the user's friends for user : " + userId, e);
+            logger.error("{}.listFriends() - Something went wrong while reading the user's friends for user : {}", CLASS_NAME, userId, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".listFriends() - Something went wrong while reading the user's friends for user : " + userId, e);
+            logger.error("{}.listFriends() - Something went wrong while reading the user's friends for user : {}", CLASS_NAME, userId, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.LIST_FRIENDS_ERROR_TITLE,
                     ErrorKeys.LIST_FRIENDS_ERROR_MESSAGE,

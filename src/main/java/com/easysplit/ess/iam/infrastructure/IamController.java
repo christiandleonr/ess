@@ -1,6 +1,5 @@
 package com.easysplit.ess.iam.infrastructure;
 
-import com.easysplit.ess.iam.domain.contracts.JwtService;
 import com.easysplit.ess.iam.domain.contracts.RefreshTokenService;
 import com.easysplit.ess.iam.domain.models.Auth;
 import com.easysplit.ess.iam.domain.models.RefreshToken;
@@ -32,7 +31,7 @@ public class IamController {
     private final RefreshTokenService refreshTokenService;
     private final InfrastructureHelper infrastructureHelper;
 
-    public IamController(AuthenticationManager authenticationManager, RefreshTokenService refreshTokenService, JwtService jwtService, InfrastructureHelper infrastructureHelper) {
+    public IamController(AuthenticationManager authenticationManager, RefreshTokenService refreshTokenService, InfrastructureHelper infrastructureHelper) {
         this.authenticationManager = authenticationManager;
         this.refreshTokenService = refreshTokenService;
         this.infrastructureHelper = infrastructureHelper;
@@ -50,16 +49,16 @@ public class IamController {
                 token = refreshTokenService.buildEssToken(auth.getEmail());
             }
         } catch (BadCredentialsException e) {
-            logger.error(CLASS_NAME + ".authenticate() - Bad credentials for user with email " + auth.getEmail(), e);
+            logger.error("{}.authenticate() - Bad credentials for user with email {}", CLASS_NAME, auth.getEmail(), e);
             throw e;
         } catch (NotFoundException e) {
-            logger.error(CLASS_NAME + ".authenticate() - Something went wrong while reading the user with email " + auth.getEmail(), e);
+            logger.error("{}.authenticate() - Something went wrong while reading the user with email {}", CLASS_NAME, auth.getEmail(), e);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".authenticate() - Something went wrong while authenticating the user", e);
+            logger.error("{}.authenticate() - Something went wrong while authenticating the user", CLASS_NAME, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".authenticate() - Something went wrong while authenticating the user", e);
+            logger.error("{}.authenticate() - Something went wrong while authenticating the user", CLASS_NAME, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.AUTHENTICATION_ERROR_TITLE,
                     ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
@@ -78,16 +77,16 @@ public class IamController {
         try {
             token = refreshTokenService.refreshToken(refreshToken);
         } catch (NotFoundException e) {
-            logger.error(CLASS_NAME + ".refreshToken() - Something went wrong while reading the refresh token with token " + refreshToken.getToken(), e);
+            logger.error("{}.refreshToken() - Something went wrong while reading the refresh token with token {}", CLASS_NAME, refreshToken.getToken(), e);
             throw e;
         } catch (ExpiredJwtException e) {
-            logger.error(CLASS_NAME + ".refreshToken() - Token expired " + refreshToken.getToken(), e);
+            logger.error("{}.refreshToken() - Token expired {}", CLASS_NAME, refreshToken.getToken(), e);
             throw e;
         } catch (InternalServerErrorException e) {
-            logger.error(CLASS_NAME + ".refreshToken() - Something went wrong while refreshing the token", e);
+            logger.error("{}.refreshToken() - Something went wrong while refreshing the token", CLASS_NAME, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".refreshToken() - Something went wrong while refreshing the token", e);
+            logger.error("{}.refreshToken() - Something went wrong while refreshing the token", CLASS_NAME, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.AUTHENTICATION_ERROR_TITLE,
                     ErrorKeys.AUTHENTICATION_ERROR_MESSAGE,
