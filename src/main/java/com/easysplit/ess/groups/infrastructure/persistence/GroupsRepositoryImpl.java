@@ -255,6 +255,12 @@ public class GroupsRepositoryImpl implements GroupsRepository {
         return member;
     }
 
+    /**
+     * Create a <i>GroupEntity</i> object from a <i>ResultSet</i>
+     *
+     * @param rs result set
+     * @return Object of type <i>GroupEntity</i>
+     */
     private GroupEntity toGroupEntity(ResultSet rs) throws SQLException {
 
         GroupEntity groupEntity = null;

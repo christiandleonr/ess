@@ -1,9 +1,6 @@
 package com.easysplit.ess.transactions.application;
 
-import com.easysplit.ess.transactions.domain.contracts.DebtsRepository;
-import com.easysplit.ess.transactions.domain.contracts.GroupsTransactionsRepository;
-import com.easysplit.ess.transactions.domain.contracts.TransactionsRepository;
-import com.easysplit.ess.transactions.domain.contracts.TransactionsService;
+import com.easysplit.ess.transactions.domain.contracts.*;
 import com.easysplit.ess.transactions.domain.models.DebtEntity;
 import com.easysplit.ess.transactions.domain.models.Transaction;
 import com.easysplit.ess.transactions.domain.models.TransactionEntity;
@@ -18,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TransactionsServiceImpl implements TransactionsService {
+public class TransactionsServiceImpl implements TransactionsService, GroupsTransactionsService {
     private final TransactionsRepository transactionsRepository;
     private final GroupsTransactionsRepository groupsTransactionsRepository;
     private final DebtsRepository debtsRepository;

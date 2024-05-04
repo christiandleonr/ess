@@ -1,6 +1,6 @@
 package com.easysplit.ess.transactions.infrastructure;
 
-import com.easysplit.ess.transactions.domain.contracts.TransactionsService;
+import com.easysplit.ess.transactions.domain.contracts.GroupsTransactionsService;
 import com.easysplit.ess.transactions.domain.models.Transaction;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.exceptions.IllegalArgumentException;
@@ -22,11 +22,11 @@ public class GroupsTransactionsController {
     private final String CLASS_NAME = GroupsTransactionsController.class.getName();
     private static final Logger logger = LoggerFactory.getLogger(GroupsTransactionsController.class);
 
-    private final TransactionsService transactionsService;
+    private final GroupsTransactionsService groupsTransactionsService;
     private final InfrastructureHelper infrastructureHelper;
 
-    public GroupsTransactionsController(TransactionsService transactionsService, InfrastructureHelper infrastructureHelper) {
-        this.transactionsService = transactionsService;
+    public GroupsTransactionsController(GroupsTransactionsService groupsTransactionsService, InfrastructureHelper infrastructureHelper) {
+        this.groupsTransactionsService = groupsTransactionsService;
         this.infrastructureHelper = infrastructureHelper;
     }
 
@@ -34,7 +34,7 @@ public class GroupsTransactionsController {
     public ResponseEntity<Void> createGroupTransactions(@PathVariable(name = "id") String groupId, List<Transaction> transactions) {
         try {
             String createdById = infrastructureHelper.getAuthenticatedUserId();
-            transactionsService.bulkCreateTransaction(transactions, groupId, createdById);
+            groupsTransactionsService.bulkCreateTransaction(transactions, groupId, createdById);
         } catch (NotFoundException e) {
             logger.debug("{}.createGroupTransactions() - Resource not found for transaction list: {}", CLASS_NAME, transactions);
             throw e;
@@ -64,7 +64,7 @@ public class GroupsTransactionsController {
                                                                           @RequestParam(name = "totalCount") boolean totalCount) {
         ResourceList<Transaction> transactions = null;
         try {
-            transactions = transactionsService.listTransactionsByGroup(groupId, limit, offset, totalCount);
+            transactions = groupsTransactionsService.listTransactionsByGroup(groupId, limit, offset, totalCount);
         } catch (NotFoundException e) {
             logger.debug("{}.getGroupTransactions() - Resource not found", CLASS_NAME);
             throw e;

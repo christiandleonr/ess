@@ -6,7 +6,7 @@ import com.easysplit.shared.domain.models.ResourceList;
 import java.util.List;
 
 /**
- * Class that handle the business logic for the user resource
+ * Class that handle the business logic for the transactions resource
  */
 public interface TransactionsService {
     /**
@@ -19,16 +19,6 @@ public interface TransactionsService {
      */
     Transaction createNewTransaction(Transaction transaction, String createdById);
 
-
-    /**
-     * Creates a set of transactions related to a group, performs pure data validation
-     *
-     * @param transactions transactions to be created
-     * @param groupId group to which the transaction belong
-     * @param createdById user who started the transaction
-     */
-    void bulkCreateTransaction(List<Transaction> transactions, String groupId, String createdById);
-
     /**
      * Gets a Transaction by its guid
      *
@@ -36,12 +26,4 @@ public interface TransactionsService {
      * @return transaction
      */
     Transaction getTransaction(String transactionGuid);
-
-    /**
-     * List transactions by group
-     *
-     * @param groupId group to retrieve the transactions for
-     * @return list of transactions for the given group
-     */
-    ResourceList<Transaction> listTransactionsByGroup(String groupId, int limit, int offset, boolean countTransactions);
 }
