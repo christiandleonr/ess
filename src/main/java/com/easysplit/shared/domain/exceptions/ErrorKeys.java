@@ -166,6 +166,13 @@ public final class ErrorKeys {
     public static final String GET_TRANSACTION_ERROR_MESSAGE = "get.transaction.error.message";
 
     /**
+     * List transactions
+     */
+    public static final String LIST_TRANSACTIONS_BY_GROUP_ERROR_TITLE = "list.transactions.byGroup.error.title";
+    public static final String LIST_TRANSACTIONS_BY_GROUP_ERROR_MESSAGE = "list.transactions.byGroup.error.message";
+    public static final String LIST_TRANSACTIONS_BY_GROUP_COUNT_ERROR_MESSAGE = "list.transactions.byGroup.count.error.message";
+
+    /**
      * Get debt
      */
     public static final String GET_DEBT_NOT_FOUND_TITLE = "get.debt.notFound.title";

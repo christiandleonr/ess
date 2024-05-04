@@ -59,7 +59,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     createdDate
             );
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createGroup() - Something went wrong while creating the group: " + group, e);
+            logger.error("{}.createGroup() - Something went wrong while creating the group: {}", CLASS_NAME, group, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,
@@ -98,7 +98,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
             );
         }
 
-        logger.info(CLASS_NAME + " .deleteGroupsById() - Groups deleted: "+ rowsDeleted);
+        logger.info("{} .deleteGroupsById() - Groups deleted: {}", CLASS_NAME, rowsDeleted);
     }
 
     @Override
@@ -111,10 +111,10 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     groupGuid);
         } catch (NotFoundException e) {
             // Catching NotFoundException thrown from toGroupEntity method
-            logger.debug(CLASS_NAME + ".getGroup() - NotFoundException while reading the user: " + groupGuid, e);
+            logger.debug("{}.getGroup() - NotFoundException while reading the user: {}", CLASS_NAME, groupGuid, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getGroup() - Something went wrong while reading the group with id: " + groupGuid, e);
+            logger.error("{}.getGroup() - Something went wrong while reading the group with id: {}", CLASS_NAME, groupGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_GROUP_ERROR_TITLE,
                     ErrorKeys.GET_GROUP_ERROR_MESSAGE,
@@ -124,7 +124,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
         }
 
         if (groupEntity == null) {
-            logger.debug(CLASS_NAME + ".getGroup() - Group with id " + groupGuid + " not found");
+            logger.debug("{}.getGroup() - Group with id {} not found", CLASS_NAME, groupGuid);
             infrastructureHelper.throwNotFoundException(
                     ErrorKeys.GET_GROUP_NOT_FOUND_TITLE,
                     ErrorKeys.GET_GROUP_NOT_FOUND_MESSAGE,
@@ -142,7 +142,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
         List<UserEntity> members = new ArrayList<>();
 
         if (EssUtils.isNullOrEmpty(groupMembers)) {
-            logger.debug(CLASS_NAME + ".addGroupMembers() - Empty list of members: " + groupMembers);
+            logger.debug("{}.addGroupMembers() - Empty list of members: {}", CLASS_NAME, groupMembers);
             return members;
         }
 
@@ -171,10 +171,10 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                 members.add(userRepository.getUser(memberId));
             }
         } catch (NotFoundException e) {
-            logger.debug(CLASS_NAME + ".getGroupMembers() - A member of the group was not found " + groupGuid, e);
+            logger.debug("{}.getGroupMembers() - A member of the group was not found {}", CLASS_NAME, groupGuid, e);
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getGroupMembers() - Something went wrong while reading the group's members for group with id: " + groupGuid, e);
+            logger.error("{}.getGroupMembers() - Something went wrong while reading the group's members for group with id: {}", CLASS_NAME, groupGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_GROUP_ERROR_TITLE,
                     ErrorKeys.GET_GROUP_ERROR_MESSAGE,
@@ -204,7 +204,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
             );
         }
 
-        logger.info(CLASS_NAME + ".deleteGroupMember() - delete from " + rowsDeleted + " groups");
+        logger.info("{}.deleteGroupMember() - delete from {} groups", CLASS_NAME, rowsDeleted);
     }
 
     public void deleteAllGroupMembers(String groupGuid) {
@@ -223,7 +223,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
             );
         }
 
-        logger.info(CLASS_NAME + ".deleteAllGroupMembers() - delete from " + rowsDeleted + " groups");
+        logger.info("{}.deleteAllGroupMembers() - delete from {} groups", CLASS_NAME, rowsDeleted);
 
     }
 
@@ -243,7 +243,7 @@ public class GroupsRepositoryImpl implements GroupsRepository {
                     member.getUserGuid()
             );
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".addGroupMember() - Something went wrong while adding the member: " + groupMember, e);
+            logger.error("{}.addGroupMember() - Something went wrong while adding the member: {}", CLASS_NAME, groupMember, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_GROUP_ERROR_TITLE,
                     ErrorKeys.CREATE_GROUP_ERROR_MESSAGE,

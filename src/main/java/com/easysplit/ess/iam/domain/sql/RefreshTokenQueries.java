@@ -29,7 +29,7 @@ public class RefreshTokenQueries {
             + USERGUID_COLUMN +  " ) VALUES (?, ?)";
 
     /**
-     * Get refresh token details by otken
+     * Get refresh token details by token
      */
     public static final String GET_REFRESH_TOKEN_BY_TOKEN = "SELECT " + ID_COLUMN + ", "
             + TOKEN_COLUMN + ", "

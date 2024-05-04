@@ -1,6 +1,7 @@
 package com.easysplit.ess.transactions.domain.contracts;
 
 import com.easysplit.ess.transactions.domain.models.Transaction;
+import com.easysplit.shared.domain.models.ResourceList;
 
 import java.util.List;
 
@@ -35,4 +36,12 @@ public interface TransactionsService {
      * @return transaction
      */
     Transaction getTransaction(String transactionGuid);
+
+    /**
+     * List transactions by group
+     *
+     * @param groupId group to retrieve the transactions for
+     * @return list of transactions for the given group
+     */
+    ResourceList<Transaction> listTransactionsByGroup(String groupId, int limit, int offset, boolean countTransactions);
 }

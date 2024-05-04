@@ -2,8 +2,6 @@ package com.easysplit.ess.iam.domain.models;
 
 import com.easysplit.ess.user.domain.models.UserEntity;
 
-import java.sql.Timestamp;
-
 /**
  * Entity class that represents the <i>refresh_token</i> table
  */

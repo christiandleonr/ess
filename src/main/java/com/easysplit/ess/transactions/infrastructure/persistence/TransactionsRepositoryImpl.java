@@ -3,6 +3,7 @@ package com.easysplit.ess.transactions.infrastructure.persistence;
 import com.easysplit.ess.groups.domain.contracts.GroupsRepository;
 import com.easysplit.ess.groups.domain.models.GroupEntity;
 import com.easysplit.ess.transactions.domain.contracts.DebtsRepository;
+import com.easysplit.ess.transactions.domain.contracts.GroupsTransactionsRepository;
 import com.easysplit.ess.transactions.domain.contracts.TransactionsRepository;
 import com.easysplit.ess.transactions.domain.models.DebtEntity;
 import com.easysplit.ess.transactions.domain.models.TransactionEntity;
@@ -32,7 +33,7 @@ import java.util.UUID;
 import java.util.Date;
 
 @Repository
-public class TransactionsRepositoryImpl implements TransactionsRepository, DebtsRepository {
+public class TransactionsRepositoryImpl implements TransactionsRepository, GroupsTransactionsRepository, DebtsRepository {
     private static final String CLASS_NAME = TransactionsRepositoryImpl.class.getName();
     private final InfrastructureHelper infrastructureHelper;
     private final UserRepository userRepository;
@@ -87,7 +88,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
         } catch (NotFoundException e) {
           throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".createTransaction() - Something went wrong while creating the transaction: " + transaction, e);
+            logger.error("{}.createTransaction() - Something went wrong while creating the transaction: {}", CLASS_NAME, transaction, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.CREATE_TRANSACTION_ERROR_MESSAGE,
@@ -109,7 +110,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
 
     @Override
     @Transactional
-    public void bulkCreateTransaction(List<TransactionEntity> transactions, String groupGuid, String createdByGuid) {
+    public void bulkCreateTransactions(List<TransactionEntity> transactions, String groupGuid, String createdByGuid) {
         if (EssUtils.isNullOrEmpty(transactions)) {
             return;
         }
@@ -160,7 +161,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
         } catch (NotFoundException e) {
             throw e;
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".bulkCreateTransaction() - Something went wrong while creating set of transactions", e);
+            logger.error("{}.bulkCreateTransaction() - Something went wrong while creating set of transactions", CLASS_NAME, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.BULK_CREATE_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.BULK_CREATE_TRANSACTION_ERROR_MESSAGE,
@@ -200,7 +201,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                 }
             });
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".bulkCreateDebts() - Something went wrong while creating set of debts", e);
+            logger.error("{}.bulkCreateDebts() - Something went wrong while creating set of debts", CLASS_NAME, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.BULK_INSERT_NEW_DEBT_ERROR_TITLE,
                     ErrorKeys.BULK_INSERT_NEW_DEBT_ERROR_MESSAGE,
@@ -238,7 +239,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     createdDate
                     );
         } catch (NotFoundException e) {
-            logger.info(CLASS_NAME + ".insertNewDebt() - Created by user not found " + debt.getCreatedBy().getUserGuid());
+            logger.info("{}.insertNewDebt() - Created by user not found {}", CLASS_NAME, debt.getCreatedBy().getUserGuid());
             throw e;
         } catch (Exception e) {
             infrastructureHelper.throwInternalServerErrorException(
@@ -267,7 +268,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
         try {
             revision = jdbc.queryForObject(DebtsQueries.GET_LAST_REVISION, Integer.class);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + ".getLastRevision() - Something went wrong while reading the last revision of the debt " + debtGuid);
+            logger.error("{}.getLastRevision() - Something went wrong while reading the last revision of the debt {}", CLASS_NAME, debtGuid);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.INSERT_NEW_DEBT_ERROR_TITLE,
                     ErrorKeys.READ_LAST_REVISION_ERROR_MESSAGE,
@@ -289,10 +290,10 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     transactionGuid);
         }catch(NotFoundException e){
             //Catching NotFoundException thrown from toTransactionEntity method
-            logger.debug(CLASS_NAME + ".getTransaction() - NotFoundException while reading the transaction: " + transactionGuid, e);
+            logger.debug("{}.getTransaction() - NotFoundException while reading the transaction: {}", CLASS_NAME, transactionGuid, e);
             throw e;
         }catch(Exception e){
-            logger.error(CLASS_NAME + ".getTransaction() - Something went wrong while reading the transaction with id: "+ transactionGuid, e);
+            logger.error("{}.getTransaction() - Something went wrong while reading the transaction with id: {}", CLASS_NAME, transactionGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
@@ -314,10 +315,10 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
                     transactionGuid);
         }catch(NotFoundException e){
             //Catching NotFoundException thrown from toDebtEntity method
-            logger.debug(CLASS_NAME + ".getDebt() - NotFoundException while reading the debt of the transaction: " + transactionGuid, e);
+            logger.debug("{}.getDebt() - NotFoundException while reading the debt of the transaction: {}", CLASS_NAME, transactionGuid, e);
             throw e;
         }catch(Exception e){
-            logger.error(CLASS_NAME + ".getDebt() - Something went wrong while reading the debt of the transaction with id: "+ transactionGuid, e);
+            logger.error("{}.getDebt() - Something went wrong while reading the debt of the transaction with id: {}", CLASS_NAME, transactionGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_DEBT_ERROR_TITLE,
                     ErrorKeys.GET_DEBT_ERROR_MESSAGE,
@@ -330,47 +331,138 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Debts
 
     }
 
-    private TransactionEntity toTransactionEntity(ResultSet rs) throws SQLException {
+    @Override
+    public int countTransactionsByGroup(String groupGuid) {
+        int totalCount = 0;
+        if (EssUtils.isNullOrEmpty(groupGuid)) {
+            return totalCount;
+        }
 
+        try {
+            totalCount = jdbc.query(TransactionsQueries.COUNT_TRANSACTIONS_BY_GROUP,
+                    (preparedStatement) -> {
+                        preparedStatement.setString(1, groupGuid);
+                    }, (rs) -> {
+                        if (!rs.next()) {
+                            return 0;
+                        }
+                        return rs.getInt(1);
+                    });
+        } catch (Exception e) {
+            logger.error("{}.countTransactionsByGroup() - Something went wrong while reading the total number of transaction for group guid: {}", CLASS_NAME, groupGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.LIST_TRANSACTIONS_BY_GROUP_ERROR_TITLE,
+                    ErrorKeys.LIST_TRANSACTIONS_BY_GROUP_COUNT_ERROR_MESSAGE,
+                    new Object[]{ groupGuid },
+                    e.getCause()
+            );
+        }
+
+        return totalCount;
+    }
+
+    @Override
+    public List<TransactionEntity> loadTransactionsByGroup(String groupGuid, int limit, int offset) {
+        List<TransactionEntity> transactionEntities = new ArrayList<>();
+
+        if (EssUtils.isNullOrEmpty(groupGuid)) {
+            return transactionEntities;
+        }
+
+        try {
+            transactionEntities = jdbc.query(TransactionsQueries.LOAD_TRANSACTIONS_BY_GROUP,
+                    this::toTransactionEntities,
+                    groupGuid, limit, offset);
+        } catch (Exception e) {
+            logger.error("{}.loadTransactionsByGroup() - Something went wrong while reading the group's transactions for group with id: {}", CLASS_NAME, groupGuid, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.LIST_TRANSACTIONS_BY_GROUP_ERROR_TITLE,
+                    ErrorKeys.LIST_TRANSACTIONS_BY_GROUP_ERROR_MESSAGE,
+                    new Object[] {groupGuid},
+                    e.getCause()
+            );
+        }
+
+        return transactionEntities;
+    }
+
+    /**
+     * Generates a list of <i>TransactionEntity</i> from a <i>ResultSet</i> (DB query result)
+     *
+     * @param rs result set
+     * @return list of type <i>TransactionEntity</i>
+     */
+    private List<TransactionEntity> toTransactionEntities(ResultSet rs) throws SQLException {
+        List<TransactionEntity> transactionEntities = new ArrayList<>();
+
+        while (rs.next()) {
+            transactionEntities.add(buildTransactionEntity(rs));
+        }
+
+        return transactionEntities;
+    }
+
+    /**
+     * Returns a <i>TransactionEntity</i> from a <i>ResultSet</i> (DB query result)
+     * @param rs result set
+     * @return Object of type <i>TransactionEntity</i>
+     */
+    private TransactionEntity toTransactionEntity(ResultSet rs) throws SQLException {
         TransactionEntity transactionEntity = null;
 
         if(rs.next()) {
-            transactionEntity = new TransactionEntity();
-
-            transactionEntity.setTransactionGuid(rs.getString(TransactionsQueries.TRANSACTIONGUID_COLUMN.toLowerCase()));
-            transactionEntity.setName(rs.getString(TransactionsQueries.NAME_COLUMN.toLowerCase()));
-
-            String creditorByGuid = rs.getString(TransactionsQueries.CREDITOR_COLUMN.toLowerCase());
-            UserEntity creditor = userRepository.getUser(creditorByGuid);
-            transactionEntity.setCreditor(creditor);
-
-            String debtorByGuid = rs.getString(TransactionsQueries.DEBTOR_COLUMN.toLowerCase());
-            UserEntity debtor = userRepository.getUser(debtorByGuid);
-            transactionEntity.setDebtor(debtor);
-
-
-            String createdByGuid = rs.getString((TransactionsQueries.CREATED_BY_COLUMN.toLowerCase()));
-            UserEntity createdBy = userRepository.getUser(createdByGuid);
-            transactionEntity.setCreatedBy(createdBy);
-
-            String date = rs.getString((TransactionsQueries.CREATED_DATE_COLUMN.toLowerCase()));
-            Timestamp createdDate = Timestamp.valueOf(date);
-            transactionEntity.setCreatedDate(createdDate);
-
-            String updatedByGuid = rs.getString((TransactionsQueries.UPDATED_BY_COLUMN.toLowerCase()));
-            UserEntity updatedBy = userRepository.getUser(updatedByGuid);
-            transactionEntity.setUpdatedBy(updatedBy);
-
-
-            Date currentDate = new Date();
-            Timestamp updatedDate = new Timestamp(currentDate.getTime());
-            transactionEntity.setUpdatedDate(updatedDate);
+            transactionEntity = buildTransactionEntity(rs);
         }
-
 
         return transactionEntity;
     }
 
+    /**
+     * Builds and returns a <i>TransactionEntity</i> from a <i>ResultSet</i> (DB query result)
+     *
+     * @param rs result set
+     * @return Object of type <i>TransactionEntity</i>
+     */
+    private TransactionEntity buildTransactionEntity(ResultSet rs) throws SQLException {
+        TransactionEntity transactionEntity = new TransactionEntity();
+
+        transactionEntity.setTransactionGuid(rs.getString(TransactionsQueries.TRANSACTIONGUID_COLUMN.toLowerCase()));
+        transactionEntity.setName(rs.getString(TransactionsQueries.NAME_COLUMN.toLowerCase()));
+
+        String creditorByGuid = rs.getString(TransactionsQueries.CREDITOR_COLUMN.toLowerCase());
+        UserEntity creditor = userRepository.getUser(creditorByGuid);
+        transactionEntity.setCreditor(creditor);
+
+        String debtorByGuid = rs.getString(TransactionsQueries.DEBTOR_COLUMN.toLowerCase());
+        UserEntity debtor = userRepository.getUser(debtorByGuid);
+        transactionEntity.setDebtor(debtor);
+
+
+        String createdByGuid = rs.getString((TransactionsQueries.CREATED_BY_COLUMN.toLowerCase()));
+        UserEntity createdBy = userRepository.getUser(createdByGuid);
+        transactionEntity.setCreatedBy(createdBy);
+
+        String date = rs.getString((TransactionsQueries.CREATED_DATE_COLUMN.toLowerCase()));
+        Timestamp createdDate = Timestamp.valueOf(date);
+        transactionEntity.setCreatedDate(createdDate);
+
+        String updatedByGuid = rs.getString((TransactionsQueries.UPDATED_BY_COLUMN.toLowerCase()));
+        UserEntity updatedBy = userRepository.getUser(updatedByGuid);
+        transactionEntity.setUpdatedBy(updatedBy);
+
+        Date currentDate = new Date();
+        Timestamp updatedDate = new Timestamp(currentDate.getTime());
+        transactionEntity.setUpdatedDate(updatedDate);
+
+        return transactionEntity;
+    }
+
+    /**
+     * Generates a <i>DebtEntity</i> object from a <i>ResultSet</i> (DB query result)
+     *
+     * @param rs result set
+     * @return Object of type <i>DebtEntity</i>
+     */
     private DebtEntity toDebtEntity(ResultSet rs) throws SQLException{
 
         DebtEntity debtEntity = null;

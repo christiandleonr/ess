@@ -1,12 +1,14 @@
 package com.easysplit.ess.transactions.application;
 
 import com.easysplit.ess.transactions.domain.contracts.DebtsRepository;
+import com.easysplit.ess.transactions.domain.contracts.GroupsTransactionsRepository;
 import com.easysplit.ess.transactions.domain.contracts.TransactionsRepository;
 import com.easysplit.ess.transactions.domain.contracts.TransactionsService;
 import com.easysplit.ess.transactions.domain.models.DebtEntity;
 import com.easysplit.ess.transactions.domain.models.Transaction;
 import com.easysplit.ess.transactions.domain.models.TransactionEntity;
 import com.easysplit.ess.transactions.domain.validators.TransactionsValidator;
+import com.easysplit.shared.domain.models.ResourceList;
 import com.easysplit.shared.utils.EssUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +20,17 @@ import java.util.List;
 @Service
 public class TransactionsServiceImpl implements TransactionsService {
     private final TransactionsRepository transactionsRepository;
+    private final GroupsTransactionsRepository groupsTransactionsRepository;
     private final DebtsRepository debtsRepository;
     private final TransactionsValidator transactionsValidator;
 
     @Autowired
     public TransactionsServiceImpl(TransactionsRepository transactionsRepository,
+                                   GroupsTransactionsRepository groupsTransactionsRepository,
                                    DebtsRepository debtsRepository,
                                    TransactionsValidator transactionsValidator) {
         this.transactionsRepository = transactionsRepository;
+        this.groupsTransactionsRepository = groupsTransactionsRepository;
         this.debtsRepository = debtsRepository;
         this.transactionsValidator = transactionsValidator;
     }
@@ -53,7 +58,7 @@ public class TransactionsServiceImpl implements TransactionsService {
     @Override
     public void bulkCreateTransaction(List<Transaction> transactions, String groupId, String createdById) {
         transactionsValidator.validate(transactions);
-        transactionsRepository.bulkCreateTransaction(toTransactionEntities(transactions), groupId, createdById);
+        groupsTransactionsRepository.bulkCreateTransactions(toTransactionEntities(transactions), groupId, createdById);
     }
 
     @Override
@@ -67,17 +72,65 @@ public class TransactionsServiceImpl implements TransactionsService {
         return transaction.toTransaction();
     }
 
+    @Override
+    public ResourceList<Transaction> listTransactionsByGroup(String groupId, int limit, int offset, boolean countTransactions) {
+        ResourceList<Transaction> transactionList = new ResourceList<>();
+
+        int totalCount = 0;
+        if (countTransactions) {
+            totalCount = groupsTransactionsRepository.countTransactionsByGroup(groupId);
+        }
+
+        List<TransactionEntity> transactionsEntities = groupsTransactionsRepository.loadTransactionsByGroup(groupId, limit, offset);
+        int count = transactionsEntities.size();
+
+        transactionList.setLimit(limit);
+        transactionList.setOffset(offset);
+        transactionList.setCount(count);
+        transactionList.setTotalCount(totalCount);
+        transactionList.setHasMore(count > limit);
+        transactionList.setData(toTransactions(transactionsEntities));
+
+        return transactionList;
+    }
+
+    /**
+     * Take a list of transactions and its entity form
+     *
+     * @param transactions transactions to be converted to transaction entities
+     * @return list of transactions entities
+     */
     private List<TransactionEntity> toTransactionEntities(List<Transaction> transactions) {
-        List<TransactionEntity> transactionEntities = new ArrayList<>();
+        List<TransactionEntity> transactionsEntities = new ArrayList<>();
 
         if (EssUtils.isNullOrEmpty(transactions)) {
-            return transactionEntities;
+            return transactionsEntities;
         }
 
         for (Transaction transaction: transactions) {
-            transactionEntities.add(transaction.toTransactionEntity());
+            transactionsEntities.add(transaction.toTransactionEntity());
         }
 
-        return transactionEntities;
+        return transactionsEntities;
+    }
+
+    /**
+     * Generates a list of transactions from a list of transaction entities
+     *
+     * @param transactionsEntities transactions entities
+     * @return list of transactions
+     */
+    private List<Transaction> toTransactions(List<TransactionEntity> transactionsEntities) {
+        List<Transaction> transactions = new ArrayList<>();
+
+        if (EssUtils.isNullOrEmpty(transactionsEntities)) {
+            return transactions;
+        }
+
+        for (TransactionEntity transactionEntity: transactionsEntities) {
+            transactions.add(transactionEntity.toTransaction());
+        }
+
+        return transactions;
     }
 }
