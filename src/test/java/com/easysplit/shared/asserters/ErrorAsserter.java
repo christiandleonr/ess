@@ -1,4 +1,4 @@
-package com.easysplit.ess.shared.asserters;
+package com.easysplit.shared.asserters;
 
 import com.easysplit.shared.domain.models.ErrorResponse;
 import com.easysplit.shared.utils.EssUtils;

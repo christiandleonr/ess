@@ -1,7 +1,7 @@
 package com.easysplit.ess.groups.utils;
 
 import com.easysplit.ess.groups.domain.models.Group;
-import com.easysplit.ess.shared.utils.TestRESTHelper;
+import com.easysplit.shared.utils.TestRESTHelper;
 import com.easysplit.shared.domain.models.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

@@ -1,6 +1,6 @@
 package com.easysplit.ess.transactions.utils;
 
-import com.easysplit.ess.shared.utils.TestRESTHelper;
+import com.easysplit.shared.utils.TestRESTHelper;
 import com.easysplit.ess.transactions.domain.models.Transaction;
 import com.easysplit.shared.domain.models.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;

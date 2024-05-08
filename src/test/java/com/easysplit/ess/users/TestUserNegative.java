@@ -1,8 +1,8 @@
 package com.easysplit.ess.users;
 
-import com.easysplit.ess.shared.asserters.ErrorAsserter;
-import com.easysplit.ess.shared.utils.MessageHelper;
-import com.easysplit.ess.shared.utils.TestUtils;
+import com.easysplit.shared.asserters.ErrorAsserter;
+import com.easysplit.shared.utils.MessageHelper;
+import com.easysplit.shared.utils.TestUtils;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.validators.UserValidator;
 import com.easysplit.ess.users.builders.UserBuilder;

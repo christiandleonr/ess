@@ -1,4 +1,4 @@
-package com.easysplit.ess.shared.utils;
+package com.easysplit.shared.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

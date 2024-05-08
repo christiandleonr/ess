@@ -1,6 +1,6 @@
 package com.easysplit.ess.users;
 
-import com.easysplit.ess.shared.utils.TestUtils;
+import com.easysplit.shared.utils.TestUtils;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.users.asserters.UserAsserter;
 import com.easysplit.ess.users.builders.UserBuilder;

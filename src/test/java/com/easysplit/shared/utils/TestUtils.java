@@ -1,4 +1,4 @@
-package com.easysplit.ess.shared.utils;
+package com.easysplit.shared.utils;
 
 import com.easysplit.ess.iam.domain.models.Token;
 import org.springframework.http.HttpHeaders;
