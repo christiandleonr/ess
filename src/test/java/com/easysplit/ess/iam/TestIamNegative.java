@@ -8,10 +8,9 @@ import com.easysplit.ess.shared.asserters.ErrorAsserter;
 import com.easysplit.ess.shared.utils.TestUtils;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.users.builders.UserBuilder;
-import com.easysplit.ess.users.utils.TestUserHelper;
+import com.easysplit.ess.users.utils.TestUsersHelper;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.models.ErrorResponse;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class TestIamNegative {
     @Autowired
     private TestIamHelper testIamHelper;
     @Autowired
-    private TestUserHelper testUserHelper;
+    private TestUsersHelper testUsersHelper;
 
     @Test
     public void testAuthenticationUserNotExist() {
@@ -56,7 +55,7 @@ public class TestIamNegative {
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
-        user = testUserHelper.createUser(user, HttpStatus.CREATED);
+        user = testUsersHelper.createUser(user, HttpStatus.CREATED);
 
         Auth auth = new Auth(user.getUsername(), "Password");
         Token token = testIamHelper.authenticate(auth, HttpStatus.OK);
@@ -65,14 +64,14 @@ public class TestIamNegative {
         Thread.sleep(WAIT_FOR_TOKEN_EXPIRATION);
 
         HttpHeaders httpHeaders = TestUtils.buildAuthHeader(token);
-        ErrorResponse errorResponse = testUserHelper.failGet(user.getId(), HttpStatus.UNAUTHORIZED, httpHeaders);
+        ErrorResponse errorResponse = testUsersHelper.failGet(user.getId(), HttpStatus.UNAUTHORIZED, httpHeaders);
         ErrorResponse expectedErrorResponse = new ErrorResponse(
                 testIamHelper.getMessage(ErrorKeys.UNAUTHORIZED_EXCEPTION_TITLE, null),
                 testIamHelper.getMessage(ErrorKeys.ACCESS_TOKEN_EXPIRED_MESSAGE, null)
         );
         new ErrorAsserter(errorResponse).assertError(expectedErrorResponse);
 
-        testUserHelper.deleteUser(user.getId());
+        testUsersHelper.deleteUser(user.getId());
     }
 
     @Test
@@ -104,7 +103,7 @@ public class TestIamNegative {
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
-        user = testUserHelper.createUser(user, HttpStatus.CREATED);
+        user = testUsersHelper.createUser(user, HttpStatus.CREATED);
 
         Auth auth = new Auth(user.getUsername(), "Password");
         Token token = testIamHelper.authenticate(auth, HttpStatus.OK);
@@ -122,6 +121,6 @@ public class TestIamNegative {
         );
         new ErrorAsserter(errorResponse).assertError(expectedErrorResponse);
 
-        testUserHelper.deleteUser(user.getId());
+        testUsersHelper.deleteUser(user.getId());
     }
 }

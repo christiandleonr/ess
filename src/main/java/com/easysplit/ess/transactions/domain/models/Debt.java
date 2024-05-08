@@ -3,7 +3,6 @@ package com.easysplit.ess.transactions.domain.models;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.shared.domain.models.Link;
 import com.easysplit.shared.domain.models.Money;
-import org.postgresql.util.PGmoney;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -15,8 +14,8 @@ public class Debt {
     private String id;
     private Money totalAmount;
     private Money debt;
-    private boolean debtSettled;
-    private int revision;
+    private Boolean debtSettled;
+    private Integer revision;
     private User createdBy;
     private Timestamp createdDate;
     private List<Link> links;
@@ -47,19 +46,19 @@ public class Debt {
         this.debt = debt;
     }
 
-    public boolean isDebtSettled() {
+    public Boolean isDebtSettled() {
         return debtSettled;
     }
 
-    public void setDebtSettled(boolean debtSettled) {
+    public void setDebtSettled(Boolean debtSettled) {
         this.debtSettled = debtSettled;
     }
 
-    public int getRevision() {
+    public Integer getRevision() {
         return revision;
     }
 
-    public void setRevision(int revision) {
+    public void setRevision(Integer revision) {
         this.revision = revision;
     }
 
