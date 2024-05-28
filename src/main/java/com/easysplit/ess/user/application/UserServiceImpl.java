@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService, FriendsService {
 
     @Override
     public Friendship addFriend(Friendship friendship, String addedById) {
-        friendshipValidator.validate(friendship);
+        friendshipValidator.validate(friendship, addedById);
 
         friendshipsDatabaseValidator.validateFriendshipNotExist(
                 friendship.getFriend().getId(),

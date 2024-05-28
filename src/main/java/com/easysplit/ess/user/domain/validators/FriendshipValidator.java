@@ -26,14 +26,18 @@ public class FriendshipValidator {
      *
      * @param friendship friendship to be validated
      */
-    public void validate(Friendship friendship) {
+    public void validate(Friendship friendship, String addedById) {
         validateFriend(friendship.getFriend(),
                 ErrorKeys.CREATE_FRIENDSHIP_NULL_FRIEND_MESSAGE,
                 ErrorKeys.CREATE_FRIENDSHIP_EMPTY_FRIEND_ID_MESSAGE);
 
-        validateFriend(friendship.getAddedBy(),
-                ErrorKeys.CREATE_FRIENDSHIP_NULL_ADDED_BY_MESSAGE,
-                ErrorKeys.CREATE_FRIENDSHIP_EMPTY_ADDED_BY_ID_MESSAGE);
+        if (EssUtils.isNullOrEmpty(addedById)) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_FRIENDSHIP_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_FRIENDSHIP_EMPTY_ADDED_BY_ID_MESSAGE,
+                    new Object[] {}
+            );
+        }
     }
 
     /**

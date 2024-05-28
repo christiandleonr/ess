@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import java.util.Comparator;
 import java.util.List;
 
-public class UserListAsserter {
+public class UsersListAsserter {
     private static Comparator<User> getComparator() {
         return Comparator.comparing(User::getUsername);
     }

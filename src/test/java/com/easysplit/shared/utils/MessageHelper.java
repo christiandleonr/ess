@@ -9,6 +9,10 @@ public class MessageHelper {
     @Autowired
     private MessageSource messageSource;
 
+    public String getMessage(String errorKey) {
+        return getMessage(errorKey, null);
+    }
+
     public String getMessage(String errorKey, Object[] args) {
         return messageSource.getMessage(errorKey, args, null);
     }

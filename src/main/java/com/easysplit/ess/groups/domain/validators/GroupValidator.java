@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class GroupValidator {
-    private static final int GROUP_NAME_LENGTH_LIMIT = 100;
-    private static final int GROUP_DESCRIPTION_LENGTH_LIMIT = 200;
+    public static final int GROUP_NAME_LENGTH_LIMIT = 100;
+    public static final int GROUP_DESCRIPTION_LENGTH_LIMIT = 200;
 
     private final DomainHelper domainHelper;
 

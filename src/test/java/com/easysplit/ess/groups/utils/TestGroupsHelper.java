@@ -22,6 +22,10 @@ public class TestGroupsHelper {
         return this.testRESTHelper.failPost(GROUPS_PATH, group, statusCode);
     }
 
+    public ErrorResponse failCreateGroup(Group group, HttpStatus statusCode, HttpHeaders headers) {
+        return this.testRESTHelper.failPost(GROUPS_PATH, group, statusCode, headers);
+    }
+
     public Group getGroup(String id, Class<?> responseClass, HttpStatus statusCode) {
         return (Group) this.testRESTHelper.get(GROUPS_PATH + "/" + id, responseClass, statusCode);
     }

@@ -20,18 +20,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
-    private static final String CLASS_NAME = UserController.class.getName();
+public class UsersController {
+    private static final String CLASS_NAME = UsersController.class.getName();
     private final String USERS_RESOURCE = "/users";
     private final UserService userService;
     private final FriendsService friendsService;
     private final InfrastructureHelper infrastructureHelper;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
     @Autowired
-    public UserController(UserService userService,
-                          FriendsService friendsService,
-                          InfrastructureHelper infrastructureHelper) {
+    public UsersController(UserService userService,
+                           FriendsService friendsService,
+                           InfrastructureHelper infrastructureHelper) {
         this.userService = userService;
         this.infrastructureHelper = infrastructureHelper;
         this.friendsService = friendsService;

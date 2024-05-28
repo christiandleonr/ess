@@ -1,7 +1,7 @@
 package com.easysplit.ess.groups.asserters;
 
 import com.easysplit.ess.groups.domain.models.Group;
-import com.easysplit.ess.users.asserters.UserListAsserter;
+import com.easysplit.ess.users.asserters.UsersListAsserter;
 import com.easysplit.shared.utils.EssUtils;
 import org.assertj.core.api.AbstractAssert;
 
@@ -58,7 +58,7 @@ public class GroupsAsserter extends AbstractAssert<GroupsAsserter, Group> {
         }
 
         if (expected.getMembers() != null) {
-            UserListAsserter.assertListEquals(this.actual.getMembers(), expected.getMembers());
+            UsersListAsserter.assertListEquals(this.actual.getMembers(), expected.getMembers());
         }
 
         return this;

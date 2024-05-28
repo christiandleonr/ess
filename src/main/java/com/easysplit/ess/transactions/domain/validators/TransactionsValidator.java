@@ -11,17 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.List;
+
+/**
+ * TODO Add new validations when creating transaction through the bulk process.
+ *
+ * 1. The total sum between all the transactions must be the same as the total amount.
+ */
 
 /**
  * Class that contains utility methods to be used for pure data validation
  */
 @Component
 public class TransactionsValidator {
-    private final int TRANSACTION_NAME_LENGTH_LIMIT = 150;
-    private final int TRANSACTION_CURRENCY_CODE_LENGTH_LIMIT = 3;
-    private final BigDecimal TRANSACTION_DEBT_LOWER_LIMIT = BigDecimal.valueOf(0);
-    private final BigDecimal TRANSACTION_DEBT_TOTAL_AMOUNT_LOWER_LIMIT = BigDecimal.valueOf(0);
+    public static final int TRANSACTION_NAME_LENGTH_LIMIT = 150;
+    public static final int TRANSACTION_CURRENCY_CODE_LENGTH_LIMIT = 3;
+    public static final BigDecimal TRANSACTION_DEBT_LOWER_LIMIT = BigDecimal.valueOf(0);
+    public static final BigDecimal TRANSACTION_DEBT_TOTAL_AMOUNT_LOWER_LIMIT = BigDecimal.valueOf(0);
     private final DomainHelper domainHelper;
 
     @Autowired
@@ -60,11 +67,9 @@ public class TransactionsValidator {
      * Validates if a transaction is valid to be created.
      * The name cannot be null, empty nor exceed 150 characters.
      * The currency cannot be null, empty nor exceed 3 characters and must be part of the valid currency codes.
-     * The debt object must contain valid values for the fields <i>totalAmount</i>,
-     * <i>debt</i> and <i>createdBy</i>.
+     * The debt object must contain valid values for the fields <i>totalAmount</i> and <i>debt</i>.
      * The group object must have valid values for the <i>id</i> field.
-     * Fields <i>creditor</i>, <i>debtor</i> and <i>createdBy</i> must have valid values for the
-     * field <i>id</i>
+     * Fields <i>creditor</i> and <i>debtor</i> must have valid values for the field <i>id</i>
      *
      * @param transaction transaction to be validated
      */
@@ -78,11 +83,10 @@ public class TransactionsValidator {
         }
 
         validateName(transaction.getName());
-        validateCurrency(transaction.getCurrency().getCurrencyCode());
+        validateCurrency(transaction.getCurrency());
         validateDebt(transaction.getDebt());
         validateUserInTransaction(transaction.getCreditor(), ErrorKeys.CREATE_TRANSACTION_NULLOREMPTY_CREDITOR_MESSAGE);
         validateUserInTransaction(transaction.getDebtor(), ErrorKeys.CREATE_TRANSACTION_NULLOREMPTY_DEBTOR_MESSAGE);
-        validateUserInTransaction(transaction.getCreatedBy(), ErrorKeys.CREATE_TRANSACTION_NULLOREMPTY_CREATED_BY_MESSAGE);
     }
 
     /**
@@ -113,8 +117,8 @@ public class TransactionsValidator {
      *
      * @param currency transaction currency type
      */
-    private void validateCurrency(String currency) {
-        if (EssUtils.isNullOrEmpty(currency)) {
+    private void validateCurrency(Currency currency) {
+        if (currency == null) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_TRANSACTION_NULLOREMPTY_CURRENCY_MESSAGE,
@@ -122,7 +126,16 @@ public class TransactionsValidator {
             );
         }
 
-        if (currency.length() > TRANSACTION_CURRENCY_CODE_LENGTH_LIMIT) {
+        String currencyCode = currency.getCurrencyCode();
+        if (EssUtils.isNullOrEmpty(currencyCode)) {
+            domainHelper.throwIllegalArgumentException(
+                    ErrorKeys.CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE,
+                    ErrorKeys.CREATE_TRANSACTION_NULLOREMPTY_CURRENCY_MESSAGE,
+                    null
+            );
+        }
+
+        if (currencyCode.length() > TRANSACTION_CURRENCY_CODE_LENGTH_LIMIT) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.CREATE_TRANSACTION_CURRENCY_TOOLONG_MESSAGE,

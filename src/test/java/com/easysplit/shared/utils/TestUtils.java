@@ -1,6 +1,7 @@
 package com.easysplit.shared.utils;
 
 import com.easysplit.ess.iam.domain.models.Token;
+import com.easysplit.ess.user.domain.models.User;
 import org.springframework.http.HttpHeaders;
 
 import java.time.Instant;
@@ -12,7 +13,7 @@ import java.util.Random;
 public class TestUtils {
     /**
      * Private constructor to prevent instantiation of the class.
-     * This class should only hold string constants and should not be instantiated
+     * This class should only hold utility methods and should not be instantiated
      */
     private TestUtils() {}
 
@@ -71,5 +72,18 @@ public class TestUtils {
         headers.set("Authorization", "Bearer " + token.getToken());
 
         return headers;
+    }
+
+    public static User getSystemUser() {
+        return new User(
+        "fd48e99b-abd0-4295-96db-41b2d38f76b3",
+        "Christian",
+        "Ramirez de Leon",
+        "christiandleonr",
+        "@0urD3stiny12",
+        "christiandleonr@gmail.com",
+        "6677848479",
+        null
+        );
     }
 }
