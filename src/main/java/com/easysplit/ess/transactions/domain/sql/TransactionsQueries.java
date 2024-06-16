@@ -46,7 +46,7 @@ public final class TransactionsQueries {
             + CREATED_BY_COLUMN + ", "
             + CREATED_DATE_COLUMN + ", "
             + UPDATED_BY_COLUMN + ", "
-            + UPDATED_DATE_COLUMN + " ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + UPDATED_DATE_COLUMN + " ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     /**
      * Gets transaction by id
@@ -61,6 +61,11 @@ public final class TransactionsQueries {
             + CREATED_DATE_COLUMN + ", "
             + UPDATED_BY_COLUMN + ", "
             + UPDATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + TRANSACTIONGUID_COLUMN + " = ?";
+
+    /**
+     * Delete transaction by id
+     */
+    public static final String DELETE_TRANSACTION = "DELETE FROM " + TABLE_NAME + " WHERE " + TRANSACTIONGUID_COLUMN + " = ?";
 
     /**
      * Count transactions by group

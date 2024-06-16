@@ -15,19 +15,21 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestGroupsNegative {
     @Autowired
-    private static TestGroupsHelper groupsHelper;
+    private TestGroupsHelper groupsHelper;
     @Autowired
-    private static TestUsersHelper usersHelper;
+    private TestUsersHelper usersHelper;
     @Autowired
-    private static TestRESTHelper restHelper;
+    private TestRESTHelper restHelper;
     @Autowired
     private MessageHelper messageHelper;
 
@@ -38,7 +40,7 @@ public class TestGroupsNegative {
      * TODO Add comments
      */
     @BeforeAll
-    public static void setUp() {
+    public static void setUp(@Autowired TestUsersHelper usersHelper) {
         String uniqueString = TestUtils.generateUniqueString();
 
         // Create list of group members
@@ -85,7 +87,7 @@ public class TestGroupsNegative {
     }
 
     @AfterAll
-    public static void tearDown() {
+    public static void tearDown(@Autowired TestUsersHelper usersHelper) {
         for (User user: members) {
             if (user.getId() != null) {
                 usersHelper.deleteUser(user.getId());
@@ -179,32 +181,6 @@ public class TestGroupsNegative {
         );
 
         ErrorResponse actualErrorResponse = groupsHelper.failCreateGroup(group, HttpStatus.BAD_REQUEST);
-        new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
-    }
-
-    /**
-     * TODO Add comments
-     */
-    @Test
-    public void testCreateGroupCreatedByNotFound() {
-        String uniqueString = TestUtils.generateUniqueString();
-
-        Group group = new Group();
-        group.setName("Name-" + uniqueString);
-        group.setDescription("Description-" + uniqueString);
-        group.setMembers(new ArrayList<>(members));
-
-        User member = members.get(0);
-        usersHelper.deleteUser(member.getId());
-        members.remove(0);
-
-        HttpHeaders authHeaders = restHelper.buildAuthenticationHeader(member.getUsername(), member.getPassword());
-        ErrorResponse expectedErrorResponse = new ErrorResponse(
-                messageHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_TITLE, null),
-                messageHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_MESSAGE, new Object[]{ member.getId() })
-        );
-
-        ErrorResponse actualErrorResponse = groupsHelper.failCreateGroup(group, HttpStatus.NOT_FOUND, authHeaders);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 

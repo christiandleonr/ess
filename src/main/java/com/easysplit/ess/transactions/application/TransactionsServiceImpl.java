@@ -5,6 +5,8 @@ import com.easysplit.ess.transactions.domain.models.DebtEntity;
 import com.easysplit.ess.transactions.domain.models.Transaction;
 import com.easysplit.ess.transactions.domain.models.TransactionEntity;
 import com.easysplit.ess.transactions.domain.validators.TransactionsValidator;
+import com.easysplit.shared.domain.exceptions.ErrorKeys;
+import com.easysplit.shared.domain.helpers.DomainHelper;
 import com.easysplit.shared.domain.models.ResourceList;
 import com.easysplit.shared.utils.EssUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +22,19 @@ public class TransactionsServiceImpl implements TransactionsService, GroupsTrans
     private final GroupsTransactionsRepository groupsTransactionsRepository;
     private final DebtsRepository debtsRepository;
     private final TransactionsValidator transactionsValidator;
+    private final DomainHelper domainHelper;
 
     @Autowired
     public TransactionsServiceImpl(TransactionsRepository transactionsRepository,
                                    GroupsTransactionsRepository groupsTransactionsRepository,
                                    DebtsRepository debtsRepository,
-                                   TransactionsValidator transactionsValidator) {
+                                   TransactionsValidator transactionsValidator,
+                                   DomainHelper domainHelper) {
         this.transactionsRepository = transactionsRepository;
         this.groupsTransactionsRepository = groupsTransactionsRepository;
         this.debtsRepository = debtsRepository;
         this.transactionsValidator = transactionsValidator;
+        this.domainHelper = domainHelper;
     }
 
     @Override
@@ -60,13 +65,28 @@ public class TransactionsServiceImpl implements TransactionsService, GroupsTrans
 
     @Override
     public Transaction getTransaction(String transactionGuid){
-
-        TransactionEntity transaction = transactionsRepository.getTransaction(transactionGuid);
+        TransactionEntity transaction = transactionsRepository.getTransaction(transactionGuid, true);
 
         DebtEntity debt = transactionsRepository.getDebt(transactionGuid);
         transaction.setDebt(debt);
 
         return transaction.toTransaction();
+    }
+
+    @Override
+    public void deleteTransaction(String transactionId, String authenticatedUserId) {
+        TransactionEntity transaction = transactionsRepository.getTransaction(transactionId, true);
+
+        if (!transaction.getCreatedBy().getUserGuid().equals(authenticatedUserId)) {
+            domainHelper.throwUnauthorizedException(
+                    ErrorKeys.DELETE_TRANSACTION_UNAUTHORIZED_TITLE,
+                    ErrorKeys.DELETE_TRANSACTION_CREATED_BY_REQUIRED,
+                    null
+            );
+        }
+
+        debtsRepository.deleteDebts(transactionId);
+        transactionsRepository.deleteTransaction(transactionId);
     }
 
     @Override

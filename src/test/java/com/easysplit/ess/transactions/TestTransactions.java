@@ -23,15 +23,13 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestTransactions {
     @Autowired
-    private static TestTransactionsHelper transactionsHelper;
-    @Autowired
-    private static TestUsersHelper usersHelper;
+    private TestTransactionsHelper transactionsHelper;
 
     private static User user1, user2;
     private static final List<User> usersCreated = new ArrayList<>();
 
     @BeforeAll
-    public static void setUp() {
+    public static void setUp(@Autowired TestUsersHelper usersHelper) {
         String uniqueString = TestUtils.generateUniqueString();
 
         UserBuilder userBuilder = new UserBuilder();
@@ -42,7 +40,7 @@ public class TestTransactions {
                 .setEmail("user1" + uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
-        user1 = usersHelper.createUser(user1, HttpStatus.OK);
+        user1 = usersHelper.createUser(user1, HttpStatus.CREATED);
         usersCreated.add(user1);
 
         userBuilder.clear();
@@ -53,12 +51,12 @@ public class TestTransactions {
                 .setEmail("user2" + uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
-        user2 = usersHelper.createUser(user2, HttpStatus.OK);
+        user2 = usersHelper.createUser(user2, HttpStatus.CREATED);
         usersCreated.add(user2);
     }
 
     @AfterAll
-    public static void tearDown() {
+    public static void tearDown(@Autowired TestUsersHelper usersHelper) {
         for (User user: usersCreated) {
             if (user.getId() != null) {
                 usersHelper.deleteUser(user.getId());
@@ -70,7 +68,7 @@ public class TestTransactions {
      * TODO Add comments
      */
     @Test
-    public void testCreateTransaction() {
+    public void testCreateAndDeleteTransaction() {
         String uniqueString = TestUtils.generateUniqueString();
 
         Transaction transaction = new Transaction();
@@ -84,7 +82,7 @@ public class TestTransactions {
         debt.setDebt(new Money(150));
         transaction.setDebt(debt);
 
-        Transaction createdTransaction = transactionsHelper.createTransaction(transaction, HttpStatus.OK);
+        Transaction createdTransaction = transactionsHelper.createTransaction(transaction, HttpStatus.CREATED);
 
         debt.setDebtSettled(false); // we expect this attribute to be false
         debt.setRevision(1); // since this is a new transaction the revision must be the number 1
@@ -97,7 +95,7 @@ public class TestTransactions {
      * TODO Add comments
      */
     @Test
-    public void testGetTransaction() {
+    public void testCreateGetAndDeleteTransaction() {
         String uniqueString = TestUtils.generateUniqueString();
 
         Transaction transaction = new Transaction();
@@ -111,7 +109,7 @@ public class TestTransactions {
         debt.setDebt(new Money(150));
         transaction.setDebt(debt);
 
-        String createdTransactionId = transactionsHelper.createTransaction(transaction, HttpStatus.OK).getId();
+        String createdTransactionId = transactionsHelper.createTransaction(transaction, HttpStatus.CREATED).getId();
         Transaction retrievedTransaction = transactionsHelper.getTransaction(createdTransactionId, Transaction.class, HttpStatus.OK);
 
         debt.setDebtSettled(false); // we expect this attribute to be false

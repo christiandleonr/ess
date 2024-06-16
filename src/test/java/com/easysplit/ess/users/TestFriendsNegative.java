@@ -20,15 +20,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestFriendsNegative {
     @Autowired
-    private static TestUsersHelper usersHelper;
+    private TestUsersHelper usersHelper;
     @Autowired
     private TestIamHelper iamHelper;
     @Autowired
@@ -38,7 +40,7 @@ public class TestFriendsNegative {
     private static final List<User> usersCreated = new ArrayList<>();
 
     @BeforeAll
-    public static void setUp() {
+    public static void setUp(@Autowired TestUsersHelper usersHelper) {
         String uniqueString = TestUtils.generateUniqueString();
 
         UserBuilder userBuilder = new UserBuilder();
@@ -49,7 +51,7 @@ public class TestFriendsNegative {
                 .setEmail("user1" + uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
-        user1 = usersHelper.createUser(user1, HttpStatus.OK);
+        user1 = usersHelper.createUser(user1, HttpStatus.CREATED);
         usersCreated.add(user1);
 
         userBuilder.clear();
@@ -60,12 +62,12 @@ public class TestFriendsNegative {
                 .setEmail("user2" + uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
-        user2 = usersHelper.createUser(user2, HttpStatus.OK);
+        user2 = usersHelper.createUser(user2, HttpStatus.CREATED);
         usersCreated.add(user2);
     }
 
     @AfterAll
-    public static void tearDown() {
+    public static void tearDown(@Autowired TestUsersHelper usersHelper) {
         for (User user: usersCreated) {
             if (user.getId() != null) {
                 usersHelper.deleteUser(user.getId());
@@ -77,7 +79,7 @@ public class TestFriendsNegative {
     public void TestCreateFriendshipFriendNull() {
         Friendship friendship = new Friendship();
 
-        Auth auth = new Auth(user1.getUsername(), "Password");
+        Auth auth = new Auth(user1.getEmail(), "Password");
         Token token = iamHelper.authenticate(auth, HttpStatus.OK);
         HttpHeaders authHeaders = TestUtils.buildAuthHeader(token);
 
@@ -93,8 +95,28 @@ public class TestFriendsNegative {
     @Test
     public void TestCreateFriendshipFriendIdNull() {
         Friendship friendship = new Friendship();
+        friendship.setFriend(new User());
 
-        Auth auth = new Auth(user1.getUsername(), "Password");
+        Auth auth = new Auth(user1.getEmail(), "Password");
+        Token token = iamHelper.authenticate(auth, HttpStatus.OK);
+        HttpHeaders authHeaders = TestUtils.buildAuthHeader(token);
+
+        ErrorResponse expectedErrorResponse = new ErrorResponse(
+                messageHelper.getMessage(ErrorKeys.CREATE_FRIENDSHIP_ILLEGALARGUMENT_TITLE),
+                messageHelper.getMessage(ErrorKeys.CREATE_FRIENDSHIP_EMPTY_FRIEND_ID_MESSAGE)
+        );
+
+        ErrorResponse actualErrorResponse = usersHelper.failAddFriend(friendship, HttpStatus.BAD_REQUEST, authHeaders);
+        new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
+    }
+
+    @Test
+    public void TestCreateFriendshipFriendIdEmpty() {
+        Friendship friendship = new Friendship();
+        friendship.setFriend(new User());
+        friendship.getFriend().setId("");
+
+        Auth auth = new Auth(user1.getEmail(), "Password");
         Token token = iamHelper.authenticate(auth, HttpStatus.OK);
         HttpHeaders authHeaders = TestUtils.buildAuthHeader(token);
 
@@ -112,7 +134,7 @@ public class TestFriendsNegative {
         Friendship friendship = new Friendship();
         friendship.setFriend(user2);
 
-        Auth auth = new Auth(user1.getUsername(), "Password");
+        Auth auth = new Auth(user1.getEmail(), "Password");
         Token token = iamHelper.authenticate(auth, HttpStatus.OK);
         HttpHeaders authHeaders = TestUtils.buildAuthHeader(token);
 
@@ -120,7 +142,7 @@ public class TestFriendsNegative {
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
                 messageHelper.getMessage(ErrorKeys.LOAD_FRIENDSHIP_ILLEGALARGUMENT_TITLE),
-                messageHelper.getMessage(ErrorKeys.LOAD_FRIENDSHIP_EXIST_MESSAGE)
+                messageHelper.getMessage(ErrorKeys.LOAD_FRIENDSHIP_EXIST_MESSAGE, new Object[] { user2.getId(), user1.getId() })
         );
 
         ErrorResponse actualErrorResponse = usersHelper.failAddFriend(friendship, HttpStatus.BAD_REQUEST, authHeaders);

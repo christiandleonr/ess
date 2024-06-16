@@ -21,7 +21,7 @@ public class TestGroups {
     @Autowired
     private TestGroupsHelper groupsHelper;
 
-    private static User member1, member2, member3, member4;
+    private static User member1, member2, member3, member4, systemGeneratedUser;
     private static List<User> members = new ArrayList<>();
 
     /**
@@ -72,12 +72,16 @@ public class TestGroups {
         member4 = usersHelper.createUser(member4, HttpStatus.CREATED);
         members.add(member4);
 
-        members.add(TestUtils.getSystemUser());
+        systemGeneratedUser = TestUtils.getSystemUser();
     }
 
     @AfterAll
     public static void tearDown(@Autowired TestUsersHelper usersHelper) {
         for (User user: members) {
+            if (systemGeneratedUser.getId().equals(user.getId())) {
+                continue;
+            }
+
             if (user.getId() != null) {
                 usersHelper.deleteUser(user.getId());
             }
@@ -97,6 +101,8 @@ public class TestGroups {
         group.setMembers(members);
 
         Group createdGroup = groupsHelper.createGroup(group, HttpStatus.CREATED);
+
+        group.getMembers().add(systemGeneratedUser);
         new GroupsAsserter(createdGroup).assertGroup(group);
 
         groupsHelper.deleteGroup(createdGroup.getId());
@@ -114,6 +120,8 @@ public class TestGroups {
         group.setMembers(members);
 
         Group createdGroup = groupsHelper.createGroup(group, HttpStatus.CREATED);
+
+        group.getMembers().add(systemGeneratedUser);
         new GroupsAsserter(createdGroup).assertGroup(group);
 
         groupsHelper.deleteGroup(createdGroup.getId());
@@ -150,6 +158,7 @@ public class TestGroups {
         Group createdGroup = groupsHelper.createGroup(group, HttpStatus.CREATED);
         Group retrievedGroup = groupsHelper.getGroup(createdGroup.getId(), Group.class, HttpStatus.OK);
 
+        group.getMembers().add(systemGeneratedUser);
         new GroupsAsserter(retrievedGroup).assertGroup(group);
 
         groupsHelper.deleteGroup(retrievedGroup.getId());

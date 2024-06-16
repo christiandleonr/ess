@@ -58,4 +58,8 @@ public class DebtsQueries {
             + CREATED_BY_COLUMN + ", "
             + CREATED_DATE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + TRANSACTIONGUID_COLUMN + " = ? ORDER BY " + REVISION_COLUMN + " DESC LIMIT 1";
 
+    /**
+     * Delete debts by transaction guid
+     */
+    public static final String DELETE_DEBTS = "DELETE FROM " + TABLE_NAME + " WHERE " + TRANSACTIONGUID_COLUMN + " =?";
 }

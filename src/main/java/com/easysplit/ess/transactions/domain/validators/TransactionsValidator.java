@@ -18,6 +18,8 @@ import java.util.List;
  * TODO Add new validations when creating transaction through the bulk process.
  *
  * 1. The total sum between all the transactions must be the same as the total amount.
+ * 2. Debtor and Creditor cannot be the same user.
+ * 3. Total amount and debt must not be equals
  */
 
 /**
@@ -192,7 +194,7 @@ public class TransactionsValidator {
             );
         }
 
-        if (TRANSACTION_DEBT_TOTAL_AMOUNT_LOWER_LIMIT.compareTo(totalAmount.getAmount()) > 0) {
+        if (TRANSACTION_DEBT_TOTAL_AMOUNT_LOWER_LIMIT.compareTo(totalAmount.getAmount()) >= 0) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.INSERT_NEW_DEBT_ZERO_TOTAL_AMOUNT_MESSAGE,
@@ -216,7 +218,7 @@ public class TransactionsValidator {
             );
         }
 
-        if (TRANSACTION_DEBT_LOWER_LIMIT.compareTo(debt.getAmount()) > 0) {
+        if (TRANSACTION_DEBT_LOWER_LIMIT.compareTo(debt.getAmount()) >= 0) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_TRANSACTION_ILLEGALARGUMENT_TITLE,
                     ErrorKeys.INSERT_NEW_DEBT_ZERO_DEBT_MESSAGE,

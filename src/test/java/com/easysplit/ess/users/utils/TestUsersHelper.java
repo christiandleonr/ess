@@ -54,8 +54,9 @@ public class TestUsersHelper {
     }
 
     public ResourceList<User> listFriends(String addedById, HttpStatus statusCode, HttpHeaders authHeaders) {
+        String path = String.format(LIST_FRIENDS_PATH, addedById);
         return this.testRestHelper.listWithCustomAuth(
-                String.format(LIST_FRIENDS_PATH, addedById),
+                path,
                 User.class,
                 statusCode,
                 authHeaders

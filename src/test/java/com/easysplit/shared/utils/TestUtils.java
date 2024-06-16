@@ -4,6 +4,7 @@ import com.easysplit.ess.iam.domain.models.Token;
 import com.easysplit.ess.user.domain.models.User;
 import org.springframework.http.HttpHeaders;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Random;
 
@@ -74,6 +75,11 @@ public class TestUtils {
         return headers;
     }
 
+    /**
+     * Return a system generated user which can be used for authentication and testing
+     *
+     * @return system generated user
+     */
     public static User getSystemUser() {
         return new User(
         "fd48e99b-abd0-4295-96db-41b2d38f76b3",
@@ -85,5 +91,15 @@ public class TestUtils {
         "6677848479",
         null
         );
+    }
+
+    public static boolean compareMonetaryValues(BigDecimal amount1, BigDecimal amount2) {
+        if (amount1 == null && amount2 == null) {
+            return true;
+        }
+        if (amount1 == null || amount2 == null) {
+            return false;
+        }
+        return amount1.compareTo(amount2) == 0;
     }
 }

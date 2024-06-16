@@ -56,6 +56,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
     @Transactional
     public TransactionEntity createTransaction(TransactionEntity transaction, String createdByGuid) {
         if (transaction == null) {
+            logger.warn("{}.createTransaction() - cannot create the transaction since the transaction object is null", CLASS_NAME);
             return null;
         }
 
@@ -88,7 +89,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
         } catch (NotFoundException e) {
           throw e;
         } catch (Exception e) {
-            logger.error("{}.createTransaction() - Something went wrong while creating the transaction: {}", CLASS_NAME, transaction, e);
+            logger.error("{}.createTransaction() - Unexpected error while creating the transaction: {}", CLASS_NAME, transaction, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.CREATE_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.CREATE_TRANSACTION_ERROR_MESSAGE,
@@ -112,6 +113,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
     @Transactional
     public void bulkCreateTransactions(List<TransactionEntity> transactions, String groupGuid, String createdByGuid) {
         if (EssUtils.isNullOrEmpty(transactions)) {
+            logger.warn("{}.bulkCreateTransactions() - cannot insert transaction since the list of transactions to be inserted is null or empty", CLASS_NAME);
             return;
         }
 
@@ -161,7 +163,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
         } catch (NotFoundException e) {
             throw e;
         } catch (Exception e) {
-            logger.error("{}.bulkCreateTransaction() - Something went wrong while creating set of transactions", CLASS_NAME, e);
+            logger.error("{}.bulkCreateTransaction() - Unexpected error while creating set of transactions", CLASS_NAME, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.BULK_CREATE_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.BULK_CREATE_TRANSACTION_ERROR_MESSAGE,
@@ -175,6 +177,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
     @Transactional
     public void bulkCreateDebts(List<DebtEntity> debts, UserEntity createdBy, Timestamp createdDate) {
         if (EssUtils.isNullOrEmpty(debts)) {
+            logger.warn("{}.bulkCreateDebts() - cannot insert debts since the list of debts to be inserted is null or empty", CLASS_NAME);
             return;
         }
 
@@ -201,7 +204,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
                 }
             });
         } catch (Exception e) {
-            logger.error("{}.bulkCreateDebts() - Something went wrong while creating set of debts", CLASS_NAME, e);
+            logger.error("{}.bulkCreateDebts() - Unexpected error while creating set of debts", CLASS_NAME, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.BULK_INSERT_NEW_DEBT_ERROR_TITLE,
                     ErrorKeys.BULK_INSERT_NEW_DEBT_ERROR_MESSAGE,
@@ -216,7 +219,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
     @Transactional
     public DebtEntity insertNewDebt(DebtEntity debt, String transactionGuid, UserEntity createdBy) {
         String debtGuid = debt.getDebtGuid();
-        int revision = 0;
+        int revision;
 
         // Creates new guid when there is no debt guid from a previously created debt
         if (EssUtils.isNullOrEmpty(debtGuid)) {
@@ -261,6 +264,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
     @Override
     public int getLastRevision(String debtGuid) {
         if (EssUtils.isNullOrEmpty(debtGuid)) {
+            logger.warn("{}.getLastRevision() - cannot load the last revision since the debt guid is null or empty", CLASS_NAME);
             return 0;
         }
 
@@ -268,7 +272,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
         try {
             revision = jdbc.queryForObject(DebtsQueries.GET_LAST_REVISION, Integer.class);
         } catch (Exception e) {
-            logger.error("{}.getLastRevision() - Something went wrong while reading the last revision of the debt {}", CLASS_NAME, debtGuid);
+            logger.error("{}.getLastRevision() - Unexpected error while reading the last revision of the debt {}", CLASS_NAME, debtGuid);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.INSERT_NEW_DEBT_ERROR_TITLE,
                     ErrorKeys.READ_LAST_REVISION_ERROR_MESSAGE,
@@ -281,8 +285,35 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
     }
 
     @Override
-    public TransactionEntity getTransaction(String transactionGuid){
+    public void deleteDebts(String transactionGuid) {
+        if (EssUtils.isNullOrEmpty(transactionGuid)) {
+            logger.warn("{}.deleteDebts() - cannot delete the debts since the transaction guid is null or empty", CLASS_NAME);
+            return;
+        }
+
+        int rowsDeleted = 0;
+        try {
+            rowsDeleted = jdbc.update(DebtsQueries.DELETE_DEBTS, transactionGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_DEBTS_ERROR_TITLE,
+                    ErrorKeys.DELETE_DEBTS_ERROR_MESSAGE,
+                    null,
+                    e.getCause()
+            );
+        }
+
+        logger.info("{}.deleteDebts() - debts deleted: {}", CLASS_NAME, rowsDeleted);
+    }
+
+    @Override
+    public TransactionEntity getTransaction(String transactionGuid, boolean throwException){
         TransactionEntity transactionEntity = null;
+
+        if (EssUtils.isNullOrEmpty(transactionGuid)) {
+            logger.warn("{}.getTransaction() - cannot get the transaction since the transaction guid is null or empty", CLASS_NAME);
+            return null;
+        }
 
         try{
             transactionEntity = jdbc.query(TransactionsQueries.GET_TRANSACTION,
@@ -293,7 +324,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
             logger.debug("{}.getTransaction() - NotFoundException while reading the transaction: {}", CLASS_NAME, transactionGuid, e);
             throw e;
         }catch(Exception e){
-            logger.error("{}.getTransaction() - Something went wrong while reading the transaction with id: {}", CLASS_NAME, transactionGuid, e);
+            logger.error("{}.getTransaction() - Unexpected error while reading the transaction with id: {}", CLASS_NAME, transactionGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_TRANSACTION_ERROR_TITLE,
                     ErrorKeys.GET_TRANSACTION_ERROR_MESSAGE,
@@ -302,12 +333,46 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
             );
         }
 
+        if (throwException && null == transactionEntity) {
+            infrastructureHelper.throwNotFoundException(
+                    ErrorKeys.GET_TRANSACTION_NOT_FOUND_TITLE,
+                    ErrorKeys.GET_TRANSACTION_NOT_FOUND_MESSAGE,
+                    new Object[]{ transactionGuid }
+            );
+        }
+
         return transactionEntity;
+    }
+
+    @Override
+    public void deleteTransaction(String transactionGuid) {
+        if (EssUtils.isNullOrEmpty(transactionGuid)) {
+            logger.warn("{}.deleteTransaction() - cannot delete the transaction since the transaction guid is null or empty", CLASS_NAME);
+            return;
+        }
+
+        int rowsDeleted = 0;
+        try {
+            rowsDeleted = jdbc.update(TransactionsQueries.DELETE_TRANSACTION, transactionGuid);
+        } catch (Exception e) {
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_TRANSACTION_ERROR_TITLE,
+                    ErrorKeys.DELETE_TRANSACTION_ERROR_MESSAGE,
+                    new Object[] {transactionGuid},
+                    e.getCause()
+            );
+        }
+
+        logger.info("{}.deleteTransaction() - transactions deleted: {}", CLASS_NAME, rowsDeleted);
     }
 
     @Override
     public DebtEntity getDebt(String transactionGuid){
         DebtEntity debtEntity = null;
+        if (EssUtils.isNullOrEmpty(transactionGuid)) {
+            logger.warn("{}.getDebt() - cannot load the debt since the transaction guid is null or empty", CLASS_NAME);
+            return null;
+        }
 
         try{
             debtEntity = jdbc.query(DebtsQueries.GET_DEBT,
@@ -318,7 +383,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
             logger.debug("{}.getDebt() - NotFoundException while reading the debt of the transaction: {}", CLASS_NAME, transactionGuid, e);
             throw e;
         }catch(Exception e){
-            logger.error("{}.getDebt() - Something went wrong while reading the debt of the transaction with id: {}", CLASS_NAME, transactionGuid, e);
+            logger.error("{}.getDebt() - Unexpected error while reading the debt of the transaction with id: {}", CLASS_NAME, transactionGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.GET_DEBT_ERROR_TITLE,
                     ErrorKeys.GET_DEBT_ERROR_MESSAGE,
@@ -335,21 +400,20 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
     public int countTransactionsByGroup(String groupGuid) {
         int totalCount = 0;
         if (EssUtils.isNullOrEmpty(groupGuid)) {
+            logger.warn("{}.countTransactionsByGroup() - cannot count the transactions since the group guid is null or empty", CLASS_NAME);
             return totalCount;
         }
 
         try {
             totalCount = jdbc.query(TransactionsQueries.COUNT_TRANSACTIONS_BY_GROUP,
-                    (preparedStatement) -> {
-                        preparedStatement.setString(1, groupGuid);
-                    }, (rs) -> {
+                    (preparedStatement) -> preparedStatement.setString(1, groupGuid), (rs) -> {
                         if (!rs.next()) {
                             return 0;
                         }
                         return rs.getInt(1);
                     });
         } catch (Exception e) {
-            logger.error("{}.countTransactionsByGroup() - Something went wrong while reading the total number of transaction for group guid: {}", CLASS_NAME, groupGuid, e);
+            logger.error("{}.countTransactionsByGroup() - Unexpected error while reading the total number of transaction for group guid: {}", CLASS_NAME, groupGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.LIST_TRANSACTIONS_BY_GROUP_ERROR_TITLE,
                     ErrorKeys.LIST_TRANSACTIONS_BY_GROUP_COUNT_ERROR_MESSAGE,
@@ -366,6 +430,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
         List<TransactionEntity> transactionEntities = new ArrayList<>();
 
         if (EssUtils.isNullOrEmpty(groupGuid)) {
+            logger.warn("{}.loadTransactionsByGroup() - cannot load the transaction for an empty group guid", CLASS_NAME);
             return transactionEntities;
         }
 
@@ -374,7 +439,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
                     this::toTransactionEntities,
                     groupGuid, limit, offset);
         } catch (Exception e) {
-            logger.error("{}.loadTransactionsByGroup() - Something went wrong while reading the group's transactions for group with id: {}", CLASS_NAME, groupGuid, e);
+            logger.error("{}.loadTransactionsByGroup() - Unexpected error while reading the group's transactions for group with id: {}", CLASS_NAME, groupGuid, e);
             infrastructureHelper.throwInternalServerErrorException(
                     ErrorKeys.LIST_TRANSACTIONS_BY_GROUP_ERROR_TITLE,
                     ErrorKeys.LIST_TRANSACTIONS_BY_GROUP_ERROR_MESSAGE,
@@ -428,6 +493,7 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
 
         transactionEntity.setTransactionGuid(rs.getString(TransactionsQueries.TRANSACTIONGUID_COLUMN.toLowerCase()));
         transactionEntity.setName(rs.getString(TransactionsQueries.NAME_COLUMN.toLowerCase()));
+        transactionEntity.setCurrency(rs.getString(TransactionsQueries.CURRENCY_COLUMN.toLowerCase()));
 
         String creditorByGuid = rs.getString(TransactionsQueries.CREDITOR_COLUMN.toLowerCase());
         UserEntity creditor = userRepository.getUser(creditorByGuid);
@@ -436,7 +502,6 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
         String debtorByGuid = rs.getString(TransactionsQueries.DEBTOR_COLUMN.toLowerCase());
         UserEntity debtor = userRepository.getUser(debtorByGuid);
         transactionEntity.setDebtor(debtor);
-
 
         String createdByGuid = rs.getString((TransactionsQueries.CREATED_BY_COLUMN.toLowerCase()));
         UserEntity createdBy = userRepository.getUser(createdByGuid);

@@ -149,8 +149,8 @@ public class Transaction {
         transaction.setDebt(this.debt.toDebtEntity());
         transaction.setCreditor(this.creditor.toUserEntity());
         transaction.setDebtor(this.debtor.toUserEntity());
-        transaction.setCreatedBy(this.createdBy.toUserEntity());
 
+        if (this.createdBy != null) transaction.setCreatedBy(this.createdBy.toUserEntity());
         if (this.group != null) transaction.setGroup(this.group.toGroupEntity());
         if (this.updatedBy != null) transaction.setUpdatedBy(this.updatedBy.toUserEntity());
 

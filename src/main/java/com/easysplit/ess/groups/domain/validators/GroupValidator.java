@@ -65,6 +65,10 @@ public class GroupValidator {
     }
 
     private void validateDescription(String description) {
+        if (EssUtils.isNullOrEmpty(description)) {
+            return;
+        }
+
         if (description.length() > GROUP_DESCRIPTION_LENGTH_LIMIT) {
             domainHelper.throwIllegalArgumentException(
                     ErrorKeys.CREATE_GROUP_ILLEGALARGUMENT_TITLE,

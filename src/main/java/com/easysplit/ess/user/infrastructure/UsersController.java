@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -113,8 +112,8 @@ public class UsersController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/{id}/friends")
-    public ResponseEntity<Friendship> addFriend(Authentication auth, @RequestBody Friendship friendship) {
+    @PostMapping("/friends")
+    public ResponseEntity<Friendship> addFriend(@RequestBody Friendship friendship) {
         Friendship createdFriendship = null;
         try {
             createdFriendship = friendsService.addFriend(
@@ -157,7 +156,7 @@ public class UsersController {
             friends = friendsService.listFriends(userId, limit, offset, totalCount);
 
             // TODO Work on links
-        } catch (InternalServerErrorException e) {
+        } catch (NotFoundException | InternalServerErrorException e) {
             logger.error("{}.listFriends() - Something went wrong while reading the user's friends for user : {}", CLASS_NAME, userId, e);
             throw e;
         } catch (Exception e) {

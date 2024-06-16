@@ -1,9 +1,11 @@
 package com.easysplit.ess.transactions.asserters;
 
 import com.easysplit.ess.transactions.domain.models.Debt;
-import com.easysplit.shared.domain.models.Money;
+import com.easysplit.shared.utils.TestUtils;
 import org.assertj.core.api.AbstractAssert;
 import org.junit.jupiter.api.Assertions;
+
+import java.math.BigDecimal;
 
 public class DebtsAsserter extends AbstractAssert<DebtsAsserter, Debt> {
     public DebtsAsserter(Debt actual) {
@@ -16,26 +18,26 @@ public class DebtsAsserter extends AbstractAssert<DebtsAsserter, Debt> {
         }
 
         if (expected.getTotalAmount() != null) {
-            Money expectedTotalAmount = expected.getTotalAmount();
-            Money actualTotalAmount = this.actual.getTotalAmount();
+            BigDecimal expectedTotalAmount = expected.getTotalAmount().getAmount();
+            BigDecimal actualTotalAmount = this.actual.getTotalAmount().getAmount();
 
             if (actualTotalAmount == null) {
                 failWithMessage("Total amount cannot be empty");
             }
 
-            Assertions.assertEquals(expectedTotalAmount, actualTotalAmount, "Expected " + expectedTotalAmount + " and actual "
+            Assertions.assertTrue(TestUtils.compareMonetaryValues(expectedTotalAmount, actualTotalAmount), "Expected " + expectedTotalAmount + " and actual "
                     + actualTotalAmount + " total amount do not match.");
         }
 
         if (expected.getDebt() != null) {
-            Money expectedDebt = expected.getTotalAmount();
-            Money actualDebt = this.actual.getTotalAmount();
+            BigDecimal expectedDebt = expected.getTotalAmount().getAmount();
+            BigDecimal actualDebt = this.actual.getTotalAmount().getAmount();
 
             if (actualDebt == null) {
                 failWithMessage("Debt cannot be empty");
             }
 
-            Assertions.assertEquals(expectedDebt, actualDebt, "Expected " + expectedDebt + " and actual "
+            Assertions.assertTrue(TestUtils.compareMonetaryValues(expectedDebt, actualDebt), "Expected " + expectedDebt + " and actual "
                     + actualDebt + " debt do not match.");
         }
 

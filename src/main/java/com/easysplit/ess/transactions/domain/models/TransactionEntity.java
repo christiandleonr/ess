@@ -140,7 +140,7 @@ public class TransactionEntity {
         if (this.group != null) transaction.setGroup(this.group.toGroup());
         transaction.setCreditor(this.creditor.toUser());
         transaction.setDebtor(this.debtor.toUser());
-        transaction.setCreatedBy(this.createdBy.toUser());
+        if (this.createdBy != null) transaction.setCreatedBy(this.createdBy.toUser());
         if (this.updatedBy != null) transaction.setUpdatedBy(this.updatedBy.toUser());
 
         return transaction;

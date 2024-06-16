@@ -166,6 +166,20 @@ public final class ErrorKeys {
     public static final String GET_TRANSACTION_ERROR_MESSAGE = "get.transaction.error.message";
 
     /**
+     * Delete transaction
+     */
+    public static final String DELETE_TRANSACTION_ERROR_TITLE = "delete.transaction.error.title";
+    public static final String DELETE_TRANSACTION_ERROR_MESSAGE= "delete.transaction.error.message";
+    public static final String DELETE_TRANSACTION_UNAUTHORIZED_TITLE = "delete.transaction.unauthorized.title";
+    public static final String DELETE_TRANSACTION_CREATED_BY_REQUIRED = "delete.transaction.createdBy.required";
+
+    /**
+     * Delete debts
+     */
+    public static final String DELETE_DEBTS_ERROR_TITLE = "delete.debt.error.title";
+    public static final String DELETE_DEBTS_ERROR_MESSAGE = "delete.debt.error.message";
+
+    /**
      * List transactions
      */
     public static final String LIST_TRANSACTIONS_BY_GROUP_ERROR_TITLE = "list.transactions.byGroup.error.title";

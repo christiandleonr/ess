@@ -11,11 +11,7 @@ import com.easysplit.ess.users.utils.TestUsersHelper;
 import com.easysplit.shared.domain.models.Money;
 import com.easysplit.shared.domain.models.ResourceList;
 import com.easysplit.shared.utils.TestUtils;
-import org.junit.Assert;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -26,11 +22,9 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestGroupTransactions {
     @Autowired
-    private static TestTransactionsHelper transactionsHelper;
+    private TestTransactionsHelper transactionsHelper;
     @Autowired
-    private static TestUsersHelper usersHelper;
-    @Autowired
-    private static TestGroupsHelper groupsHelper;
+    private TestGroupsHelper groupsHelper;
 
     private static User member1, member2, member3;
     private static List<User> members = new ArrayList<>();
@@ -38,7 +32,7 @@ public class TestGroupTransactions {
     private static Group group;
 
     @BeforeAll
-    public static void setUp() {
+    public static void setUp(@Autowired TestUsersHelper usersHelper, @Autowired TestGroupsHelper groupsHelper) {
         String uniqueString = TestUtils.generateUniqueString();
 
         // Create list of group members
@@ -80,7 +74,8 @@ public class TestGroupTransactions {
     }
 
     @AfterAll
-    public static void tearDown() {
+    @Disabled
+    public static void tearDown(@Autowired TestUsersHelper usersHelper, TestGroupsHelper groupsHelper) {
         for (User user: members) {
             if (user.getId() != null) {
                 usersHelper.deleteUser(user.getId());
