@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +51,12 @@ public class IamController {
             }
         } catch (BadCredentialsException e) {
             logger.error("{}.authenticate() - Bad credentials for user with email {}", CLASS_NAME, auth.getEmail(), e);
+            throw e;
+        } catch (InternalAuthenticationServiceException e) {
+            if (e.getCause() instanceof NotFoundException) {
+                throw (NotFoundException) e.getCause();
+            }
+
             throw e;
         } catch (NotFoundException e) {
             logger.error("{}.authenticate() - Something went wrong while reading the user with email {}", CLASS_NAME, auth.getEmail(), e);

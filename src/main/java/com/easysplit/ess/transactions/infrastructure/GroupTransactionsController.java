@@ -18,20 +18,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/groups/{id}/transactions")
-public class GroupsTransactionsController {
-    private final String CLASS_NAME = GroupsTransactionsController.class.getName();
-    private static final Logger logger = LoggerFactory.getLogger(GroupsTransactionsController.class);
+public class GroupTransactionsController {
+    private final String CLASS_NAME = GroupTransactionsController.class.getName();
+    private static final Logger logger = LoggerFactory.getLogger(GroupTransactionsController.class);
 
     private final GroupsTransactionsService groupsTransactionsService;
     private final InfrastructureHelper infrastructureHelper;
 
-    public GroupsTransactionsController(GroupsTransactionsService groupsTransactionsService, InfrastructureHelper infrastructureHelper) {
+    public GroupTransactionsController(GroupsTransactionsService groupsTransactionsService, InfrastructureHelper infrastructureHelper) {
         this.groupsTransactionsService = groupsTransactionsService;
         this.infrastructureHelper = infrastructureHelper;
     }
 
     @PostMapping
-    public ResponseEntity<Void> createGroupTransactions(@PathVariable(name = "id") String groupId, List<Transaction> transactions) {
+    public ResponseEntity<Void> createGroupTransactions(@PathVariable(name = "id") String groupId, @RequestBody List<Transaction> transactions) {
         try {
             String createdById = infrastructureHelper.getAuthenticatedUserId();
             groupsTransactionsService.bulkCreateTransaction(transactions, groupId, createdById);
@@ -54,7 +54,7 @@ public class GroupsTransactionsController {
             );
         }
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping

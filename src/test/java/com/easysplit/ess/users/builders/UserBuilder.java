@@ -57,4 +57,18 @@ public class UserBuilder {
                 phone,
                 null);
     }
+
+    /**
+     * Clear the attributes of this object, useful when using only one builder instance
+     * to create multiple users, ensure that the new build uses no data from the previous build.
+     */
+    public void clear() {
+        id = null;
+        name = null;
+        lastname = null;
+        username = null;
+        password = null;
+        email = null;
+        phone = null;
+    }
 }

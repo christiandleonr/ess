@@ -1,11 +1,12 @@
 package com.easysplit.ess.users;
 
-import com.easysplit.ess.shared.asserters.ErrorAsserter;
-import com.easysplit.ess.shared.utils.TestUtils;
+import com.easysplit.shared.asserters.ErrorAsserter;
+import com.easysplit.shared.utils.MessageHelper;
+import com.easysplit.shared.utils.TestUtils;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.user.domain.validators.UserValidator;
 import com.easysplit.ess.users.builders.UserBuilder;
-import com.easysplit.ess.users.utils.TestUserHelper;
+import com.easysplit.ess.users.utils.TestUsersHelper;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.models.ErrorResponse;
 import org.junit.jupiter.api.Test;
@@ -14,9 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestUserNegative {
+public class TestUsersNegative {
     @Autowired
-    private TestUserHelper testUserHelper;
+    private TestUsersHelper testUsersHelper;
+    @Autowired
+    private MessageHelper messageHelper;
 
     /**
      * Attempts to create a user with a null name, null names are invalid,
@@ -34,11 +37,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYNAME_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYNAME_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -59,11 +62,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYNAME_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYNAME_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -84,11 +87,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_NAMETOOLONG_MESSAGE, new Object[]{ UserValidator.USER_NAME_LENGTH_LIMIT })
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_NAMETOOLONG_MESSAGE, new Object[]{ UserValidator.USER_NAME_LENGTH_LIMIT })
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -109,11 +112,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYLASTNAME_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYLASTNAME_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -134,16 +137,16 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_LASTNAMETOOLONG_MESSAGE, new Object[]{ UserValidator.USER_LASTNAME_LENGTH_LIMIT })
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_LASTNAMETOOLONG_MESSAGE, new Object[]{ UserValidator.USER_LASTNAME_LENGTH_LIMIT })
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
     /**
-     * Attempts to create a user with a empty username, empty usernames are invalid,
+     * Attempts to create a user with an empty username, empty usernames are invalid,
      * and we should get the proper error message
      */
     @Test
@@ -159,11 +162,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYUSERNAME_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYUSERNAME_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -184,11 +187,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_USERNAMETOOLONG_MESSAGE, new Object[]{ UserValidator.USER_USERNAME_LENGTH_LIMIT })
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_USERNAMETOOLONG_MESSAGE, new Object[]{ UserValidator.USER_USERNAME_LENGTH_LIMIT })
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -209,7 +212,7 @@ public class TestUserNegative {
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
 
-        user = testUserHelper.createUser(user, HttpStatus.CREATED);
+        user = testUsersHelper.createUser(user, HttpStatus.CREATED);
 
         User invalidUser = userBuilder.setName("Name-" + uniqueString)
                 .setLastname("Lastname-" + uniqueString)
@@ -219,11 +222,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE, new Object[]{ user.getUsername() })
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_NOT_UNIQUE_USERNAME_MESSAGE, new Object[]{ user.getUsername() })
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(invalidUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(invalidUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -244,11 +247,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYEMAIL_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYEMAIL_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -270,11 +273,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYEMAIL_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYEMAIL_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -296,11 +299,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMAILTOOLONG_MESSAGE, new Object[]{ UserValidator.USER_EMAIL_LENGTH_LIMIT })
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMAILTOOLONG_MESSAGE, new Object[]{ UserValidator.USER_EMAIL_LENGTH_LIMIT })
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -322,11 +325,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_INVALIDEMAILFORMAT_MESSAGE, new Object[]{ "INVALID" })
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_INVALIDEMAILFORMAT_MESSAGE, new Object[]{ "INVALID" })
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
 
     }
@@ -348,7 +351,7 @@ public class TestUserNegative {
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
 
-        user = testUserHelper.createUser(user, HttpStatus.CREATED);
+        user = testUsersHelper.createUser(user, HttpStatus.CREATED);
 
         uniqueString = TestUtils.generateUniqueString();
         User invalidUser = userBuilder.setName("Name-" + uniqueString)
@@ -360,11 +363,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_NOT_UNIQUE_EMAIL_MESSAGE, new Object[]{ user.getEmail() })
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_NOT_UNIQUE_EMAIL_MESSAGE, new Object[]{ user.getEmail() })
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(invalidUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(invalidUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -385,16 +388,16 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYPHONE_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYPHONE_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
     /**
-     * Attempts to create a user with a empty phone, empty phones are invalid,
+     * Attempts to create a user with an empty phone, empty phones are invalid,
      * and we should get the proper error message
      */
     @Test
@@ -411,11 +414,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYPHONE_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_EMPTYPHONE_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -437,11 +440,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_WRONGPHONESIZE_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_WRONGPHONESIZE_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -463,11 +466,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_INVALIDPHONECHAR_MESSAGE, null)
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_INVALIDPHONECHAR_MESSAGE, null)
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(expectedUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -488,7 +491,7 @@ public class TestUserNegative {
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
 
-        user = testUserHelper.createUser(user, HttpStatus.CREATED);
+        user = testUsersHelper.createUser(user, HttpStatus.CREATED);
 
         uniqueString = TestUtils.generateUniqueString();
         User invalidUser = userBuilder.setName("Name-" + uniqueString)
@@ -499,11 +502,11 @@ public class TestUserNegative {
                 .build();
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.CREATE_USER_NOT_UNIQUE_PHONE_MESSAGE, new Object[]{ user.getPhone() })
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_ILLEGALARGUMENT_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.CREATE_USER_NOT_UNIQUE_PHONE_MESSAGE, new Object[]{ user.getPhone() })
         );
 
-        ErrorResponse actualErrorResponse = testUserHelper.failCreateUser(invalidUser, HttpStatus.BAD_REQUEST);
+        ErrorResponse actualErrorResponse = testUsersHelper.failCreateUser(invalidUser, HttpStatus.BAD_REQUEST);
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
     }
 
@@ -512,11 +515,11 @@ public class TestUserNegative {
      */
     @Test
     public void testGetUserNotFound() {
-        ErrorResponse actualErrorResponse = testUserHelper.failGet("INVALID_ID", HttpStatus.NOT_FOUND);
+        ErrorResponse actualErrorResponse = testUsersHelper.failGet("INVALID_ID", HttpStatus.NOT_FOUND);
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_MESSAGE, new Object[]{ "INVALID_ID" })
+                messageHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_MESSAGE, new Object[]{ "INVALID_ID" })
         );
 
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);
@@ -527,11 +530,11 @@ public class TestUserNegative {
      */
     @Test
     public void testDeleteUserNotFound() {
-        ErrorResponse actualErrorResponse = testUserHelper.failDelete("INVALID_ID", HttpStatus.NOT_FOUND);
+        ErrorResponse actualErrorResponse = testUsersHelper.failDelete("INVALID_ID", HttpStatus.NOT_FOUND);
 
         ErrorResponse expectedErrorResponse = new ErrorResponse(
-                testUserHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_TITLE, null),
-                testUserHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_MESSAGE, new Object[]{ "INVALID_ID" })
+                messageHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_TITLE, null),
+                messageHelper.getMessage(ErrorKeys.GET_USER_NOT_FOUND_MESSAGE, new Object[]{ "INVALID_ID" })
         );
 
         new ErrorAsserter(actualErrorResponse).assertError(expectedErrorResponse);

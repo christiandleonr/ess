@@ -24,7 +24,16 @@ public class MoneyDeserializer extends StdDeserializer<Money> {
     @Override
     public Money deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         JsonNode node = jp.getCodec().readTree(jp);
-        BigDecimal amount = node.decimalValue();
+        String value = node.get("amount").asText();
+
+        BigDecimal amount;
+        try {
+            // Remove any currency symbols or commas if necessary
+            String sanitizedValue = value.replaceAll("[^0-9.-]", "");
+            amount = new BigDecimal(sanitizedValue);
+        } catch (NumberFormatException e) {
+            throw new IOException("Failed to deserialize monetary value: " + value, e);
+        }
 
         return new Money(amount);
     }

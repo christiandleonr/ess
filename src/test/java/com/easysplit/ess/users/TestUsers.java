@@ -1,22 +1,19 @@
 package com.easysplit.ess.users;
 
-import com.easysplit.ess.shared.asserters.ErrorAsserter;
-import com.easysplit.ess.shared.utils.TestUtils;
+import com.easysplit.shared.utils.TestUtils;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.users.asserters.UserAsserter;
 import com.easysplit.ess.users.builders.UserBuilder;
-import com.easysplit.ess.users.utils.TestUserHelper;
-import com.easysplit.shared.domain.exceptions.ErrorKeys;
-import com.easysplit.shared.domain.models.ErrorResponse;
+import com.easysplit.ess.users.utils.TestUsersHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestUser {
+public class TestUsers {
     @Autowired
-    private TestUserHelper testUserHelper;
+    private TestUsersHelper testUsersHelper;
 
     /**
      * Validates that a user can be created when all its values are valid
@@ -34,10 +31,10 @@ public class TestUser {
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
 
-        User actualUser = testUserHelper.createUser(expectedUser, HttpStatus.CREATED);
+        User actualUser = testUsersHelper.createUser(expectedUser, HttpStatus.CREATED);
         new UserAsserter(actualUser).assertUser(expectedUser);
 
-        testUserHelper.deleteUser(actualUser.getId());
+        testUsersHelper.deleteUser(actualUser.getId());
     }
 
     /**
@@ -56,10 +53,10 @@ public class TestUser {
                 .setPassword("Password")
                 .build();
 
-        User actualUser = testUserHelper.createUser(expectedUser, HttpStatus.CREATED);
+        User actualUser = testUsersHelper.createUser(expectedUser, HttpStatus.CREATED);
         new UserAsserter(actualUser).assertUser(expectedUser);
 
-        testUserHelper.deleteUser(actualUser.getId());
+        testUsersHelper.deleteUser(actualUser.getId());
     }
 
     /**
@@ -78,10 +75,10 @@ public class TestUser {
                 .setPassword("Password")
                 .build();
 
-        User actualUser = testUserHelper.createUser(expectedUser, HttpStatus.CREATED);
+        User actualUser = testUsersHelper.createUser(expectedUser, HttpStatus.CREATED);
         new UserAsserter(actualUser).assertUser(expectedUser);
 
-        testUserHelper.deleteUser(actualUser.getId());
+        testUsersHelper.deleteUser(actualUser.getId());
     }
 
     /**
@@ -100,12 +97,12 @@ public class TestUser {
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
 
-        String id = testUserHelper.createUser(expectedUser, HttpStatus.CREATED).getId();
-        User actualUser = testUserHelper.getUser(id, User.class, HttpStatus.OK);
+        String id = testUsersHelper.createUser(expectedUser, HttpStatus.CREATED).getId();
+        User actualUser = testUsersHelper.getUser(id, User.class, HttpStatus.OK);
 
         new UserAsserter(actualUser).assertUser(expectedUser);
 
-        testUserHelper.deleteUser(id);
+        testUsersHelper.deleteUser(id);
     }
 
     /**
@@ -124,7 +121,7 @@ public class TestUser {
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
 
-        User createdUser = testUserHelper.createUser(user, HttpStatus.CREATED);
-        testUserHelper.deleteUser(createdUser.getId());
+        User createdUser = testUsersHelper.createUser(user, HttpStatus.CREATED);
+        testUsersHelper.deleteUser(createdUser.getId());
     }
 }

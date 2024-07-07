@@ -72,8 +72,14 @@ public class Friendship {
      */
     public FriendshipEntity toFriendshipEntity() {
         FriendshipEntity friendshipEntity = FriendshipsMapper.INSTANCE.toFriendshipEntity(this);
-        friendshipEntity.setFriend(this.friend.toUserEntity());
-        friendshipEntity.setAddedBy(this.addedBy.toUserEntity());
+
+        if (this.friend != null) {
+            friendshipEntity.setFriend(this.friend.toUserEntity());
+        }
+
+        if (this.addedBy != null) {
+            friendshipEntity.setAddedBy(this.addedBy.toUserEntity());
+        }
 
         return friendshipEntity;
     }

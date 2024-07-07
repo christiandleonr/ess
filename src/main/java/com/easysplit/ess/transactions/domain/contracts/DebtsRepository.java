@@ -38,4 +38,9 @@ public interface DebtsRepository {
      * @return last revision of the debt
      */
     int getLastRevision(String debtGuid);
+
+    /**
+     * Delete debts by transaction guid
+     */
+    void deleteDebts(String transactionGuid);
 }

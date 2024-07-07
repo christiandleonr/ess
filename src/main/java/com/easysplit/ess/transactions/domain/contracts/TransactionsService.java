@@ -22,8 +22,18 @@ public interface TransactionsService {
     /**
      * Gets a Transaction by its guid
      *
-     * @param transactionGuid transaction id
+     * @param transactionId transaction id
      * @return transaction
      */
-    Transaction getTransaction(String transactionGuid);
+    Transaction getTransaction(String transactionId);
+
+    /**
+     * Delete a transaction by its id.
+     * Throws an <i>IllegalArgumentException</i> if the user who wants to delete the transaction
+     * is not the same as the user who created it.
+     *
+     * @param transactionId the transaction id
+     * @param authenticatedUserId user who is trying to delete the transaction
+     */
+    void deleteTransaction(String transactionId, String authenticatedUserId);
 }

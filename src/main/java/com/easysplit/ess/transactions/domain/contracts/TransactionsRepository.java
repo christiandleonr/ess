@@ -21,12 +21,20 @@ public interface TransactionsRepository {
     TransactionEntity createTransaction(TransactionEntity transactionEntity, String createdByGuid);
 
     /**
-     * Gets a transaction by is guid
+     * Gets a transaction by guid
      *
      * @param transactionGuid transaction id
+     * @param throwException whether to throw a NotFoundException or not
      * @return transactionEntity
      */
-    TransactionEntity getTransaction(String transactionGuid);
+    TransactionEntity getTransaction(String transactionGuid, boolean throwException);
+
+    /**
+     * Delete transaction by guid.
+     *
+     * @param transactionGuid the transaction id
+     */
+    void deleteTransaction(String transactionGuid);
 
     /**
      * Gets a debt by the transaction guid

@@ -5,10 +5,10 @@ import com.easysplit.ess.iam.domain.models.Auth;
 import com.easysplit.ess.iam.domain.models.RefreshToken;
 import com.easysplit.ess.iam.domain.models.Token;
 import com.easysplit.ess.iam.utils.TestIamHelper;
-import com.easysplit.ess.shared.utils.TestUtils;
+import com.easysplit.shared.utils.TestUtils;
 import com.easysplit.ess.user.domain.models.User;
 import com.easysplit.ess.users.builders.UserBuilder;
-import com.easysplit.ess.users.utils.TestUserHelper;
+import com.easysplit.ess.users.utils.TestUsersHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ public class TestIam {
     @Autowired
     private TestIamHelper testIamHelper;
     @Autowired
-    private TestUserHelper testUserHelper;
+    private TestUsersHelper testUsersHelper;
 
     @Test
     public void testAuthenticateUser() {
@@ -33,14 +33,14 @@ public class TestIam {
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
-        user = testUserHelper.createUser(user, HttpStatus.CREATED);
+        user = testUsersHelper.createUser(user, HttpStatus.CREATED);
 
         Auth auth = new Auth(user.getEmail(), "Password");
         Token token = testIamHelper.authenticate(auth, HttpStatus.OK);
 
         new TokenAsserter(token).assertToken();
 
-        testUserHelper.deleteUser(user.getId());
+        testUsersHelper.deleteUser(user.getId());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class TestIam {
                 .setEmail(uniqueString + "@gmail.com")
                 .setPhone(TestUtils.generate10DigitNumber() + "")
                 .build();
-        user = testUserHelper.createUser(user, HttpStatus.CREATED);
+        user = testUsersHelper.createUser(user, HttpStatus.CREATED);
 
         Auth auth = new Auth(user.getEmail(), "Password");
         Token token = testIamHelper.authenticate(auth, HttpStatus.OK);
@@ -65,6 +65,6 @@ public class TestIam {
         token = testIamHelper.refreshToken(refreshToken, HttpStatus.OK);
         new TokenAsserter(token).assertToken();
 
-        testUserHelper.deleteUser(user.getId());
+        testUsersHelper.deleteUser(user.getId());
     }
 }

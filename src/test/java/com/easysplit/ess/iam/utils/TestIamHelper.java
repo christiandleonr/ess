@@ -3,7 +3,7 @@ package com.easysplit.ess.iam.utils;
 import com.easysplit.ess.iam.domain.models.Auth;
 import com.easysplit.ess.iam.domain.models.RefreshToken;
 import com.easysplit.ess.iam.domain.models.Token;
-import com.easysplit.ess.shared.utils.TestRESTHelper;
+import com.easysplit.shared.utils.TestRESTHelper;
 import com.easysplit.shared.domain.models.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

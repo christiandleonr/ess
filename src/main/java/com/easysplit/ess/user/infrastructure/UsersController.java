@@ -15,23 +15,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
-    private static final String CLASS_NAME = UserController.class.getName();
+public class UsersController {
+    private static final String CLASS_NAME = UsersController.class.getName();
     private final String USERS_RESOURCE = "/users";
     private final UserService userService;
     private final FriendsService friendsService;
     private final InfrastructureHelper infrastructureHelper;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
     @Autowired
-    public UserController(UserService userService,
-                          FriendsService friendsService,
-                          InfrastructureHelper infrastructureHelper) {
+    public UsersController(UserService userService,
+                           FriendsService friendsService,
+                           InfrastructureHelper infrastructureHelper) {
         this.userService = userService;
         this.infrastructureHelper = infrastructureHelper;
         this.friendsService = friendsService;
@@ -113,8 +112,8 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/{id}/friends")
-    public ResponseEntity<Friendship> addFriend(Authentication auth, @RequestBody Friendship friendship) {
+    @PostMapping("/friends")
+    public ResponseEntity<Friendship> addFriend(@RequestBody Friendship friendship) {
         Friendship createdFriendship = null;
         try {
             createdFriendship = friendsService.addFriend(
@@ -157,7 +156,7 @@ public class UserController {
             friends = friendsService.listFriends(userId, limit, offset, totalCount);
 
             // TODO Work on links
-        } catch (InternalServerErrorException e) {
+        } catch (NotFoundException | InternalServerErrorException e) {
             logger.error("{}.listFriends() - Something went wrong while reading the user's friends for user : {}", CLASS_NAME, userId, e);
             throw e;
         } catch (Exception e) {

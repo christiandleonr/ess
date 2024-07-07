@@ -1,8 +1,10 @@
-package com.easysplit.ess.shared.utils;
+package com.easysplit.shared.utils;
 
 import com.easysplit.ess.iam.domain.models.Token;
+import com.easysplit.ess.user.domain.models.User;
 import org.springframework.http.HttpHeaders;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Random;
 
@@ -12,7 +14,7 @@ import java.util.Random;
 public class TestUtils {
     /**
      * Private constructor to prevent instantiation of the class.
-     * This class should only hold string constants and should not be instantiated
+     * This class should only hold utility methods and should not be instantiated
      */
     private TestUtils() {}
 
@@ -71,5 +73,33 @@ public class TestUtils {
         headers.set("Authorization", "Bearer " + token.getToken());
 
         return headers;
+    }
+
+    /**
+     * Return a system generated user which can be used for authentication and testing
+     *
+     * @return system generated user
+     */
+    public static User getSystemUser() {
+        return new User(
+        "fd48e99b-abd0-4295-96db-41b2d38f76b3",
+        "Christian",
+        "Ramirez de Leon",
+        "christiandleonr",
+        "@0urD3stiny12",
+        "christiandleonr@gmail.com",
+        "6677848479",
+        null
+        );
+    }
+
+    public static boolean compareMonetaryValues(BigDecimal amount1, BigDecimal amount2) {
+        if (amount1 == null && amount2 == null) {
+            return true;
+        }
+        if (amount1 == null || amount2 == null) {
+            return false;
+        }
+        return amount1.compareTo(amount2) == 0;
     }
 }
