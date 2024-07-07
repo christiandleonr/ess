@@ -48,7 +48,7 @@ public class DebtsQueries {
             + " WHERE " + DEBTGUID_COLUMN + " = ? ORDER BY " + REVISION_COLUMN + " DESC LIMIT 1";
 
     /**
-     * Get the debt by transaction guid
+     * Get the debt by transaction guid, returns the last revision
      */
     public static final String GET_DEBT = "SELECT " + DEBTGUID_COLUMN + ", "
             + TOTAL_AMOUNT_COLUMN + ", "

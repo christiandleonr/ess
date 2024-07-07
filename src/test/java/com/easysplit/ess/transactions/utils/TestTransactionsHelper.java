@@ -64,7 +64,7 @@ public class TestTransactionsHelper {
     }
 
     public ErrorResponse failListGroupTransactions(String groupId, HttpStatus statusCode) {
-        return this.failGet(String.format(GROUPS_TRANSACTIONS_PATH, groupId), statusCode);
+        return this.testRESTHelper.failGet(String.format(GROUPS_TRANSACTIONS_PATH, groupId) + "?limit=100&offset=0&totalCount=true", statusCode);
     }
 
     public void deleteTransaction(String id) {

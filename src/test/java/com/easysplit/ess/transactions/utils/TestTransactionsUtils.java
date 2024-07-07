@@ -22,11 +22,12 @@ public class TestTransactionsUtils {
     private TestTransactionsUtils() {}
 
     /**
-     * TODO Add comments
-     * @param members
-     * @param creditor
-     * @param totalAmount
-     * @return
+     * Helper method that divide a given amount equally among all members
+     *
+     * @param members members to divide the total amount
+     * @param creditor person who lend the money
+     * @param totalAmount total amount
+     * @return list of transactions
      */
     public static List<Transaction> divideTransactionEqually(List<User> members, User creditor, Money totalAmount) {
         List<Transaction> transactions = new ArrayList<>();

@@ -9,14 +9,12 @@ import com.easysplit.shared.asserters.ErrorAsserter;
 import com.easysplit.shared.domain.exceptions.ErrorKeys;
 import com.easysplit.shared.domain.models.ErrorResponse;
 import com.easysplit.shared.utils.MessageHelper;
-import com.easysplit.shared.utils.TestRESTHelper;
 import com.easysplit.shared.utils.TestUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -29,15 +27,12 @@ public class TestGroupsNegative {
     @Autowired
     private TestUsersHelper usersHelper;
     @Autowired
-    private TestRESTHelper restHelper;
-    @Autowired
     private MessageHelper messageHelper;
 
-    private static User member1, member2, member3, member4;
     private static final List<User> members = new ArrayList<>();
 
     /**
-     * TODO Add comments
+     * Initialize objects that are going to be used in the tests
      */
     @BeforeAll
     public static void setUp(@Autowired TestUsersHelper usersHelper) {
@@ -45,7 +40,7 @@ public class TestGroupsNegative {
 
         // Create list of group members
 
-        member1 = new User();
+        User member1 = new User();
         member1.setName("Member 1-" + uniqueString);
         member1.setLastname("Member 1-" + uniqueString);
         member1.setUsername("Member 1-" + uniqueString);
@@ -55,7 +50,7 @@ public class TestGroupsNegative {
         member1 = usersHelper.createUser(member1, HttpStatus.CREATED);
         members.add(member1);
 
-        member2 = new User();
+        User member2 = new User();
         member2.setName("Member 2-" + uniqueString);
         member2.setLastname("Member 2-" + uniqueString);
         member2.setUsername("Member 2-" + uniqueString);
@@ -65,7 +60,7 @@ public class TestGroupsNegative {
         member2 = usersHelper.createUser(member2, HttpStatus.CREATED);
         members.add(member2);
 
-        member3 = new User();
+        User member3 = new User();
         member3.setName("Member 3-" + uniqueString);
         member3.setLastname("Member 3-" + uniqueString);
         member3.setUsername("Member 3-" + uniqueString);
@@ -75,7 +70,7 @@ public class TestGroupsNegative {
         member3 = usersHelper.createUser(member3, HttpStatus.CREATED);
         members.add(member3);
 
-        member4 = new User();
+        User member4 = new User();
         member4.setName("Member 4-" + uniqueString);
         member4.setLastname("Member 4-" + uniqueString);
         member4.setUsername("Member 4-" + uniqueString);
@@ -96,7 +91,7 @@ public class TestGroupsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a group with null name, null name is not allowed and server should throw proper exception
      */
     @Test
     public void testCreateGroupNullName() {
@@ -116,7 +111,8 @@ public class TestGroupsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a group with an empty name, empty names are not allowed and server should
+     * throw proper exception
      */
     @Test
     public void testCreateGroupEmptyName() {
@@ -137,7 +133,8 @@ public class TestGroupsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a group name with a name that exceeds the number of characters allowed,
+     * server must throw the proper exception
      */
     @Test
     public void testCreateGroupNameExceedCharactersLimit() {
@@ -161,7 +158,8 @@ public class TestGroupsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a group with a description that exceeds the number of characters allowed. server must throw
+     * proper exception
      */
     @Test
     public void testCreateGroupDescriptionExceedCharactersLimit() {
@@ -185,7 +183,8 @@ public class TestGroupsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a group providing a user to be added as member that do not exist, server should throw
+     * not found user exception
      */
     @Test
     public void testCreateGroupNotFoundMember() {
@@ -210,7 +209,7 @@ public class TestGroupsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to retrieve group info for a group id that do not exist, server must throw proper exception
      */
     @Test
     public void testGetGroupNotFound() {
@@ -226,7 +225,7 @@ public class TestGroupsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to delete a group with a group id that do not exist, server must throw proper exception
      */
     @Test
     public void testDeleteGroupNotFound() {
@@ -242,9 +241,10 @@ public class TestGroupsNegative {
     }
 
     /**
-     * TODO Add comments
-     * @param length
-     * @return
+     * Helper method that creates strings with a given length
+     *
+     * @param length resulting string size
+     * @return string with the given length
      */
     private String generateLongString(int length) {
         return "a".repeat(Math.max(0, length));

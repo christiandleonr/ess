@@ -438,6 +438,13 @@ public class TransactionsRepositoryImpl implements TransactionsRepository, Group
             transactionEntities = jdbc.query(TransactionsQueries.LOAD_TRANSACTIONS_BY_GROUP,
                     this::toTransactionEntities,
                     groupGuid, limit, offset);
+
+            // Load last debt revision for the transaction
+            for (TransactionEntity transactionEntity: transactionEntities) {
+                transactionEntity.setDebt(
+                        getDebt(transactionEntity.getTransactionGuid())
+                );
+            }
         } catch (Exception e) {
             logger.error("{}.loadTransactionsByGroup() - Unexpected error while reading the group's transactions for group with id: {}", CLASS_NAME, groupGuid, e);
             infrastructureHelper.throwInternalServerErrorException(

@@ -12,10 +12,7 @@ import com.easysplit.ess.users.utils.TestUsersHelper;
 import com.easysplit.shared.domain.models.ResourceList;
 import com.easysplit.shared.utils.TestUtils;
 import org.junit.Ignore;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -72,11 +69,11 @@ public class TestFriends {
 
     /**
      * TODO - Fix when accept friendship is developed.
-     * This test was validated manually but we need an API to accept the friendship to be able to completed.
+     * This test was validated manually but we need an API to accept the friendship to be able to complete it.
      * Ignore for now.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testAddAndReadFriends() {
         Friendship friendship = new Friendship();
         friendship.setFriend(user2);

@@ -31,7 +31,7 @@ public class GroupTransactionsController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createGroupTransactions(@PathVariable(name = "id") String groupId, List<Transaction> transactions) {
+    public ResponseEntity<Void> createGroupTransactions(@PathVariable(name = "id") String groupId, @RequestBody List<Transaction> transactions) {
         try {
             String createdById = infrastructureHelper.getAuthenticatedUserId();
             groupsTransactionsService.bulkCreateTransaction(transactions, groupId, createdById);

@@ -1,7 +1,6 @@
 package com.easysplit.ess.user.domain.models;
 
 import com.easysplit.shared.domain.models.Link;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -32,6 +31,19 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.createdDate = createdDate;
+    }
+
+    public User(User user) {
+        this.id = user.id;
+        this.name = user.name;
+        this.lastname = user.lastname;
+        this.username = user.username;
+        this.password = user.password;
+        this.email = user.email;
+        this.phone = user.phone;
+        this.roles = user.roles;
+        this.createdDate = user.createdDate;
+        this.links = user.links;
     }
 
     public String getId() {
@@ -102,10 +114,6 @@ public class User {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public List<Link> getLinks() {
-        return links;
     }
 
     public void setLinks(List<Link> links) {

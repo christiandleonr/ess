@@ -23,11 +23,9 @@ import java.util.List;
 public class TestGroupTransactions {
     @Autowired
     private TestTransactionsHelper transactionsHelper;
-    @Autowired
-    private TestGroupsHelper groupsHelper;
 
-    private static User member1, member2, member3;
-    private static List<User> members = new ArrayList<>();
+    private static User member1;
+    private static final List<User> members = new ArrayList<>();
 
     private static Group group;
 
@@ -46,7 +44,7 @@ public class TestGroupTransactions {
         member1 = usersHelper.createUser(member1, HttpStatus.CREATED);
         members.add(member1);
 
-        member2 = new User();
+        User member2 = new User();
         member2.setName("Member 2-" + uniqueString);
         member2.setLastname("Member 2-" + uniqueString);
         member2.setUsername("Member 2-" + uniqueString);
@@ -56,7 +54,7 @@ public class TestGroupTransactions {
         member2 = usersHelper.createUser(member2, HttpStatus.CREATED);
         members.add(member2);
 
-        member3 = new User();
+        User member3 = new User();
         member3.setName("Member 3-" + uniqueString);
         member3.setLastname("Member 3-" + uniqueString);
         member3.setUsername("Member 3-" + uniqueString);
@@ -75,7 +73,7 @@ public class TestGroupTransactions {
 
     @AfterAll
     @Disabled
-    public static void tearDown(@Autowired TestUsersHelper usersHelper, TestGroupsHelper groupsHelper) {
+    public static void tearDown(@Autowired TestUsersHelper usersHelper, @Autowired TestGroupsHelper groupsHelper) {
         for (User user: members) {
             if (user.getId() != null) {
                 usersHelper.deleteUser(user.getId());
@@ -88,7 +86,7 @@ public class TestGroupTransactions {
     }
 
     /**
-     * TODO Add comments
+     * Proves that a group transaction can be created and read between all the members of the group
      */
     @Test
     public void createAndReadGroupTransactionsBetweenAllMembers() {

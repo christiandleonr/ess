@@ -72,7 +72,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with a null name
      */
     @Test
     public void testCreateTransactionNullName() {
@@ -96,7 +96,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with an empty name
      */
     @Test
     public void testCreateTransactionEmptyName() {
@@ -121,7 +121,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with a name that exceeds the number of characters allowed
      */
     @Test
     public void testCreateTransactionNameTooLong() {
@@ -146,7 +146,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with null currency
      */
     @Test
     public void testCreateTransactionNullCurrency() {
@@ -229,7 +229,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempt to create a transaction with the debt as null
      */
     @Test
     public void testCreateTransactionDebtNull() {
@@ -251,7 +251,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with null total amount
      */
     @Test
     public void testCreateTransactionTotalAmountMoneyObjectNull() {
@@ -305,7 +305,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with total amount as 0
      */
     @Test
     public void testCreateTransactionTotalAmountGreaterThanZero() {
@@ -334,7 +334,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with the debt amount null
      */
     @Test
     public void testCreateTransactionDebtObjectDebtNull() {
@@ -388,7 +388,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO - Add comments
+     * Attempts to create a transaction with the debt amount not greater than 0
      */
     @Test
     public void testCreateTransactionDebtGreaterThanZero() {
@@ -415,7 +415,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with a debt greater than the total amount for the transaction
      */
     @Test
     public void testCreateTransactionDebtGreaterThanTotalAmount() {
@@ -442,7 +442,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with null creditor
      */
     @Test
     public void testCreateTransactionNullCreditor() {
@@ -468,7 +468,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with the creditor id being null
      */
     @Test
     public void testCreateTransactionNullCreditorId() {
@@ -495,7 +495,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with null debtor
      */
     @Test
     public void testCreateTransactionNullDebtor() {
@@ -521,7 +521,7 @@ class TestTransactionsNegative {
     }
 
     /**
-     * TODO Add comments
+     * Attempts to create a transaction with debtor id being null
      */
     @Test
     public void testCreateTransactionNullDebtorId() {

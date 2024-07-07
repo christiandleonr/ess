@@ -83,4 +83,28 @@ public class TransactionsController {
 
         return new ResponseEntity<>(transaction, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable(name = "id") String id) {
+        try {
+            String authenticatedUserId = infrastructureHelper.getAuthenticatedUserId();
+            transactionsService.deleteTransaction(id, authenticatedUserId);
+        } catch (NotFoundException e) {
+            logger.debug("{}.deleteTransaction() - Transaction with id {} not found", CLASS_NAME, id);
+            throw e;
+        } catch (InternalServerErrorException e) {
+            logger.error("{}.deleteTransaction() - Something went wrong while deleting the transaction with id {}", CLASS_NAME, id, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("{}.deleteTransaction() - Something went wrong while deleting the transaction with id {}", CLASS_NAME, id, e);
+            infrastructureHelper.throwInternalServerErrorException(
+                    ErrorKeys.DELETE_TRANSACTION_ERROR_TITLE,
+                    ErrorKeys.DELETE_TRANSACTION_ERROR_MESSAGE,
+                    new Object[] {id},
+                    e.getCause()
+            );
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

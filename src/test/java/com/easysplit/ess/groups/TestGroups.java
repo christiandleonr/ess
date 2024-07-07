@@ -25,7 +25,7 @@ public class TestGroups {
     private static List<User> members = new ArrayList<>();
 
     /**
-     * TODO Add comments
+     * Initialize users to be used in the tests
      */
     @BeforeAll
     public static void setUp(@Autowired TestUsersHelper usersHelper) {
@@ -89,7 +89,7 @@ public class TestGroups {
     }
 
     /**
-     * TODO Add comments
+     * Proves that a group can be created
      */
     @Test
     public void testCreateGroup() {
@@ -109,7 +109,7 @@ public class TestGroups {
     }
 
     /**
-     * TODO Add comments
+     * Proves that a group can be created with null description
      */
     @Test
     public void testCreateGroupNullDescription() {
@@ -128,7 +128,7 @@ public class TestGroups {
     }
 
     /**
-     * TODO Add comments
+     * Proves that a group can be deleted
      */
     @Test
     public void testDeleteGroup() {
@@ -144,7 +144,7 @@ public class TestGroups {
     }
 
     /**
-     * TODO Add comments
+     * Proves that a group can be retrieved using its id
      */
     @Test
     public void testGetGroup() {

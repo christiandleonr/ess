@@ -1,5 +1,6 @@
 package com.easysplit.ess.transactions.application;
 
+import com.easysplit.ess.groups.domain.contracts.GroupsRepository;
 import com.easysplit.ess.transactions.domain.contracts.*;
 import com.easysplit.ess.transactions.domain.models.DebtEntity;
 import com.easysplit.ess.transactions.domain.models.Transaction;
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 public class TransactionsServiceImpl implements TransactionsService, GroupsTransactionsService {
     private final TransactionsRepository transactionsRepository;
+    private final GroupsRepository groupsRepository;
     private final GroupsTransactionsRepository groupsTransactionsRepository;
     private final DebtsRepository debtsRepository;
     private final TransactionsValidator transactionsValidator;
@@ -26,11 +28,13 @@ public class TransactionsServiceImpl implements TransactionsService, GroupsTrans
 
     @Autowired
     public TransactionsServiceImpl(TransactionsRepository transactionsRepository,
+                                   GroupsRepository groupsRepository,
                                    GroupsTransactionsRepository groupsTransactionsRepository,
                                    DebtsRepository debtsRepository,
                                    TransactionsValidator transactionsValidator,
                                    DomainHelper domainHelper) {
         this.transactionsRepository = transactionsRepository;
+        this.groupsRepository = groupsRepository;
         this.groupsTransactionsRepository = groupsTransactionsRepository;
         this.debtsRepository = debtsRepository;
         this.transactionsValidator = transactionsValidator;
@@ -92,6 +96,9 @@ public class TransactionsServiceImpl implements TransactionsService, GroupsTrans
     @Override
     public ResourceList<Transaction> listTransactionsByGroup(String groupId, int limit, int offset, boolean countTransactions) {
         ResourceList<Transaction> transactionList = new ResourceList<>();
+
+        // Throws exception if the group do not exist
+        groupsRepository.getGroup(groupId);
 
         int totalCount = 0;
         if (countTransactions) {

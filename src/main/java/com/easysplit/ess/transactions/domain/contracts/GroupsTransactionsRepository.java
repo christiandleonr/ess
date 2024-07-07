@@ -26,7 +26,7 @@ public interface GroupsTransactionsRepository {
     int countTransactionsByGroup(String groupGuid);
 
     /**
-     * Loads transactions by group guid
+     * Loads transactions by group guid, also loads debt data
      *
      * @param groupGuid group id to get the transactions for
      * @param limit limit of transactions to retrieve

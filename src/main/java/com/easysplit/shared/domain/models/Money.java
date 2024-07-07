@@ -40,9 +40,10 @@ public class Money {
     }
 
     /**
-     * TODO Add comments
-     * @param numberOfPeople
-     * @return
+     * Divides the amount among a given number of people
+     *
+     * @param numberOfPeople total number of people to divide the amount between
+     * @return amounts that belongs to each person, divided equally
      */
     public BigDecimal[] divideEqually(int numberOfPeople) {
         BigDecimal[] amounts = new BigDecimal[numberOfPeople];

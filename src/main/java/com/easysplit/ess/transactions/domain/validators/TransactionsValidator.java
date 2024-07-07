@@ -17,9 +17,9 @@ import java.util.List;
 /**
  * TODO Add new validations when creating transaction through the bulk process.
  *
- * 1. The total sum between all the transactions must be the same as the total amount.
- * 2. Debtor and Creditor cannot be the same user.
- * 3. Total amount and debt must not be equals
+ * 1. The total sum between all the transactions must be the same as the total amount
+ * 2. Debtor and Creditor cannot be the same user?
+ * 3. Total amount and debt must not be equals?
  */
 
 /**

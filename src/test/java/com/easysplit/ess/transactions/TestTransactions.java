@@ -65,7 +65,7 @@ public class TestTransactions {
     }
 
     /**
-     * TODO Add comments
+     * Proves that a transaction can be created and also deleted using its id
      */
     @Test
     public void testCreateAndDeleteTransaction() {
@@ -92,7 +92,7 @@ public class TestTransactions {
     }
 
     /**
-     * TODO Add comments
+     * Proves that a transaction can be created, retrieved and deleted using its id
      */
     @Test
     public void testCreateGetAndDeleteTransaction() {

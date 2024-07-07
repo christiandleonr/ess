@@ -408,7 +408,7 @@ public class TestRESTHelper {
         ResourceList<T> object = null;
 
         try {
-            ResponseEntity<?> responseEntity = get(path);
+            ResponseEntity<?> responseEntity = get(path + "?limit=100&offset=0&totalCount=true");
 
             if(!responseEntity.getStatusCode().equals(statusCode)) {
                 throw new AssertionError("Actual status code defers from the expected status code, actual: "
